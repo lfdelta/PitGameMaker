@@ -70,16 +70,35 @@ dKey = keyboard_check(ord('D'));
 upKey = keyboard_check(vk_up);
 wKey = keyboard_check(ord('W'));
 
+hookshotSuccess = false;
 
+if(mouse_check_button(mb_left)) {
+    if(point_in_circle(mouse_x, mouse_y, x, y, 200) &amp;&amp; 
+       place_meeting(mouse_x, mouse_y, obj_wall)) {
+        vx = (mouse_x - x);
+        vy = (mouse_y - y);
+        
+        lengthOfVector = sqrt(vx*vx + vy*vy);
+        
+        vx = (vx/lengthOfVector);
+        vy = (vy/lengthOfVector);
+        
+        xVelocity = 5 * vx;
+        yVelocity = 5 * vy;
+        
+        hookshotSuccess = true;
+    }
+}
 
 //Interpret key input
-moveDirection = max(dKey,rightKey) - max(aKey,leftKey);
-xVelocity = moveDirection * moveSpeed;
-if (yVelocity &lt; yVelocityMax)
-   yVelocity = min(yVelocity + grav, yVelocityMax);
-if (place_meeting(x, y+1, obj_player_collide))
-   yVelocity = -max(wKey,upKey) * jumpSpeed;
-
+if(!hookshotSuccess) {
+    moveDirection = max(dKey,rightKey) - max(aKey,leftKey);
+    xVelocity = moveDirection * moveSpeed;
+    if (yVelocity &lt; yVelocityMax)
+        yVelocity = min(yVelocity + grav, yVelocityMax);
+    if (place_meeting(x, y+1, obj_player_collide))
+        yVelocity = -max(wKey,upKey) * jumpSpeed;
+}
    
    
 //Collision handling
@@ -149,7 +168,8 @@ image_xscale = sign(obj_player_arm.image_xscale) * abs(image_xscale);
 draw_self();
 
 if(mouse_check_button(mb_left)) {
-    if(!point_in_circle(mouse_x, mouse_y, x, y, 200)) {
+    if(!point_in_circle(mouse_x, mouse_y, x, y, 200) ||
+       !place_meeting(mouse_x, mouse_y, obj_wall)) {
         draw_set_colour(c_red);
         draw_circle(x, y, 200, true);
     }
