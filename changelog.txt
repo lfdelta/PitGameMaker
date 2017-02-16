@@ -1,0 +1,23 @@
+
+### MM/DD/YYYY ###
+Name
+
+1. Enumerated list of edits made
+2. Place most recent logs above older ones
+
+
+
+### 2/16/2017 ###
+Luca Frez-Albrecht
+
+1. replaced place_meeting with position_meeting for hookshotSuccess, so that it only checks the mouse position
+	rather than accounting for the shape of the player's hitbox. this corrected the grapple detection errors
+2. implemented variable jump height (must hold key down to reach max height)
+3. room changes; renamed Demo Room and added more chunks of obj_wall tiles
+4. created obj_anchor. for testing purposes, they are orange; for play, we can set the draw event to do nothing
+5. implemented a simple anchor generator: anchors are placed on top of obj_player_collide objects which are not
+	surrounded on all four sides. a /slightly/ more advanced algorithm would place vertical and horizontal
+	strips of vertical and horizontal obj_anchor children objects only on the faces which are exposed.
+	** be careful when placing tiles, as two walls placed atop one another will intersect in all directions
+	   and hence will not produce an anchor even if one should appear there
+6. generalized grappleSpeed = 5 as a variable under obj_player

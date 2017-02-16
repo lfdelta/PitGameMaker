@@ -37,6 +37,7 @@ jumpSpeed = 7;
 grav = 0.2;
 
 grappleReach = 200;
+grappleSpeed = 5;
 </string>
           </argument>
         </arguments>
@@ -72,34 +73,36 @@ wKey = keyboard_check(ord('W'));
 
 hookshotSuccess = false;
 
-if(mouse_check_button(mb_left)) {
-    if(point_in_circle(mouse_x, mouse_y, x, y, grappleReach) &amp;&amp; 
-       place_meeting(mouse_x, mouse_y, obj_wall)) {
+if (mouse_check_button(mb_left)) {
+    if (point_in_circle(mouse_x, mouse_y, x, y, grappleReach) &amp;&amp;
+        position_meeting(mouse_x, mouse_y, obj_anchor)) {
         vx = (mouse_x - x);
         vy = (mouse_y - y);
         
         lengthOfVector = sqrt(vx*vx + vy*vy);
         
-        vx = (vx/lengthOfVector);
-        vy = (vy/lengthOfVector);
+        vx = grappleSpeed * (vx/lengthOfVector);
+        vy = grappleSpeed * (vy/lengthOfVector);
         
-        xVelocity = 5 * vx;
-        yVelocity = 5 * vy;
+        xVelocity = vx;
+        yVelocity = vy;
         
         hookshotSuccess = true;
     }
 }
 
 //Interpret key input
-if(!hookshotSuccess) {
+if (!hookshotSuccess) {
     moveDirection = max(dKey,rightKey) - max(aKey,leftKey);
+    jumpKey = max(wKey, upKey);
     xVelocity = moveDirection * moveSpeed;
     if (yVelocity &lt; yVelocityMax)
         yVelocity = min(yVelocity + grav, yVelocityMax);
-    if (place_meeting(x, y+1, obj_player_collide))
-        yVelocity = -max(wKey,upKey) * jumpSpeed;
+    if (place_meeting(x, y+1, obj_player_collide)) //Jump
+        yVelocity = -jumpKey * jumpSpeed;
+    if (yVelocity &lt; 0 &amp;&amp; (!jumpKey))
+        yVelocity = max(yVelocity, -jumpSpeed/4);
 }
-   
    
 //Collision handling
 if (place_meeting(x+xVelocity, y, obj_player_collide)) {
@@ -113,7 +116,6 @@ if (place_meeting(x, y+yVelocity, obj_player_collide)) {
          y += sign(yVelocity);
    yVelocity = 0;
 }
-
 
 //Move player
 if (yVelocity &gt; yVelocityMax)

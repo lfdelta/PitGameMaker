@@ -1,0 +1,6 @@
+
+* correct player sprite symmetry so that the player can't enter walls by standing next to them while facing away,
+	then moving the mouse to the other side of the player, which rotates the sprite until they clip with the wall
+* make it so the player only grapples with anchors if there is nothing else between the player and the anchor
+* experiment with gravity and player control during grapple; this may require implementing an acceleration
+	or pseudo-force rather than directly setting the player velocity when grappling
