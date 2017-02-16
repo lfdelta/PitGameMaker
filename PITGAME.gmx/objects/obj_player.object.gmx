@@ -36,7 +36,7 @@ moveSpeed = 5;
 jumpSpeed = 7;
 grav = 0.2;
 
-isGrappling = false;
+grappleReach = 200;
 </string>
           </argument>
         </arguments>
@@ -73,7 +73,7 @@ wKey = keyboard_check(ord('W'));
 hookshotSuccess = false;
 
 if(mouse_check_button(mb_left)) {
-    if(point_in_circle(mouse_x, mouse_y, x, y, 200) &amp;&amp; 
+    if(point_in_circle(mouse_x, mouse_y, x, y, grappleReach) &amp;&amp; 
        place_meeting(mouse_x, mouse_y, obj_wall)) {
         vx = (mouse_x - x);
         vy = (mouse_y - y);
@@ -115,8 +115,9 @@ if (place_meeting(x, y+yVelocity, obj_player_collide)) {
 }
 
 
-
 //Move player
+if (yVelocity &gt; yVelocityMax)
+   yVelocity = yVelocityMax;
 x += xVelocity;
 y += yVelocity;
 </string>
@@ -157,7 +158,7 @@ image_xscale = sign(obj_player_arm.image_xscale) * abs(image_xscale);
         <exetype>2</exetype>
         <functionname></functionname>
         <codestring></codestring>
-        <whoName>self</whoName>
+        <whoName>obj_player</whoName>
         <relative>0</relative>
         <isnot>0</isnot>
         <arguments>
@@ -165,13 +166,16 @@ image_xscale = sign(obj_player_arm.image_xscale) * abs(image_xscale);
             <kind>1</kind>
             <string>/// Draw player and hookshot guide
 
+grappleReach = obj_player.grappleReach;
+hookshotSuccess = obj_player.hookshotSuccess;
+
 draw_self();
 
 if(mouse_check_button(mb_left)) {
-    if(!point_in_circle(mouse_x, mouse_y, x, y, 200) ||
-       !place_meeting(mouse_x, mouse_y, obj_wall)) {
+    if(!point_in_circle(mouse_x, mouse_y, x, y, grappleReach) ||
+       !hookshotSuccess) {//!place_meeting(mouse_x, mouse_y, obj_wall)) {
         draw_set_colour(c_red);
-        draw_circle(x, y, 200, true);
+        draw_circle(x, y, grappleReach, true);
     }
     else {
         draw_set_color(c_lime);
