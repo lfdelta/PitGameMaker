@@ -12,6 +12,6 @@ dir = sign(target_x - arm_x);
 if (dir == 0)
    dir = 1;
 obj_player_arm.image_xscale = dir * abs(obj_player_arm.image_xscale);
-theta = arctan2(-(target_y - arm_y), dir*(target_x - arm_x));
-obj_player_arm.image_angle = dir*(theta + offset)*180/pi;
+theta = darctan2(-(target_y - arm_y), dir*(target_x - arm_x));
+obj_player_arm.image_angle = dir*(theta + offset);
 

@@ -36,8 +36,9 @@ moveSpeed = 5;
 jumpSpeed = 7;
 grav = 0.2;
 
-grappleReach = 200;
-grappleSpeed = 5;
+grappleReach = 300;
+grappleSpeed = 10;
+grappleTo = noone;
 </string>
           </argument>
         </arguments>
@@ -63,7 +64,7 @@ grappleSpeed = 5;
             <string>///Player movement and collisions
 
 //Get key input
-// Key -&gt; down; _h -&gt; held; _r -&gt; released
+// _Key -&gt; down; _KeyH -&gt; held; _KeyR -&gt; released
 leftKey = keyboard_check(vk_left);
 aKey = keyboard_check(ord('A'));
 rightKey = keyboard_check(vk_right);
@@ -73,19 +74,21 @@ wKey = keyboard_check(ord('W'));
 
 hookshotSuccess = false;
 
+//Attempt grapple
 if (mouse_check_button(mb_left)) {
-    if (point_in_circle(mouse_x, mouse_y, x, y, grappleReach) &amp;&amp;
-        position_meeting(mouse_x, mouse_y, obj_anchor)) {
+    theta = arctan2(mouse_y - y, mouse_x - x);
+    grappleReachX = x + grappleReach * cos(theta);
+    grappleReachY = y + grappleReach * sin(theta);
+    grappleTo = Raycast(x, y, grappleReachX, grappleReachY, obj_anchor, false, true);
+
+    if (grappleTo != noone) {
         vx = (mouse_x - x);
         vy = (mouse_y - y);
         
         lengthOfVector = sqrt(vx*vx + vy*vy);
         
-        vx = grappleSpeed * (vx/lengthOfVector);
-        vy = grappleSpeed * (vy/lengthOfVector);
-        
-        xVelocity = vx;
-        yVelocity = vy;
+        xVelocity = grappleSpeed * (vx/lengthOfVector);
+        yVelocity = grappleSpeed * (vy/lengthOfVector);
         
         hookshotSuccess = true;
     }
@@ -110,7 +113,6 @@ if (place_meeting(x+xVelocity, y, obj_player_collide)) {
          x += sign(xVelocity);
    xVelocity = 0;
 }
-
 if (place_meeting(x, y+yVelocity, obj_player_collide)) {
    while (!place_meeting(x, y+sign(yVelocity), obj_player_collide))
          y += sign(yVelocity);
@@ -170,18 +172,20 @@ image_xscale = sign(obj_player_arm.image_xscale) * abs(image_xscale);
 
 grappleReach = obj_player.grappleReach;
 hookshotSuccess = obj_player.hookshotSuccess;
+grappleTo = obj_player.grappleTo;
 
 draw_self();
 
 if(mouse_check_button(mb_left)) {
-    if(!point_in_circle(mouse_x, mouse_y, x, y, grappleReach) ||
-       !hookshotSuccess) {//!place_meeting(mouse_x, mouse_y, obj_wall)) {
+    if (!point_in_circle(mouse_x, mouse_y, x, y, grappleReach) || !hookshotSuccess) {
         draw_set_colour(c_red);
         draw_circle(x, y, grappleReach, true);
     }
-    else {
+    if (hookshotSuccess) {
         draw_set_color(c_lime);
-        draw_line(x, y, mouse_x, mouse_y);
+        draw_line(x, y, grappleTo.x, grappleTo.y);
+        // does not accurately reflect the location being pulled to;
+        // a slightly more advanced calculation is required
     }
 }
 </string>

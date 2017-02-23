@@ -7,6 +7,17 @@ Name
 
 
 
+### 2/23/2017 ###
+Luca Frez-Albrecht
+
+1. edited grappling and drawing mechanisms to use a ray cast rather than just the mouse position. this allows
+	the player to click in any direction at any distance, and the cast will follow the line from player
+	center to mouse position as far as grappleReach allows, then grapple to the anchor on that line which
+	falls nearest to the player
+2. increased grappleReach and grappleSpeed significantly
+
+
+
 ### 2/16/2017 ###
 Luca Frez-Albrecht
 
