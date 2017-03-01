@@ -41,6 +41,9 @@ grappleSpeed = 10;
 grappleTo = noone;
 
 hookshotSuccess = false;
+
+grappleClickX = 0;
+grappleClickY = 0;
 </string>
           </argument>
         </arguments>
@@ -77,7 +80,7 @@ wKey = keyboard_check(ord('W'));
 show_debug_message('hookshotSuccess: ' + string(hookshotSuccess));
 show_debug_message('grappleTo: ' + string(grappleTo));
 
-//Attempt grapple
+// Attempt grapple
 if (mouse_check_button(mb_left)){ 
     if(!hookshotSuccess &amp;&amp; !place_meeting(mouse_x, mouse_y, obj_player)) {
         theta = arctan2(mouse_y - y, mouse_x - x);
@@ -88,12 +91,14 @@ if (mouse_check_button(mb_left)){
         // If grappleTo exists, player can grapple to it
         if(grappleTo != noone)
             hookshotSuccess = true;
+            grappleClickX = mouse_x;
+            grappleClickY = mouse_y;
     }  
     
     // Move player toward the grapple point
     if(hookshotSuccess){
-        vx = (grappleTo.x - x);
-        vy = (grappleTo.y - y);
+        vx = (grappleClickX - x);
+        vy = (grappleClickY - y);
             
         lengthOfVector = sqrt(vx*vx + vy*vy);
             
@@ -189,6 +194,9 @@ grappleReach = obj_player.grappleReach;
 hookshotSuccess = obj_player.hookshotSuccess;
 grappleTo = obj_player.grappleTo;
 
+grappleClickX = obj_player.grappleClickX;
+grappleClickY = obj_player.grappleClickY;
+
 // Draw the player
 draw_self();
 
@@ -201,7 +209,7 @@ if(mouse_check_button(mb_left)) {
     // If grapple was successful, draw the grapple line
     if (hookshotSuccess) {
         draw_set_color(c_lime);
-        draw_line(x, y, grappleTo.x, grappleTo.y);
+        draw_line(x, y, grappleClickX, grappleClickY);
         // does not accurately reflect the location being pulled to;
         // a slightly more advanced calculation is required
     }
