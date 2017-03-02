@@ -18,6 +18,7 @@
     <script>scripts\GenerateGrappleAnchors_Simple.gml</script>
     <script>scripts\PointArmTo.gml</script>
     <script>scripts\Raycast.gml</script>
+    <script>scripts\RaycastToPoint.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\obj_player</object>

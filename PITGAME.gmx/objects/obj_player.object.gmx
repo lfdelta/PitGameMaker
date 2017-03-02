@@ -77,11 +77,11 @@ dKey = keyboard_check(ord('D'));
 upKey = keyboard_check(vk_up);
 wKey = keyboard_check(ord('W'));
 
-show_debug_message('hookshotSuccess: ' + string(hookshotSuccess));
-show_debug_message('grappleTo: ' + string(grappleTo));
+//show_debug_message('hookshotSuccess: ' + string(hookshotSuccess));
+//show_debug_message('grappleTo: ' + string(grappleTo));
 
 // Attempt grapple
-if (mouse_check_button(mb_left)){ 
+/*if (mouse_check_button(mb_left)){ 
     if(!hookshotSuccess &amp;&amp; !place_meeting(mouse_x, mouse_y, obj_player)) {
         theta = arctan2(mouse_y - y, mouse_x - x);
         grappleReachX = x + grappleReach * cos(theta);
@@ -109,10 +109,39 @@ if (mouse_check_button(mb_left)){
 else {
     hookshotSuccess = false;
     grappleTo = noone;
-}
+}*/
 
-show_debug_message('xVelocity: ' + string(xVelocity));
-show_debug_message('yVelocity: ' + string(yVelocity));
+if (mouse_check_button(mb_left)){ 
+    if(!hookshotSuccess &amp;&amp; !place_meeting(mouse_x, mouse_y, obj_player)) {
+        theta = arctan2(mouse_y - y, mouse_x - x);
+        grappleReachX = x + grappleReach * cos(theta);
+        grappleReachY = y + grappleReach * sin(theta);
+        grappleTo = RaycastToPoint(x, y, grappleReachX, grappleReachY, obj_anchor, false, true);
+        
+        // If grappleTo exists, player can grapple to it
+        if(!is_undefined(grappleTo[0])) {
+            hookshotSuccess = true;
+        }
+    }
+    
+    
+    // Move player toward the grapple point
+    if(hookshotSuccess) {
+        vx = grappleTo[0] - x;
+        vy = grappleTo[1] - y;
+        
+        //show_debug_message('x: ' + string(vx));
+        //show_debug_message('y: ' + string(vy));
+            
+        lengthOfVector = sqrt(vx*vx + vy*vy);
+            
+        xVelocity = grappleSpeed * (vx/lengthOfVector);
+        yVelocity = grappleSpeed * (vy/lengthOfVector);
+    }
+} else {
+    hookshotSuccess = false;
+    grappleTo = noone;
+}
 
 //Interpret key input
 if (!hookshotSuccess) {
@@ -194,8 +223,8 @@ grappleReach = obj_player.grappleReach;
 hookshotSuccess = obj_player.hookshotSuccess;
 grappleTo = obj_player.grappleTo;
 
-grappleClickX = obj_player.grappleClickX;
-grappleClickY = obj_player.grappleClickY;
+grappleClickX = mouse_x;
+grappleClickY = mouse_y;
 
 // Draw the player
 draw_self();
