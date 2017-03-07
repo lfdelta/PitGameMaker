@@ -127,7 +127,10 @@ if (!hookshotSuccess) {
 }
    
 //Collision handling
-/*while (place_meeting(x+xVelocity, y, obj_player_collide) || place_meeting(x, y+yVelocity, obj_player_collide)) {
+// experiment
+// crashes on diagonals
+/*while (place_meeting(x+xVelocity, y, obj_player_collide) ||
+         place_meeting(x, y+yVelocity, obj_player_collide)) {
     //while (xVelocity || yVelocity) {
         if (place_meeting(x+sign(xVelocity), y, obj_player_collide)) {
             xVelocity = 0;
@@ -142,7 +145,84 @@ if (!hookshotSuccess) {
     //}
 }*/
 
-if (place_meeting(x+xVelocity, y, obj_player_collide)) {
+// me (modified allison)
+/*if(place_meeting(x+xVelocity, y, obj_player_collide) &amp;&amp;
+   place_meeting(x, y+yVelocity, obj_player_collide)) {
+    while(!place_meeting(x+sign(xVelocity), y+sign(yVelocity), obj_player_collide)) {
+        x += sign(xVelocity);
+        y += sign(yVelocity);
+    }
+    xVelocity = 0;
+    yVelocity = 0;
+    show_debug_message("diagonal");
+}
+else if (place_meeting(x+xVelocity, y, obj_player_collide)) {
+    while (!place_meeting(x+sign(xVelocity), y, obj_player_collide))
+        x += sign(xVelocity);
+    xVelocity = 0;
+    show_debug_message("x");
+}
+else if (place_meeting(x, y+yVelocity, obj_player_collide)) {
+    while (!place_meeting(x, y+sign(yVelocity), obj_player_collide))
+        y += sign(yVelocity);
+    yVelocity = 0;
+    show_debug_message("y");
+}*/
+
+// rain
+if (place_meeting(x+xVelocity, y+yVelocity, obj_player_collide)) {
+    is_vertical = abs(yVelocity) &gt;= abs(xVelocity);
+    slope = IF(is_vertical, abs(xVelocity/yVelocity), abs(yVelocity/xVelocity));
+    c = 0;
+    x0 = x;
+    y0 = y;
+    while(!place_meeting(x, y, obj_player_collide)) {
+        x = x0 + IF(is_vertical, floor(c*sign(xVelocity)*slope), (c+1)*sign(xVelocity));
+        y = y0 + IF(is_vertical, (c+1)*sign(yVelocity), floor(c*sign(yVelocity)*slope));
+        c++;
+    }
+    c -= 2; //revert out of collision
+    x = x0 + IF(is_vertical, floor(c*sign(xVelocity)*slope), c*sign(xVelocity));
+    y = y0 + IF(is_vertical, c*sign(yVelocity), floor(c*sign(yVelocity)*slope));
+    xVelocity = 0;
+    yVelocity = 0;
+}
+
+show_debug_message(string(x)+' '+string(y));
+
+/*if (vert) {
+    g.drawRect(thisdrop.xpos - c * thisdrop.xvel/thisdrop.yvel, thisdrop.ypos - c, 0, 0);
+} else {
+    g.drawRect(thisdrop.xpos - c, thisdrop.ypos - c * thisdrop.yvel/thisdrop.xvel, 0, 0);
+}*/
+
+// allison
+// when diagonal is engaged on a convex edge, the player gets stuck inside OR freaks
+/*if(place_meeting(x+xVelocity, y, obj_player_collide) &amp;&amp;
+   place_meeting(x, y+yVelocity, obj_player_collide)) {
+    while(!place_meeting(x+sign(xVelocity), y+sign(yVelocity), obj_player_collide)) {
+        x += sign(xVelocity);
+        y += sign(yVelocity);
+    }
+    xVelocity = 0;
+    yVelocity = 0;
+    show_debug_message("diagonal");
+}
+else if (place_meeting(x+xVelocity, y, obj_player_collide)) {
+    while (!place_meeting(x+sign(xVelocity), y, obj_player_collide))
+        x += sign(xVelocity);
+    xVelocity = 0;
+    show_debug_message("x");
+}
+else if (place_meeting(x, y+yVelocity, obj_player_collide)) {
+    while (!place_meeting(x, y+sign(yVelocity), obj_player_collide))
+        y += sign(yVelocity);
+    yVelocity = 0;
+    show_debug_message("y");
+}*/
+
+// tutorial
+/*if (place_meeting(x+xVelocity, y, obj_player_collide)) {
    while (!place_meeting(x+sign(xVelocity), y, obj_player_collide))
          x += sign(xVelocity);
    xVelocity = 0;
@@ -151,7 +231,18 @@ if (place_meeting(x, y+yVelocity, obj_player_collide)) {
    while (!place_meeting(x, y+sign(yVelocity), obj_player_collide))
          y += sign(yVelocity);
    yVelocity = 0;
-}
+}*/
+
+// comment addition (never enters while loop)
+/*if (place_meeting(x+xVelocity, y+yVelocity, obj_player_collide)) {
+    while(!place_meeting(x+xVelocity, y+yVelocity, obj_player_collide)) {
+        x += sign(xVelocity);
+        y += sign(yVelocity);
+        show_debug_message("stopping");
+    }
+    xVelocity = 0;
+    yVelocity = 0;
+}*/
 
 //Move player
 if (yVelocity &gt; yVelocityMax)

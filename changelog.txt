@@ -6,6 +6,13 @@ Name
 2. Place most recent logs above older ones
 
 
+### 3/7/2017 ###
+Luca Frez-Albrecht
+1. reproduced the ternary operator in a script formed as IF(bool, expr1, expr2)
+2. adapted an old algorithm to draw pixel-perfect lines as a means to produce adaptive, angle-based collisions.
+   after some wrestling and debugging, it APPEARS to work perfectly, with one exception: the player sticks to
+   horizontal surfaces when pushing into them (this should not be a difficult fix)
+
 
 ### 2/23/2017 ###
 Luca Frez-Albrecht
