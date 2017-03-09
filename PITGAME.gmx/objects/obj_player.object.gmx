@@ -27,6 +27,12 @@
             <kind>1</kind>
             <string>///Initialize properties
 
+enum playerGS {
+    NONE,
+    PULL,
+    HANG,
+}
+
 depth = 0;
 
 xVelocity = 0;
@@ -38,12 +44,9 @@ grav = 0.2;
 
 grappleReach = 300;
 grappleSpeed = 10;
-grappleTo = noone;
-
-hookshotSuccess = false;
-
-grappleClickX = 0;
-grappleClickY = 0;
+grappleToID = noone;
+grappleTo = undefined;
+grappleState = playerGS.NONE;
 </string>
           </argument>
         </arguments>
@@ -77,12 +80,45 @@ dKey = keyboard_check(ord('D'));
 upKey = keyboard_check(vk_up);
 wKey = keyboard_check(ord('W'));
 
-//show_debug_message('hookshotSuccess: ' + string(hookshotSuccess));
-//show_debug_message('grappleTo: ' + string(grappleTo));
-
 // Attempt grapple
-if (mouse_check_button(mb_left)){ 
-    if(!hookshotSuccess &amp;&amp; !place_meeting(mouse_x, mouse_y, obj_player)) {
+if (mouse_check_button(mb_left) &amp;&amp; grappleState == playerGS.NONE) {
+    theta = arctan2(mouse_y - y, mouse_x - x);
+    grappleReachX = x + grappleReach * cos(theta);
+    grappleReachY = y + grappleReach * sin(theta);
+    grappleToID = Raycast(x, y, grappleReachX, grappleReachY, obj_player_collide, false, true);
+    grappleTo = RaycastToPoint(x, y, grappleReachX, grappleReachY, obj_anchor, false, true);
+        
+    // If grappleTo exists, player can grapple to it
+    if(!is_undefined(grappleTo[0])) {
+        // Move player toward the grapple point
+        vx = grappleTo[0] - x;
+        vy = grappleTo[1] - y;
+
+        lengthOfVector = sqrt(vx*vx + vy*vy);
+    
+        xVelocity = grappleSpeed * (vx/lengthOfVector);
+        yVelocity = grappleSpeed * (vy/lengthOfVector);
+        grappleState = playerGS.PULL;
+    }
+}
+if (grappleState == playerGS.PULL) {
+    // If the player is about to reach grapple end, player will be hanging
+    if (place_meeting(x+xVelocity,y+yVelocity, obj_player_collide)) {
+        while ((grappleTo[0] - x) &amp;&amp; !place_meeting(x+sign(vx), y, obj_anchor))
+            x += sign(vx);
+        while ((grappleTo[1] - y) &amp;&amp; !place_meeting(x, y+sign(vy), obj_anchor))
+            y += sign(vy);
+        xVelocity = 0;
+        yVelocity = 0;
+        grappleState = playerGS.HANG;
+    }
+}
+if (grappleState == playerGS.HANG &amp;&amp; !mouse_check_button(mb_left))
+    grappleState = playerGS.NONE;
+show_debug_message(string(grappleState));
+
+/*if (mouse_check_button(mb_left)) {
+    if(grappleState == playerGS.NONE &amp;&amp; !place_meeting(mouse_x, mouse_y, obj_player)) {
         theta = arctan2(mouse_y - y, mouse_x - x);
         grappleReachX = x + grappleReach * cos(theta);
         grappleReachY = y + grappleReach * sin(theta);
@@ -90,18 +126,14 @@ if (mouse_check_button(mb_left)){
         
         // If grappleTo exists, player can grapple to it
         if(!is_undefined(grappleTo[0])) {
-            hookshotSuccess = true;
+            grappleState = playerGS.PULL;
         }
     }
     
-    
     // Move player toward the grapple point
-    if(hookshotSuccess) {
+    if (grappleState == playerGS.PULL) {
         vx = grappleTo[0] - x;
         vy = grappleTo[1] - y;
-        
-        //show_debug_message('x: ' + string(vx));
-        //show_debug_message('y: ' + string(vy));
             
         lengthOfVector = sqrt(vx*vx + vy*vy);
             
@@ -109,68 +141,27 @@ if (mouse_check_button(mb_left)){
         yVelocity = grappleSpeed * (vy/lengthOfVector);
     }
 } else {
-    hookshotSuccess = false;
+    grappleState = playerGS.NONE;
     grappleTo = noone;
-}
+}*/
 
 //Interpret key input
-if (!hookshotSuccess) {
+if (grappleState == playerGS.NONE) {
     moveDirection = max(dKey,rightKey) - max(aKey,leftKey);
     jumpKey = max(wKey, upKey);
     xVelocity = moveDirection * moveSpeed;
     if (yVelocity &lt; yVelocityMax)
         yVelocity = min(yVelocity + grav, yVelocityMax);
-    if (place_meeting(x, y+1, obj_player_collide)) //Jump
+    if (place_meeting(x, y+1, obj_player_collide))
         yVelocity = -jumpKey * jumpSpeed;
     if (yVelocity &lt; 0 &amp;&amp; (!jumpKey))
         yVelocity = max(yVelocity, -jumpSpeed/4);
 }
    
 //Collision handling
-// experiment
-// crashes on diagonals
-/*while (place_meeting(x+xVelocity, y, obj_player_collide) ||
-         place_meeting(x, y+yVelocity, obj_player_collide)) {
-    //while (xVelocity || yVelocity) {
-        if (place_meeting(x+sign(xVelocity), y, obj_player_collide)) {
-            xVelocity = 0;
-        } else {
-            x += sign(xVelocity);
-        }
-        if (place_meeting(x, y+sign(yVelocity), obj_player_collide)) {
-            yVelocity = 0;
-        } else {
-            y += sign(yVelocity);
-        }
-    //}
-}*/
 
-// me (modified allison)
-/*if(place_meeting(x+xVelocity, y, obj_player_collide) &amp;&amp;
-   place_meeting(x, y+yVelocity, obj_player_collide)) {
-    while(!place_meeting(x+sign(xVelocity), y+sign(yVelocity), obj_player_collide)) {
-        x += sign(xVelocity);
-        y += sign(yVelocity);
-    }
-    xVelocity = 0;
-    yVelocity = 0;
-    show_debug_message("diagonal");
-}
-else if (place_meeting(x+xVelocity, y, obj_player_collide)) {
-    while (!place_meeting(x+sign(xVelocity), y, obj_player_collide))
-        x += sign(xVelocity);
-    xVelocity = 0;
-    show_debug_message("x");
-}
-else if (place_meeting(x, y+yVelocity, obj_player_collide)) {
-    while (!place_meeting(x, y+sign(yVelocity), obj_player_collide))
-        y += sign(yVelocity);
-    yVelocity = 0;
-    show_debug_message("y");
-}*/
-
-// rain
-if (place_meeting(x+xVelocity, y+yVelocity, obj_player_collide)) {
+//rain
+/*if (place_meeting(x+xVelocity, y+yVelocity, obj_player_collide)) {
     is_vertical = abs(yVelocity) &gt;= abs(xVelocity);
     slope = IF(is_vertical, abs(xVelocity/yVelocity), abs(yVelocity/xVelocity));
     c = 0;
@@ -186,15 +177,69 @@ if (place_meeting(x+xVelocity, y+yVelocity, obj_player_collide)) {
     y = y0 + IF(is_vertical, c*sign(yVelocity), floor(c*sign(yVelocity)*slope));
     xVelocity = 0;
     yVelocity = 0;
-}
-
-show_debug_message(string(x)+' '+string(y));
-
-/*if (vert) {
-    g.drawRect(thisdrop.xpos - c * thisdrop.xvel/thisdrop.yvel, thisdrop.ypos - c, 0, 0);
-} else {
-    g.drawRect(thisdrop.xpos - c, thisdrop.ypos - c * thisdrop.yvel/thisdrop.xvel, 0, 0);
 }*/
+
+// tutorial (allows sliding along surfaces but brings back flickery grapple and clipping)
+/*if (place_meeting(x+xVelocity, y, obj_player_collide)) {
+   while (!place_meeting(x+sign(xVelocity), y, obj_player_collide))
+         x += sign(xVelocity);
+   xVelocity = 0;
+}
+if (place_meeting(x, y+yVelocity, obj_player_collide)) {
+   while (!place_meeting(x, y+sign(yVelocity), obj_player_collide))
+         y += sign(yVelocity);
+   yVelocity = 0;
+}*/
+
+/*if (xVelocity == 0 || place_meeting(x+sign(xVelocity), y, obj_player_collide)) {
+    //up against vertical wall; only check y collisions
+    xVelocity = 0;
+    if (place_meeting(x, y+yVelocity, obj_player_collide)) {
+        while (!place_meeting(x, y+sign(yVelocity), obj_player_collide))
+            y += sign(yVelocity);
+        yVelocity = 0;
+    }
+} else if (yVelocity == 0 || place_meeting(x, y+sign(yVelocity), obj_player_collide)) {
+    //up against horizontal wall; only check x collisions
+    yVelocity = 0;
+    if (place_meeting(x+xVelocity, y, obj_player_collide)) {
+        while (!place_meeting(x+sign(xVelocity), y, obj_player_collide))
+            x += sign(xVelocity);
+        xVelocity = 0;
+    }
+} else*/ if (place_meeting(x+xVelocity, y+yVelocity, obj_player_collide)) {
+    //check diagonal collisions
+    is_vertical = abs(yVelocity) &gt;= abs(xVelocity);
+    slope = IF(is_vertical, abs(xVelocity/yVelocity), abs(yVelocity/xVelocity));
+    c = 0;
+    x0 = x;
+    y0 = y;
+    while(!place_meeting(x, y, obj_player_collide)) {
+        x = x0 + IF(is_vertical, floor(c*sign(xVelocity)*slope), (c+1)*sign(xVelocity));
+        y = y0 + IF(is_vertical, (c+1)*sign(yVelocity), floor(c*sign(yVelocity)*slope));
+        c++;
+    }
+    c = IF(c &gt;= 2, c-2, c-1); //revert out of collision
+    x = x0 + IF(is_vertical, floor(c*sign(xVelocity)*slope), c*sign(xVelocity));
+    y = y0 + IF(is_vertical, c*sign(yVelocity), floor(c*sign(yVelocity)*slope));
+    
+    if (c == 0) { //above loop didn't move the player this frame
+    // ******* this doesn't do anything ugh
+        if (place_meeting(x+xVelocity, y, obj_player_collide)) {
+            while (!place_meeting(x+sign(xVelocity), y, obj_player_collide))
+                x += sign(xVelocity);
+            xVelocity = 0;
+        }
+        if (place_meeting(x, y+yVelocity, obj_player_collide)) {
+            while (!place_meeting(x, y+sign(yVelocity), obj_player_collide))
+                y += sign(yVelocity);
+            yVelocity = 0;
+        }
+    }
+    
+    xVelocity = 0;
+    yVelocity = 0;
+}
 
 // allison
 // when diagonal is engaged on a convex edge, the player gets stuck inside OR freaks
@@ -221,32 +266,7 @@ else if (place_meeting(x, y+yVelocity, obj_player_collide)) {
     show_debug_message("y");
 }*/
 
-// tutorial
-/*if (place_meeting(x+xVelocity, y, obj_player_collide)) {
-   while (!place_meeting(x+sign(xVelocity), y, obj_player_collide))
-         x += sign(xVelocity);
-   xVelocity = 0;
-}
-if (place_meeting(x, y+yVelocity, obj_player_collide)) {
-   while (!place_meeting(x, y+sign(yVelocity), obj_player_collide))
-         y += sign(yVelocity);
-   yVelocity = 0;
-}*/
-
-// comment addition (never enters while loop)
-/*if (place_meeting(x+xVelocity, y+yVelocity, obj_player_collide)) {
-    while(!place_meeting(x+xVelocity, y+yVelocity, obj_player_collide)) {
-        x += sign(xVelocity);
-        y += sign(yVelocity);
-        show_debug_message("stopping");
-    }
-    xVelocity = 0;
-    yVelocity = 0;
-}*/
-
 //Move player
-if (yVelocity &gt; yVelocityMax)
-   yVelocity = yVelocityMax;
 x += xVelocity;
 y += yVelocity;
 </string>
@@ -296,25 +316,26 @@ image_xscale = sign(obj_player_arm.image_xscale) * abs(image_xscale);
             <string>/// Draw player and hookshot guide
 
 grappleReach = obj_player.grappleReach;
-hookshotSuccess = obj_player.hookshotSuccess;
 grappleTo = obj_player.grappleTo;
+grappleState = obj_player.grappleState;
 
 // Draw the player
 draw_self();
 
 if(mouse_check_button(mb_left)) {
-    // Draw a circleto indicate grapple range if click is out of range
-    if (!point_in_circle(mouse_x, mouse_y, x, y, grappleReach) || !hookshotSuccess) {
+    // Draw a circle to indicate grapple range if click is out of range
+    if (//!point_in_circle(mouse_x, mouse_y, x, y, grappleReach) ||
+        grappleState == playerGS.NONE) {
         draw_set_colour(c_red);
+        draw_set_circle_precision(48);
         draw_circle(x, y, grappleReach, true);
     }
-    // If grapple was successful, draw the grapple line
-    if (hookshotSuccess) {
-        draw_set_color(c_lime);
-        draw_line(x, y, grappleTo[0], grappleTo[1]);
-        // does not accurately reflect the location being pulled to;
-        // a slightly more advanced calculation is required
-    }
+}
+
+// If grapple was successful, draw the grapple line
+if (grappleState == playerGS.PULL) {
+    draw_set_color(c_lime);
+    draw_line(x, y, grappleTo[0], grappleTo[1]);
 }
 </string>
           </argument>
