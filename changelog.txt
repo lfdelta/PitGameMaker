@@ -7,6 +7,14 @@ Name
 
 
 
+### 3/19/2017 ###
+Luca Frez-Albrecht
+1. grappleKey = mouse_check_button(mb_left) for the sake of generality
+2. implemented xAcceleration and friction forces for more nuanced player mobility
+3. implemented a simple back-and-forth 'cleaner' enemy. along with this came systems for player health, temporary invincibility, and knockback (the Knockback script)
+
+
+
 ### 3/9/2017 ###
 Luca Frez-Albrecht
 1. trimmed spr_player canvas to make the collision box symmetric about center
