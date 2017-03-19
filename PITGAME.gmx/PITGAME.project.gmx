@@ -26,7 +26,7 @@
   <objects name="objects">
     <object>objects\obj_player</object>
     <object>objects\obj_player_arm</object>
-    <object>objects\obj_player_collide</object>
+    <object>objects\obj_env_collide</object>
     <object>objects\obj_wall</object>
     <object>objects\obj_sinusoid</object>
     <object>objects\obj_anchor</object>

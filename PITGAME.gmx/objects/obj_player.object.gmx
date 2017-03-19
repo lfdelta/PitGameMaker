@@ -96,7 +96,7 @@ if (grappleKey &amp;&amp; grappleState == playerGS.NONE) {
     theta = arctan2(mouse_y - y, mouse_x - x);
     grappleReachX = x + grappleReach * cos(theta);
     grappleReachY = y + grappleReach * sin(theta);
-    grappleToID = Raycast(x, y, grappleReachX, grappleReachY, obj_player_collide, false, true);
+    grappleToID = Raycast(x, y, grappleReachX, grappleReachY, obj_env_collide, false, true);
     grappleTo = RaycastToPoint(x, y, grappleReachX, grappleReachY, obj_anchor, false, true);
         
     // If grappleTo exists, player can grapple to it
@@ -114,7 +114,7 @@ if (grappleKey &amp;&amp; grappleState == playerGS.NONE) {
 }
 if (grappleState == playerGS.PULL) {
     // If the player is about to reach grapple end, player will be hanging
-    if (place_meeting(x+xVelocity,y+yVelocity, obj_player_collide)) {
+    if (place_meeting(x+xVelocity,y+yVelocity, obj_env_collide)) {
         while ((grappleTo[0] - x) &amp;&amp; !place_meeting(x+sign(vx), y, obj_anchor))
             x += sign(vx);
         while ((grappleTo[1] - y) &amp;&amp; !place_meeting(x, y+sign(vy), obj_anchor))
@@ -134,14 +134,14 @@ show_debug_message(string(grappleState));
     xVelocity = moveDirection * moveSpeed;
     if (yVelocity &lt; yVelocityMax)
         yVelocity = min(yVelocity + grav, yVelocityMax);
-    if (place_meeting(x, y+1, obj_player_collide))
+    if (place_meeting(x, y+1, obj_env_collide))
         yVelocity = -jumpKey * jumpSpeed;
     if (yVelocity &lt; 0 &amp;&amp; (!jumpKey))
         yVelocity = max(yVelocity, -jumpSpeed/4);
 }*/
 
 if (grappleState == playerGS.NONE) {
-    grounded = place_meeting(x, y+1, obj_player_collide);
+    grounded = place_meeting(x, y+1, obj_env_collide);
     xVelocity += moveDirection * xAcceleration; // this could probably be optimized
     tmp = xFriction + 0.3 * grounded;
     xVelocity = IF (abs(xVelocity) &lt; tmp, 0, xVelocity - sign(xVelocity) * tmp);
@@ -157,41 +157,41 @@ if (grappleState == playerGS.NONE) {
 //Collision with walls
 
 // tutorial (allows sliding along surfaces but brings back flickery grapple and clipping)
-/*if (place_meeting(x+xVelocity, y, obj_player_collide)) {
-   while (!place_meeting(x+sign(xVelocity), y, obj_player_collide))
+/*if (place_meeting(x+xVelocity, y, obj_env_collide)) {
+   while (!place_meeting(x+sign(xVelocity), y, obj_env_collide))
          x += sign(xVelocity);
    xVelocity = 0;
 }
-if (place_meeting(x, y+yVelocity, obj_player_collide)) {
-   while (!place_meeting(x, y+sign(yVelocity), obj_player_collide))
+if (place_meeting(x, y+yVelocity, obj_env_collide)) {
+   while (!place_meeting(x, y+sign(yVelocity), obj_env_collide))
          y += sign(yVelocity);
    yVelocity = 0;
 }*/
 
-/*if (xVelocity == 0 || place_meeting(x+sign(xVelocity), y, obj_player_collide)) {
+/*if (xVelocity == 0 || place_meeting(x+sign(xVelocity), y, obj_env_collide)) {
     //up against vertical wall; only check y collisions
     xVelocity = 0;
-    if (place_meeting(x, y+yVelocity, obj_player_collide)) {
-        while (!place_meeting(x, y+sign(yVelocity), obj_player_collide))
+    if (place_meeting(x, y+yVelocity, obj_env_collide)) {
+        while (!place_meeting(x, y+sign(yVelocity), obj_env_collide))
             y += sign(yVelocity);
         yVelocity = 0;
     }
-} else if (yVelocity == 0 || place_meeting(x, y+sign(yVelocity), obj_player_collide)) {
+} else if (yVelocity == 0 || place_meeting(x, y+sign(yVelocity), obj_env_collide)) {
     //up against horizontal wall; only check x collisions
     yVelocity = 0;
-    if (place_meeting(x+xVelocity, y, obj_player_collide)) {
-        while (!place_meeting(x+sign(xVelocity), y, obj_player_collide))
+    if (place_meeting(x+xVelocity, y, obj_env_collide)) {
+        while (!place_meeting(x+sign(xVelocity), y, obj_env_collide))
             x += sign(xVelocity);
         xVelocity = 0;
     }
-} else*/ if (place_meeting(x+xVelocity, y+yVelocity, obj_player_collide)) {
+} else*/ if (place_meeting(x+xVelocity, y+yVelocity, obj_env_collide)) {
     //check diagonal collisions
     is_vertical = abs(yVelocity) &gt;= abs(xVelocity);
     slope = IF(is_vertical, abs(xVelocity/yVelocity), abs(yVelocity/xVelocity));
     c = 0;
     x0 = x;
     y0 = y;
-    while(!place_meeting(x, y, obj_player_collide)) {
+    while(!place_meeting(x, y, obj_env_collide)) {
         x = x0 + IF(is_vertical, floor(c*sign(xVelocity)*slope), (c+1)*sign(xVelocity));
         y = y0 + IF(is_vertical, (c+1)*sign(yVelocity), floor(c*sign(yVelocity)*slope));
         c++;
@@ -202,13 +202,13 @@ if (place_meeting(x, y+yVelocity, obj_player_collide)) {
     
     /*if (c == 0) { //above loop didn't move the player this frame
     // ******* this doesn't do anything ugh
-        if (place_meeting(x+xVelocity, y, obj_player_collide)) {
-            while (!place_meeting(x+sign(xVelocity), y, obj_player_collide))
+        if (place_meeting(x+xVelocity, y, obj_env_collide)) {
+            while (!place_meeting(x+sign(xVelocity), y, obj_env_collide))
                 x += sign(xVelocity);
             xVelocity = 0;
         }
-        if (place_meeting(x, y+yVelocity, obj_player_collide)) {
-            while (!place_meeting(x, y+sign(yVelocity), obj_player_collide))
+        if (place_meeting(x, y+yVelocity, obj_env_collide)) {
+            while (!place_meeting(x, y+sign(yVelocity), obj_env_collide))
                 y += sign(yVelocity);
             yVelocity = 0;
         }
@@ -220,9 +220,9 @@ if (place_meeting(x, y+yVelocity, obj_player_collide)) {
 
 // allison
 // when diagonal is engaged on a convex edge, the player gets stuck inside OR freaks
-/*if(place_meeting(x+xVelocity, y, obj_player_collide) &amp;&amp;
-   place_meeting(x, y+yVelocity, obj_player_collide)) {
-    while(!place_meeting(x+sign(xVelocity), y+sign(yVelocity), obj_player_collide)) {
+/*if(place_meeting(x+xVelocity, y, obj_env_collide) &amp;&amp;
+   place_meeting(x, y+yVelocity, obj_env_collide)) {
+    while(!place_meeting(x+sign(xVelocity), y+sign(yVelocity), obj_env_collide)) {
         x += sign(xVelocity);
         y += sign(yVelocity);
     }
@@ -230,14 +230,14 @@ if (place_meeting(x, y+yVelocity, obj_player_collide)) {
     yVelocity = 0;
     show_debug_message("diagonal");
 }
-else if (place_meeting(x+xVelocity, y, obj_player_collide)) {
-    while (!place_meeting(x+sign(xVelocity), y, obj_player_collide))
+else if (place_meeting(x+xVelocity, y, obj_env_collide)) {
+    while (!place_meeting(x+sign(xVelocity), y, obj_env_collide))
         x += sign(xVelocity);
     xVelocity = 0;
     show_debug_message("x");
 }
-else if (place_meeting(x, y+yVelocity, obj_player_collide)) {
-    while (!place_meeting(x, y+sign(yVelocity), obj_player_collide))
+else if (place_meeting(x, y+yVelocity, obj_env_collide)) {
+    while (!place_meeting(x, y+sign(yVelocity), obj_env_collide))
         y += sign(yVelocity);
     yVelocity = 0;
     show_debug_message("y");
