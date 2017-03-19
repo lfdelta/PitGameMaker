@@ -27,7 +27,7 @@
             <kind>1</kind>
             <string>///Initialize properties
 
-enum playerGS {
+enum playerGS { // grapple state
     NONE,
     PULL,
     HANG,
@@ -35,10 +35,17 @@ enum playerGS {
 
 depth = 0;
 
+hp = 5;
+iFrames = 60;
+iCounter = 0;
+isInvincible = 0; // boolean
+
 xVelocity = 0;
+xVelocityMax = 5;
+xAcceleration = 1;
+xFriction = 0.2;
 yVelocity = 0;
 yVelocityMax = 10;
-moveSpeed = 5;
 jumpSpeed = 7;
 grav = 0.2;
 
@@ -79,9 +86,13 @@ rightKey = keyboard_check(vk_right);
 dKey = keyboard_check(ord('D'));
 upKey = keyboard_check(vk_up);
 wKey = keyboard_check(ord('W'));
+grappleKey = mouse_check_button(mb_left);
+
+moveDirection = max(dKey,rightKey) - max(aKey,leftKey);
+jumpKey = max(wKey, upKey);
 
 // Attempt grapple
-if (mouse_check_button(mb_left) &amp;&amp; grappleState == playerGS.NONE) {
+if (grappleKey &amp;&amp; grappleState == playerGS.NONE) {
     theta = arctan2(mouse_y - y, mouse_x - x);
     grappleReachX = x + grappleReach * cos(theta);
     grappleReachY = y + grappleReach * sin(theta);
@@ -113,42 +124,13 @@ if (grappleState == playerGS.PULL) {
         grappleState = playerGS.HANG;
     }
 }
-if (grappleState == playerGS.HANG &amp;&amp; !mouse_check_button(mb_left))
+if (grappleState == playerGS.HANG &amp;&amp; !grappleKey)
     grappleState = playerGS.NONE;
 show_debug_message(string(grappleState));
 
-/*if (mouse_check_button(mb_left)) {
-    if(grappleState == playerGS.NONE &amp;&amp; !place_meeting(mouse_x, mouse_y, obj_player)) {
-        theta = arctan2(mouse_y - y, mouse_x - x);
-        grappleReachX = x + grappleReach * cos(theta);
-        grappleReachY = y + grappleReach * sin(theta);
-        grappleTo = RaycastToPoint(x, y, grappleReachX, grappleReachY, obj_anchor, false, true);
-        
-        // If grappleTo exists, player can grapple to it
-        if(!is_undefined(grappleTo[0])) {
-            grappleState = playerGS.PULL;
-        }
-    }
-    
-    // Move player toward the grapple point
-    if (grappleState == playerGS.PULL) {
-        vx = grappleTo[0] - x;
-        vy = grappleTo[1] - y;
-            
-        lengthOfVector = sqrt(vx*vx + vy*vy);
-            
-        xVelocity = grappleSpeed * (vx/lengthOfVector);
-        yVelocity = grappleSpeed * (vy/lengthOfVector);
-    }
-} else {
-    grappleState = playerGS.NONE;
-    grappleTo = noone;
-}*/
-
 //Interpret key input
-if (grappleState == playerGS.NONE) {
-    moveDirection = max(dKey,rightKey) - max(aKey,leftKey);
-    jumpKey = max(wKey, upKey);
+
+/*if (grappleState == playerGS.NONE) {
     xVelocity = moveDirection * moveSpeed;
     if (yVelocity &lt; yVelocityMax)
         yVelocity = min(yVelocity + grav, yVelocityMax);
@@ -156,28 +138,23 @@ if (grappleState == playerGS.NONE) {
         yVelocity = -jumpKey * jumpSpeed;
     if (yVelocity &lt; 0 &amp;&amp; (!jumpKey))
         yVelocity = max(yVelocity, -jumpSpeed/4);
+}*/
+
+if (grappleState == playerGS.NONE) {
+    grounded = place_meeting(x, y+1, obj_player_collide);
+    xVelocity += moveDirection * xAcceleration; // this could probably be optimized
+    tmp = xFriction + 0.3 * grounded;
+    xVelocity = IF (abs(xVelocity) &lt; tmp, 0, xVelocity - sign(xVelocity) * tmp);
+    xVelocity = sign(xVelocity) * min(abs(xVelocity), xVelocityMax);
+    yVelocity += grav;
+    yVelocity = sign(yVelocity) * min(abs(yVelocity), yVelocityMax);
+    if (grounded)
+        yVelocity = -jumpKey * jumpSpeed;
+    if (yVelocity &lt; 0 &amp;&amp; !jumpKey)
+        yVelocity = max(yVelocity, -jumpSpeed/4);
 }
    
-//Collision handling
-
-//rain
-/*if (place_meeting(x+xVelocity, y+yVelocity, obj_player_collide)) {
-    is_vertical = abs(yVelocity) &gt;= abs(xVelocity);
-    slope = IF(is_vertical, abs(xVelocity/yVelocity), abs(yVelocity/xVelocity));
-    c = 0;
-    x0 = x;
-    y0 = y;
-    while(!place_meeting(x, y, obj_player_collide)) {
-        x = x0 + IF(is_vertical, floor(c*sign(xVelocity)*slope), (c+1)*sign(xVelocity));
-        y = y0 + IF(is_vertical, (c+1)*sign(yVelocity), floor(c*sign(yVelocity)*slope));
-        c++;
-    }
-    c -= 2; //revert out of collision
-    x = x0 + IF(is_vertical, floor(c*sign(xVelocity)*slope), c*sign(xVelocity));
-    y = y0 + IF(is_vertical, c*sign(yVelocity), floor(c*sign(yVelocity)*slope));
-    xVelocity = 0;
-    yVelocity = 0;
-}*/
+//Collision with walls
 
 // tutorial (allows sliding along surfaces but brings back flickery grapple and clipping)
 /*if (place_meeting(x+xVelocity, y, obj_player_collide)) {
@@ -223,7 +200,7 @@ if (place_meeting(x, y+yVelocity, obj_player_collide)) {
     x = x0 + IF(is_vertical, floor(c*sign(xVelocity)*slope), c*sign(xVelocity));
     y = y0 + IF(is_vertical, c*sign(yVelocity), floor(c*sign(yVelocity)*slope));
     
-    if (c == 0) { //above loop didn't move the player this frame
+    /*if (c == 0) { //above loop didn't move the player this frame
     // ******* this doesn't do anything ugh
         if (place_meeting(x+xVelocity, y, obj_player_collide)) {
             while (!place_meeting(x+sign(xVelocity), y, obj_player_collide))
@@ -235,7 +212,7 @@ if (place_meeting(x, y+yVelocity, obj_player_collide)) {
                 y += sign(yVelocity);
             yVelocity = 0;
         }
-    }
+    }*/
     
     xVelocity = 0;
     yVelocity = 0;
@@ -266,9 +243,24 @@ else if (place_meeting(x, y+yVelocity, obj_player_collide)) {
     show_debug_message("y");
 }*/
 
+
+// Collision with enemies
+// NB handle damage, knockback, and player invincibility within enemy's script
+if (isInvincible)
+    iCounter++;
+if (iCounter &gt;= iFrames) {
+    iCounter = 0;
+    isInvincible = 0; // this could probably be optimized as well
+}
+
 //Move player
 x += xVelocity;
 y += yVelocity;
+
+//Die
+if (hp &lt;= 0) {
+   instance_destroy();
+}
 </string>
           </argument>
         </arguments>
