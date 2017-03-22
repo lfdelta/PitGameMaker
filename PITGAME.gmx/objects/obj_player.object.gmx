@@ -54,6 +54,8 @@ grappleSpeed = 10;
 grappleToID = noone;
 grappleTo = undefined;
 grappleState = playerGS.NONE;
+
+collisionCounter = 0;
 </string>
           </argument>
         </arguments>
@@ -184,21 +186,43 @@ if (place_meeting(x, y+yVelocity, obj_env_collide)) {
             x += sign(xVelocity);
         xVelocity = 0;
     }
-} else*/ if (place_meeting(x+xVelocity, y+yVelocity, obj_env_collide)) {
+} else*/ if (place_meeting(x+xVelocity, y+yVelocity, obj_env_collide) &amp;&amp; (xVelocity != 0 || yVelocity != 0)) {
+    show_debug_message("Collision detected " + string(collisionCounter++));
+    show_debug_message("X velocity " + string(xVelocity));
+    show_debug_message("Y velocity " + string(yVelocity));
+    
     //check diagonal collisions
     is_vertical = abs(yVelocity) &gt;= abs(xVelocity);
+    show_debug_message("Is vertical: " + string(is_vertical));
+    
     slope = IF(is_vertical, abs(xVelocity/yVelocity), abs(yVelocity/xVelocity));
-    c = 0;
+    show_debug_message("Slope: " + string(slope));
+    
+    c = 0; // Current pixels traversed
     x0 = x;
     y0 = y;
+    
+    show_debug_message("Current x pos: " + string(x));
+    show_debug_message("Current y pos: " + string(y));
+    
     while(!place_meeting(x, y, obj_env_collide)) {
         x = x0 + IF(is_vertical, floor(c*sign(xVelocity)*slope), (c+1)*sign(xVelocity));
+        show_debug_message("While x pos: " + string(x));
+        
         y = y0 + IF(is_vertical, (c+1)*sign(yVelocity), floor(c*sign(yVelocity)*slope));
+        show_debug_message("While y pos: " + string(y));
+        
         c++;
+        show_debug_message("c: " + string(c));
     }
     c = IF(c &gt;= 2, c-2, c-1); //revert out of collision
+    show_debug_message("Final c: " + string(c));
+    
     x = x0 + IF(is_vertical, floor(c*sign(xVelocity)*slope), c*sign(xVelocity));
+    show_debug_message("Final x pos: " + string(x));
+    
     y = y0 + IF(is_vertical, c*sign(yVelocity), floor(c*sign(yVelocity)*slope));
+    show_debug_message("While y pos: " + string(y));
     
     /*if (c == 0) { //above loop didn't move the player this frame
     // ******* this doesn't do anything ugh
