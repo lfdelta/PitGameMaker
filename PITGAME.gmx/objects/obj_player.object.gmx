@@ -84,8 +84,7 @@ playerState = playerFSM.NONE;
             <kind>1</kind>
             <string>/// Player FSM and upkeep
 
-// Get key input
-// _Key -&gt; down; _KeyH -&gt; held; _KeyR -&gt; released
+// Get player inputs
 leftKey = keyboard_check(vk_left);
 aKey = keyboard_check(ord('A'));
 rightKey = keyboard_check(vk_right);
