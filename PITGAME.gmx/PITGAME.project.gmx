@@ -22,6 +22,13 @@
     <script>scripts\RaycastToPoint.gml</script>
     <script>scripts\IF.gml</script>
     <script>scripts\Knockback.gml</script>
+    <scripts name="PlayerFSM">
+      <script>scripts\PlayerNone.gml</script>
+      <script>scripts\PlayerPull.gml</script>
+      <script>scripts\PlayerHang.gml</script>
+      <script>scripts\PlayerDead.gml</script>
+    </scripts>
+    <script>scripts\HandleCollision.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\obj_player</object>

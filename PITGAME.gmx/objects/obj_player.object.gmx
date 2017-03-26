@@ -27,10 +27,13 @@
             <kind>1</kind>
             <string>///Initialize properties
 
-enum playerGS { // grapple state
-    NONE,
+enum playerFSM { // finite state machine
+    STUN = 0,
+    NONE, // normal player control
     PULL,
     HANG,
+    PUNCH,
+    DEAD
 }
 
 depth = 0;
@@ -39,6 +42,8 @@ hp = 5;
 iFrames = 60;
 iCounter = 0;
 isInvincible = 0; // boolean
+stunFrames = 0;
+stunCounter = 0;
 
 xVelocity = 0;
 xVelocityMax = 5;
@@ -53,9 +58,8 @@ grappleReach = 300;
 grappleSpeed = 10;
 grappleToID = noone;
 grappleTo = undefined;
-grappleState = playerGS.NONE;
 
-collisionCounter = 0;
+playerState = playerFSM.NONE;
 </string>
           </argument>
         </arguments>
@@ -78,9 +82,9 @@ collisionCounter = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Player movement and collisions
+            <string>/// Player FSM and upkeep
 
-//Get key input
+// Get key input
 // _Key -&gt; down; _KeyH -&gt; held; _KeyR -&gt; released
 leftKey = keyboard_check(vk_left);
 aKey = keyboard_check(ord('A'));
@@ -93,169 +97,48 @@ grappleKey = mouse_check_button(mb_left);
 moveDirection = max(dKey,rightKey) - max(aKey,leftKey);
 jumpKey = max(wKey, upKey);
 
-// Attempt grapple
-if (grappleKey &amp;&amp; grappleState == playerGS.NONE) {
-    theta = arctan2(mouse_y - y, mouse_x - x);
-    grappleReachX = x + grappleReach * cos(theta);
-    grappleReachY = y + grappleReach * sin(theta);
-    grappleToID = Raycast(x, y, grappleReachX, grappleReachY, obj_env_collide, false, true);
-    grappleTo = RaycastToPoint(x, y, grappleReachX, grappleReachY, obj_anchor, false, true);
-        
-    // If grappleTo exists, player can grapple to it
-    if(!is_undefined(grappleTo[0])) {
-        // Move player toward the grapple point
-        vx = grappleTo[0] - x;
-        vy = grappleTo[1] - y;
+// State machine
+switch (playerState)
+{
+    case playerFSM.NONE:
+        PlayerNone();
+        break;
+    case playerFSM.PULL:
+        PlayerPull();
+        break;
+    case playerFSM.HANG:
+        PlayerHang();
+        break;
+    case playerFSM.DEAD:
+        PlayerDead();
+        break;
+};
+//show_debug_message("state: " + string(playerState));
 
-        lengthOfVector = sqrt(vx*vx + vy*vy);
-    
-        xVelocity = grappleSpeed * (vx/lengthOfVector);
-        yVelocity = grappleSpeed * (vy/lengthOfVector);
-        grappleState = playerGS.PULL;
-    }
-}
-if (grappleState == playerGS.PULL) {
-    // If the player is about to reach grapple end, player will be hanging
-    if (place_meeting(x+xVelocity,y+yVelocity, obj_env_collide)) {
-        grappleState = playerGS.HANG;
-        /*while ((grappleTo[0] - x) &amp;&amp; !place_meeting(x+sign(vx), y, obj_anchor))
-            x += sign(vx);
-        while ((grappleTo[1] - y) &amp;&amp; !place_meeting(x, y+sign(vy), obj_anchor))
-            y += sign(vy);
-        xVelocity = 0;
-        yVelocity = 0;
-        grappleState = playerGS.HANG;*/
-    }
-}
-if (grappleState == playerGS.HANG &amp;&amp; !grappleKey)
-    grappleState = playerGS.NONE;
+// Collision with walls
+HandleCollision(id, obj_env_collide);
+show_debug_message(place_meeting(x,y,obj_env_collide)); // happens on corners
 
-//Interpret key input
-
-/*if (grappleState == playerGS.NONE) {
-    xVelocity = moveDirection * moveSpeed;
-    if (yVelocity &lt; yVelocityMax)
-        yVelocity = min(yVelocity + grav, yVelocityMax);
-    if (place_meeting(x, y+1, obj_env_collide))
-        yVelocity = -jumpKey * jumpSpeed;
-    if (yVelocity &lt; 0 &amp;&amp; (!jumpKey))
-        yVelocity = max(yVelocity, -jumpSpeed/4);
-}*/
-
-if (grappleState == playerGS.NONE) {
-    grounded = place_meeting(x, y+1, obj_env_collide);
-    xVelocity += moveDirection * xAcceleration; // this could probably be optimized
-    tmp = xFriction + 0.3 * grounded;
-    xVelocity = IF (abs(xVelocity) &lt; tmp, 0, xVelocity - sign(xVelocity) * tmp);
-    xVelocity = sign(xVelocity) * min(abs(xVelocity), xVelocityMax);
-    yVelocity += grav;
-    yVelocity = sign(yVelocity) * min(abs(yVelocity), yVelocityMax);
-    if (grounded)
-        yVelocity = -jumpKey * jumpSpeed;
-    if (yVelocity &lt; 0 &amp;&amp; !jumpKey)
-        yVelocity = max(yVelocity, -jumpSpeed/4);
-}
-   
-//Collision with walls
-
-// tutorial (allows sliding along surfaces but brings back flickery grapple and clipping)
-/*if (place_meeting(x+xVelocity, y, obj_env_collide)) {
-   while (!place_meeting(x+sign(xVelocity), y, obj_env_collide))
-         x += sign(xVelocity);
-   xVelocity = 0;
-}
-if (place_meeting(x, y+yVelocity, obj_env_collide)) {
-   while (!place_meeting(x, y+sign(yVelocity), obj_env_collide))
-         y += sign(yVelocity);
-   yVelocity = 0;
-}*/
-
-if (place_meeting(x+xVelocity, y+yVelocity, obj_env_collide)) {
-    is_vertical = abs(yVelocity) &gt;= abs(xVelocity);
-    slope = IF(is_vertical, abs(xVelocity/yVelocity), abs(yVelocity/xVelocity));
-    c = 0; // number of pixels traversed
-    dx = 0;
-    dy = 0;
-    
-    // track diagonal motion until collision
-    if (is_vertical) {
-        while (!place_meeting(x + sign(xVelocity)*floor(c*slope),
-                              y + c*sign(yVelocity), obj_env_collide) &amp;&amp;
-               c &lt;= abs(yVelocity)) {
-            c++;
-        }
-        c--;
-        dx = sign(xVelocity)*floor(c*slope);
-        dy = c*sign(yVelocity);
-    } else {
-        while (!place_meeting(x + c*sign(xVelocity),
-                              y + sign(yVelocity)*floor(c*slope), obj_env_collide) &amp;&amp;
-               c &lt;= abs(xVelocity)) {
-            c++;
-        }
-        c--;
-        dx = c*sign(xVelocity);
-        dy = sign(yVelocity)*floor(c*slope);
-    }
-    show_debug_message(place_meeting(x,y,obj_env_collide)); // happens on corners
-    
-    // move as far in x and y as you can--at most one of these loops should actually move the player
-    while (!place_meeting(x + dx + sign(xVelocity), y, obj_env_collide) &amp;&amp; abs(dx) &lt; abs(xVelocity))
-        dx += sign(xVelocity);
-    while (!place_meeting(x, y + dy + sign(yVelocity), obj_env_collide) &amp;&amp; abs(dy) &lt; abs(yVelocity))
-        dy += sign(yVelocity);
-    
-    if (abs(dx) &lt; abs(xVelocity))
-        xVelocity = 0;
-    if (abs(dy) &lt; abs(yVelocity))
-        yVelocity = 0;
-    
-    x += dx;
-    y += dy;
-} else {
-    x += xVelocity;
-    y += yVelocity;
-}
-
-// Collision with enemies
-// NB handle damage, knockback, and player invincibility within enemy's script
-if (isInvincible)
+// Upkeep
+if (isInvincible) {
     iCounter++;
-if (iCounter &gt;= iFrames) {
-    iCounter = 0;
-    isInvincible = 0; // this could probably be optimized as well
+    if (iCounter &gt;= iFrames) {
+        iCounter = 0;
+        isInvincible = 0;
+    }
 }
 
-//Move player
-//x += xVelocity;
-//y += yVelocity;
+if (stunFrames &gt; 0) {
+    stunCounter++;
+    if (stunCounter &gt;= stunFrames) {
+        stunCounter = 0;
+        stunFrames = 0;
+    }
+}
 
-//Die
 if (hp &lt;= 0) {
-   instance_destroy();
+   playerState = playerFSM.DEAD;
 }
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///Sprite handling
-image_xscale = sign(obj_player_arm.image_xscale) * abs(image_xscale);
 </string>
           </argument>
         </arguments>
@@ -282,7 +165,7 @@ image_xscale = sign(obj_player_arm.image_xscale) * abs(image_xscale);
 
 grappleReach = obj_player.grappleReach;
 grappleTo = obj_player.grappleTo;
-grappleState = obj_player.grappleState;
+playerState = obj_player.playerState;
 
 // Draw the player
 draw_self();
@@ -290,7 +173,7 @@ draw_self();
 if(mouse_check_button(mb_left)) {
     // Draw a circle to indicate grapple range if click is out of range
     if (//!point_in_circle(mouse_x, mouse_y, x, y, grappleReach) ||
-        grappleState == playerGS.NONE) {
+        playerState == playerFSM.NONE) {
         draw_set_colour(c_red);
         draw_set_circle_precision(48);
         draw_circle(x, y, grappleReach, true);
@@ -298,7 +181,7 @@ if(mouse_check_button(mb_left)) {
 }
 
 // If grapple was successful, draw the grapple line
-if (grappleState == playerGS.PULL) {
+if (playerState == playerFSM.PULL) {
     draw_set_color(c_lime);
     draw_line(x, y, grappleTo[0], grappleTo[1]);
 }
