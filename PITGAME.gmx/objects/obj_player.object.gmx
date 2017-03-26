@@ -117,18 +117,18 @@ if (grappleKey &amp;&amp; grappleState == playerGS.NONE) {
 if (grappleState == playerGS.PULL) {
     // If the player is about to reach grapple end, player will be hanging
     if (place_meeting(x+xVelocity,y+yVelocity, obj_env_collide)) {
-        while ((grappleTo[0] - x) &amp;&amp; !place_meeting(x+sign(vx), y, obj_anchor))
+        grappleState = playerGS.HANG;
+        /*while ((grappleTo[0] - x) &amp;&amp; !place_meeting(x+sign(vx), y, obj_anchor))
             x += sign(vx);
         while ((grappleTo[1] - y) &amp;&amp; !place_meeting(x, y+sign(vy), obj_anchor))
             y += sign(vy);
         xVelocity = 0;
         yVelocity = 0;
-        grappleState = playerGS.HANG;
+        grappleState = playerGS.HANG;*/
     }
 }
 if (grappleState == playerGS.HANG &amp;&amp; !grappleKey)
     grappleState = playerGS.NONE;
-show_debug_message(string(grappleState));
 
 //Interpret key input
 
@@ -170,103 +170,52 @@ if (place_meeting(x, y+yVelocity, obj_env_collide)) {
    yVelocity = 0;
 }*/
 
-/*if (xVelocity == 0 || place_meeting(x+sign(xVelocity), y, obj_env_collide)) {
-    //up against vertical wall; only check y collisions
-    xVelocity = 0;
-    if (place_meeting(x, y+yVelocity, obj_env_collide)) {
-        while (!place_meeting(x, y+sign(yVelocity), obj_env_collide))
-            y += sign(yVelocity);
-        yVelocity = 0;
-    }
-} else if (yVelocity == 0 || place_meeting(x, y+sign(yVelocity), obj_env_collide)) {
-    //up against horizontal wall; only check x collisions
-    yVelocity = 0;
-    if (place_meeting(x+xVelocity, y, obj_env_collide)) {
-        while (!place_meeting(x+sign(xVelocity), y, obj_env_collide))
-            x += sign(xVelocity);
-        xVelocity = 0;
-    }
-} else*/ if (place_meeting(x+xVelocity, y+yVelocity, obj_env_collide) &amp;&amp; (xVelocity != 0 || yVelocity != 0)) {
-    show_debug_message("Collision detected " + string(collisionCounter++));
-    show_debug_message("X velocity " + string(xVelocity));
-    show_debug_message("Y velocity " + string(yVelocity));
-    
-    //check diagonal collisions
+if (place_meeting(x+xVelocity, y+yVelocity, obj_env_collide)) {
     is_vertical = abs(yVelocity) &gt;= abs(xVelocity);
-    show_debug_message("Is vertical: " + string(is_vertical));
-    
     slope = IF(is_vertical, abs(xVelocity/yVelocity), abs(yVelocity/xVelocity));
-    show_debug_message("Slope: " + string(slope));
+    c = 0; // number of pixels traversed
+    dx = 0;
+    dy = 0;
     
-    c = 0; // Current pixels traversed
-    x0 = x;
-    y0 = y;
-    
-    show_debug_message("Current x pos: " + string(x));
-    show_debug_message("Current y pos: " + string(y));
-    
-    while(!place_meeting(x, y, obj_env_collide)) {
-        x = x0 + IF(is_vertical, floor(c*sign(xVelocity)*slope), (c+1)*sign(xVelocity));
-        show_debug_message("While x pos: " + string(x));
-        
-        y = y0 + IF(is_vertical, (c+1)*sign(yVelocity), floor(c*sign(yVelocity)*slope));
-        show_debug_message("While y pos: " + string(y));
-        
-        c++;
-        show_debug_message("c: " + string(c));
-    }
-    c = IF(c &gt;= 2, c-2, c-1); //revert out of collision
-    show_debug_message("Final c: " + string(c));
-    
-    x = x0 + IF(is_vertical, floor(c*sign(xVelocity)*slope), c*sign(xVelocity));
-    show_debug_message("Final x pos: " + string(x));
-    
-    y = y0 + IF(is_vertical, c*sign(yVelocity), floor(c*sign(yVelocity)*slope));
-    show_debug_message("While y pos: " + string(y));
-    
-    /*if (c == 0) { //above loop didn't move the player this frame
-    // ******* this doesn't do anything ugh
-        if (place_meeting(x+xVelocity, y, obj_env_collide)) {
-            while (!place_meeting(x+sign(xVelocity), y, obj_env_collide))
-                x += sign(xVelocity);
-            xVelocity = 0;
+    // track diagonal motion until collision
+    if (is_vertical) {
+        while (!place_meeting(x + sign(xVelocity)*floor(c*slope),
+                              y + c*sign(yVelocity), obj_env_collide) &amp;&amp;
+               c &lt;= abs(yVelocity)) {
+            c++;
         }
-        if (place_meeting(x, y+yVelocity, obj_env_collide)) {
-            while (!place_meeting(x, y+sign(yVelocity), obj_env_collide))
-                y += sign(yVelocity);
-            yVelocity = 0;
+        c--;
+        dx = sign(xVelocity)*floor(c*slope);
+        dy = c*sign(yVelocity);
+    } else {
+        while (!place_meeting(x + c*sign(xVelocity),
+                              y + sign(yVelocity)*floor(c*slope), obj_env_collide) &amp;&amp;
+               c &lt;= abs(xVelocity)) {
+            c++;
         }
-    }*/
-    
-    xVelocity = 0;
-    yVelocity = 0;
-}
-
-// allison
-// when diagonal is engaged on a convex edge, the player gets stuck inside OR freaks
-/*if(place_meeting(x+xVelocity, y, obj_env_collide) &amp;&amp;
-   place_meeting(x, y+yVelocity, obj_env_collide)) {
-    while(!place_meeting(x+sign(xVelocity), y+sign(yVelocity), obj_env_collide)) {
-        x += sign(xVelocity);
-        y += sign(yVelocity);
+        c--;
+        dx = c*sign(xVelocity);
+        dy = sign(yVelocity)*floor(c*slope);
     }
-    xVelocity = 0;
-    yVelocity = 0;
-    show_debug_message("diagonal");
+    show_debug_message(place_meeting(x,y,obj_env_collide)); // happens on corners
+    
+    // move as far in x and y as you can--at most one of these loops should actually move the player
+    while (!place_meeting(x + dx + sign(xVelocity), y, obj_env_collide) &amp;&amp; abs(dx) &lt; abs(xVelocity))
+        dx += sign(xVelocity);
+    while (!place_meeting(x, y + dy + sign(yVelocity), obj_env_collide) &amp;&amp; abs(dy) &lt; abs(yVelocity))
+        dy += sign(yVelocity);
+    
+    if (abs(dx) &lt; abs(xVelocity))
+        xVelocity = 0;
+    if (abs(dy) &lt; abs(yVelocity))
+        yVelocity = 0;
+    
+    x += dx;
+    y += dy;
+} else {
+    x += xVelocity;
+    y += yVelocity;
 }
-else if (place_meeting(x+xVelocity, y, obj_env_collide)) {
-    while (!place_meeting(x+sign(xVelocity), y, obj_env_collide))
-        x += sign(xVelocity);
-    xVelocity = 0;
-    show_debug_message("x");
-}
-else if (place_meeting(x, y+yVelocity, obj_env_collide)) {
-    while (!place_meeting(x, y+sign(yVelocity), obj_env_collide))
-        y += sign(yVelocity);
-    yVelocity = 0;
-    show_debug_message("y");
-}*/
-
 
 // Collision with enemies
 // NB handle damage, knockback, and player invincibility within enemy's script
@@ -278,8 +227,8 @@ if (iCounter &gt;= iFrames) {
 }
 
 //Move player
-x += xVelocity;
-y += yVelocity;
+//x += xVelocity;
+//y += yVelocity;
 
 //Die
 if (hp &lt;= 0) {
