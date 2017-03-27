@@ -116,7 +116,9 @@ switch (playerState)
 
 // Collision with walls
 HandleCollision(id, obj_env_collide);
-show_debug_message(place_meeting(x,y,obj_env_collide)); // happens on corners
+
+if (place_meeting(x,y,obj_env_collide)) // happens on corners
+    show_debug_message("oops");
 
 // Upkeep
 if (isInvincible) {

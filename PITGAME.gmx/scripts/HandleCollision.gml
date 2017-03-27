@@ -15,7 +15,7 @@ with (objID) {
         if (is_vertical) {
             while (!place_meeting(x + sign(xVelocity)*floor(c*slope),
                                   y + c*sign(yVelocity), colliderID) &&
-                   c <= abs(yVelocity)) {
+                   c < abs(yVelocity)) {
                 c++;
             }
             c--;
@@ -24,7 +24,7 @@ with (objID) {
         } else {
             while (!place_meeting(x + c*sign(xVelocity),
                                   y + sign(yVelocity)*floor(c*slope), colliderID) &&
-                   c <= abs(xVelocity)) {
+                   c < abs(xVelocity)) {
                 c++;
             }
             c--;
@@ -33,18 +33,24 @@ with (objID) {
         }
         
         // move as far in x and y as you can--at most one of these loops should actually move the player
-        while (!place_meeting(x + dx + sign(xVelocity), y, colliderID) &&
-               abs(dx) < abs(xVelocity))
+        while (!place_meeting(x + dx + sign(xVelocity), y + dy, colliderID) &&
+               abs(dx) < abs(xVelocity)) {
             dx += sign(xVelocity);
-        while (!place_meeting(x, y + dy + sign(yVelocity), colliderID) &&
-               abs(dy) < abs(yVelocity))
+        }
+        while (!place_meeting(x + dx, y + dy + sign(yVelocity), colliderID) &&
+               abs(dy) < abs(yVelocity)) {
             dy += sign(yVelocity);
+        }
         
         if (abs(dx) < abs(xVelocity))
             xVelocity = 0;
         if (abs(dy) < abs(yVelocity))
             yVelocity = 0;
-            
+        
+        /*movex = IF(abs(dx) < abs(xVelocity), dx, xVelocity); // defined separately
+        movey = IF(abs(dy) < abs(yVelocity), dy, yVelocity); // for debugging
+        x += movex; // movex,y == x,yVelocity even in the case where this causes a collision
+        y += movey;*/
         x += dx;
         y += dy;
     } else {
