@@ -7,6 +7,14 @@ Name
 
 
 
+### 3/26-27/2017 ###
+Luca Frez-Albrecht
+1. new collision algorithm, again. this time, through some miracle, it appears to actually function as expected and i have yet to discover any real bugs
+2. implemented a finite state machine to compartmentalize the player behaviors
+3. the player sprite is now handled differently; this fixes a bug when the player switched direction while pressed against a wall, and is a good first step toward implementing the coming player sprites
+
+
+
 ### 3/19/2017 ###
 Luca Frez-Albrecht
 1. grappleKey = mouse_check_button(mb_left) for the sake of generality
