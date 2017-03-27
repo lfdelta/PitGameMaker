@@ -11,7 +11,7 @@ if (grounded)
 if (yVelocity < 0 && !jumpKey)
     yVelocity = max(yVelocity, -jumpSpeed/4);
 
-// Attempt grapple
+// Attempt grapple -> transition into PULL state
 if (grappleKey) {
     theta = arctan2(mouse_y - y, mouse_x - x);
     grappleReachX = x + grappleReach * cos(theta);
@@ -29,7 +29,11 @@ if (grappleKey) {
     
         xVelocity = grappleSpeed * (vx/lengthOfVector);
         yVelocity = grappleSpeed * (vy/lengthOfVector);
-        playerState = playerFSM.PULL;
+        if (place_meeting(x+xVelocity, y+yVelocity, obj_env_collide)) {
+            playerState = playerFSM.HANG;
+        } else {
+            playerState = playerFSM.PULL;
+        }
     }
 }
 

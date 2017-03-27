@@ -23,7 +23,7 @@
     <script>scripts\IF.gml</script>
     <script>scripts\Knockback.gml</script>
     <scripts name="PlayerFSM">
-      <script>scripts\PlayerNone.gml</script>
+      <script>scripts\PlayerNormal.gml</script>
       <script>scripts\PlayerPull.gml</script>
       <script>scripts\PlayerHang.gml</script>
       <script>scripts\PlayerDead.gml</script>

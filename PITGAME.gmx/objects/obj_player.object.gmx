@@ -29,7 +29,7 @@
 
 enum playerFSM { // finite state machine
     STUN = 0,
-    NONE, // normal player control
+    NORMAL, // normal player control
     PULL,
     HANG,
     PUNCH,
@@ -59,7 +59,7 @@ grappleSpeed = 10;
 grappleToID = noone;
 grappleTo = undefined;
 
-playerState = playerFSM.NONE;
+playerState = playerFSM.NORMAL;
 </string>
           </argument>
         </arguments>
@@ -97,10 +97,18 @@ moveDirection = max(dKey,rightKey) - max(aKey,leftKey);
 jumpKey = max(wKey, upKey);
 
 // State machine
+/*if (playerState == playerFSM.NONE)
+    PlayerNone();
+if (playerState == playerFSM.PULL)
+    PlayerPull();
+if (playerState == playerFSM.HANG)
+    PlayerHang();
+if (playerState == playerFSM.DEAD)
+    PlayerDead();*/
 switch (playerState)
 {
-    case playerFSM.NONE:
-        PlayerNone();
+    case playerFSM.NORMAL:
+        PlayerNormal();
         break;
     case playerFSM.PULL:
         PlayerPull();
@@ -112,7 +120,7 @@ switch (playerState)
         PlayerDead();
         break;
 };
-//show_debug_message("state: " + string(playerState));
+show_debug_message("state: " + string(playerState));
 
 // Collision with walls
 HandleCollision(id, obj_env_collide);
@@ -174,7 +182,7 @@ draw_self();
 if(mouse_check_button(mb_left)) {
     // Draw a circle to indicate grapple range if click is out of range
     if (//!point_in_circle(mouse_x, mouse_y, x, y, grappleReach) ||
-        playerState == playerFSM.NONE) {
+        playerState == playerFSM.NORMAL) {
         draw_set_colour(c_red);
         draw_set_circle_precision(48);
         draw_circle(x, y, grappleReach, true);

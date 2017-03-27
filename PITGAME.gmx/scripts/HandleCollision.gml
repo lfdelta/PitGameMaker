@@ -47,10 +47,6 @@ with (objID) {
         if (abs(dy) < abs(yVelocity))
             yVelocity = 0;
         
-        /*movex = IF(abs(dx) < abs(xVelocity), dx, xVelocity); // defined separately
-        movey = IF(abs(dy) < abs(yVelocity), dy, yVelocity); // for debugging
-        x += movex; // movex,y == x,yVelocity even in the case where this causes a collision
-        y += movey;*/
         x += dx;
         y += dy;
     } else {
