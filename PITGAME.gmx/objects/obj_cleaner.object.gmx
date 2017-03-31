@@ -77,7 +77,7 @@ if (place_meeting(x, y+yVelocity, obj_env_collide)) {
 
 // Collision with player
 if (place_meeting(x+xVelocity, y+yVelocity, obj_player) &amp;&amp; !obj_player.isInvincible) {
-    Knockback(obj_player.id, 1, 5*sign(obj_player.x - x), -10, 0);
+    Knockback(obj_player.id, 1, 5*sign(obj_player.x - x), -3, 30);
 }
 
 x += xVelocity;

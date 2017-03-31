@@ -96,17 +96,28 @@ grappleKey = mouse_check_button(mb_left);
 moveDirection = max(dKey,rightKey) - max(aKey,leftKey);
 jumpKey = max(wKey, upKey);
 
+// Upkeep
+if (isInvincible) {
+    iCounter++;
+    if (iCounter &gt;= iFrames) {
+        iCounter = 0;
+        isInvincible = 0;
+    }
+}
+if (stunFrames &gt; 0) {
+    playerState = playerFSM.STUN;
+}
+
+if (hp &lt;= 0) {
+   playerState = playerFSM.DEAD;
+}
+
 // State machine
-/*if (playerState == playerFSM.NONE)
-    PlayerNone();
-if (playerState == playerFSM.PULL)
-    PlayerPull();
-if (playerState == playerFSM.HANG)
-    PlayerHang();
-if (playerState == playerFSM.DEAD)
-    PlayerDead();*/
 switch (playerState)
 {
+    case playerFSM.STUN:
+        PlayerStun();
+        break;
     case playerFSM.NORMAL:
         PlayerNormal();
         break;
@@ -122,32 +133,11 @@ switch (playerState)
 };
 show_debug_message("state: " + string(playerState));
 
-// Collision with walls
+// Movement and collision with walls
 HandleCollision(id, obj_env_collide);
 
-if (place_meeting(x,y,obj_env_collide)) // happens on corners
-    show_debug_message("oops");
-
-// Upkeep
-if (isInvincible) {
-    iCounter++;
-    if (iCounter &gt;= iFrames) {
-        iCounter = 0;
-        isInvincible = 0;
-    }
-}
-
-if (stunFrames &gt; 0) {
-    stunCounter++;
-    if (stunCounter &gt;= stunFrames) {
-        stunCounter = 0;
-        stunFrames = 0;
-    }
-}
-
-if (hp &lt;= 0) {
-   playerState = playerFSM.DEAD;
-}
+if (place_meeting(x,y,obj_env_collide)) // used to happen on corners
+    show_debug_message("oops"); // left for now in case something awful happens
 </string>
           </argument>
         </arguments>

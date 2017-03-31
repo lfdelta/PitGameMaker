@@ -1,4 +1,8 @@
 /// HandleCollision(objID, colliderID)
+// Takes some object (objID) with parameters xVelocity and yVelocity.
+// If objID is going to intersect with a colliderID object this frame,
+// the collision will be handled appropriately; otherwise, objID will
+// move by xVelocity and yVelocity.
 
 objID = argument0;
 colliderID = argument1;
