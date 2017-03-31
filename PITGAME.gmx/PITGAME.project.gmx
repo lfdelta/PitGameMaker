@@ -36,10 +36,10 @@
     <object>objects\obj_player_arm</object>
     <object>objects\obj_env_collide</object>
     <object>objects\obj_wall</object>
-    <object>objects\obj_sinusoid</object>
     <object>objects\obj_anchor</object>
     <object>objects\obj_cleaner</object>
     <object>objects\obj_enemy</object>
+    <object>objects\obj_env_and_enemies</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\Demo_Room</room>

@@ -7,6 +7,13 @@ Name
 
 
 
+### 3/30/2017 ###
+Luca Frez-Albrecht
+1. implemented player stun as part of the state machine. player loses control and just obeys physics for the number of frames assigned by the Knockback function
+2. replaced obj_cleaner collisions, now using HandleCollision and changing direction at appropriate times. cleaners now bounce off and can ride on top of each other, and no longer get stuck in corners or small vertical passages
+
+
+
 ### 3/26-27/2017 ###
 Luca Frez-Albrecht
 1. new collision algorithm, again. this time, through some miracle, it appears to actually function as expected and i have yet to discover any real bugs
