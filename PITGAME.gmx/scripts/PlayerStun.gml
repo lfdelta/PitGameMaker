@@ -13,3 +13,9 @@ if (stunCounter >= stunFrames) {
     stunFrames = 0;
     playerState = playerFSM.NORMAL;
 }
+
+// Sprite handling
+if (xVelocity != 0)
+    image_xscale = -sign(xVelocity);
+
+sprite_index = spr_player_stun;
