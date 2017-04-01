@@ -9,6 +9,7 @@
     <sprite>sprites\spr_player</sprite>
     <sprite>sprites\spr_16x_black</sprite>
     <sprite>sprites\spr_player_arm</sprite>
+    <sprite>sprites\spr_story_log</sprite>
     <sprite>sprites\spr_ball</sprite>
     <sprite>sprites\spr_16x_orange</sprite>
     <sprite>sprites\spr_cleaner</sprite>
@@ -33,6 +34,7 @@
   </scripts>
   <objects name="objects">
     <object>objects\obj_player</object>
+    <object>objects\obj_story_log</object>
     <object>objects\obj_player_arm</object>
     <object>objects\obj_env_collide</object>
     <object>objects\obj_wall</object>
