@@ -31,7 +31,7 @@
       <script>scripts\PlayerStun.gml</script>
     </scripts>
     <script>scripts\HandleCollision.gml</script>
-    <script>scripts\draw_text_colour_outline.gml</script>
+    <script>scripts\draw_text_with_outline.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fnt_story_log</font>

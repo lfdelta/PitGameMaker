@@ -93,11 +93,8 @@ if(draw) {
     text_xpos = display_get_gui_width() * 0.5
     text_ypos = display_get_gui_height() * 0.5;
     text_width = display_get_gui_width() * 0.75;
-
-    draw_set_color(make_color_rgb(0, 255, 255));
-    draw_text_ext(text_xpos,text_ypos,text, 25, text_width);
     
-    draw_text_ext(text_xpos,text_ypos,text,25,text_width);
+    draw_text_with_outline(text_xpos, text_ypos, text, c_black, c_black, 1, c_aqua, c_aqua, 1, 2, 10, 1, 1, 0, 25, text_width);
 }
 </string>
           </argument>
