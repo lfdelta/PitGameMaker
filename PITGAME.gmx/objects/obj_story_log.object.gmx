@@ -89,15 +89,15 @@ if(draw) {
     draw_set_font(fnt_story_log);
     draw_set_halign(fa_center);
     draw_set_valign(fa_center);
-    draw_set_color(make_color_rgb(0, 255, 255)); //sets the color
     
     text_xpos = display_get_gui_width() * 0.5
     text_ypos = display_get_gui_height() * 0.5;
     text_width = display_get_gui_width() * 0.75;
 
-    draw_text_ext(text_xpos,text_ypos,text,25,text_width);
+    draw_set_color(make_color_rgb(0, 255, 255));
+    draw_text_ext(text_xpos,text_ypos,text, 25, text_width);
     
-    show_debug_message(view_xview[0]);
+    draw_text_ext(text_xpos,text_ypos,text,25,text_width);
 }
 </string>
           </argument>
