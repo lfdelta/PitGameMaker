@@ -7,6 +7,16 @@ Name
 
 
 
+### 4/1/2017 ###
+Luca Frez-Albrecht
+1. created branch "sprites"; all changes denoted here exist on this branch
+2. imported sprites for the player: idle, jump, fall, stun, run
+3. implemented sprite transitions and animations within the player state machine scripts; namely, PlayerNormal and PlayerStun. they appear to all work as planned, and as a bonus, the jump/fall sprites may be sufficient for the PULL state as well
+4. set obj_player collision mask to player_idle for the sake of consistency while transitioning between sprites of different dimensions. this is a stopgap maneuver, as the player's collision box should be carefully tailored to suit all player states and not just chosen arbitrarily as it was here
+5. removed obj_player_arm as a child of obj_player. it no longer appears in gameplay
+
+
+
 ### 3/30/2017 ###
 Luca Frez-Albrecht
 1. implemented player stun as part of the state machine. player loses control and just obeys physics for the number of frames assigned by the Knockback function

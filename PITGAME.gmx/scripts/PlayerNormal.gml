@@ -40,3 +40,16 @@ if (grappleKey) {
 // Sprite handling
 if (xVelocity != 0)
     image_xscale = sign(xVelocity);
+    
+if (grounded) {
+    image_speed = 0.25;
+    if (abs(xVelocity) < 0.1) {
+        sprite_index = spr_player_idle;
+    } else {
+        sprite_index = spr_player_run;
+    }
+} else if (yVelocity < 1) { // small buffer before switching from jump to fall
+    sprite_index = spr_player_jump;
+} else {
+    sprite_index = spr_player_fall;
+}
