@@ -336,7 +336,7 @@
     <instance objName="obj_cleaner" x="432" y="224" name="inst_629AC10A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_cleaner" x="288" y="256" name="inst_ACE98267" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_cleaner" x="416" y="352" name="inst_E50515AE" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_story_log" x="96" y="144" name="inst_24C98A66" locked="0" code="text = &quot;I like shorts. They're comfy and easy to wear.&quot;&#xA;" scaleX="0.75" scaleY="0.75" colour="4294967295" rotation="0"/>
+    <instance objName="obj_story_log" x="224" y="346" name="inst_24C98A66" locked="0" code="text = &quot;I like shorts. They're comfy and easy to wear.&quot;&#xA;" scaleX="0.75" scaleY="0.75" colour="4294967295" rotation="0"/>
     <instance objName="obj_story_log" x="656" y="475" name="inst_C7D69DD4" locked="0" code="text = &quot;It's like my Rattata is in the top percentage of Rattatas.&quot;;&#xA;" scaleX="0.75" scaleY="0.75" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
