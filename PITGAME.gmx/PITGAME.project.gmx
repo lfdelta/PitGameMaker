@@ -32,6 +32,9 @@
     </scripts>
     <script>scripts\HandleCollision.gml</script>
   </scripts>
+  <fonts name="fonts">
+    <font>fonts\fnt_story_log</font>
+  </fonts>
   <objects name="objects">
     <object>objects\obj_player</object>
     <object>objects\obj_story_log</object>
