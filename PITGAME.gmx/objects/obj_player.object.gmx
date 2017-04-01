@@ -27,23 +27,39 @@
             <kind>1</kind>
             <string>///Initialize properties
 
+enum playerFSM { // finite state machine
+    STUN = 0,
+    NORMAL, // normal player control
+    PULL,
+    HANG,
+    PUNCH,
+    DEAD
+}
+
 depth = 0;
 
+hp = 5;
+iFrames = 60;
+iCounter = 0;
+isInvincible = 0; // boolean
+stunFrames = 0;
+stunCounter = 0;
+
 xVelocity = 0;
+xVelocityMax = 5;
+xAcceleration = 1;
+xFriction = 0.2;
 yVelocity = 0;
 yVelocityMax = 10;
-moveSpeed = 5;
 jumpSpeed = 7;
 grav = 0.2;
 
 grappleReach = 300;
 grappleSpeed = 10;
-grappleTo = noone;
+grappleToID = noone;
+grappleTo = undefined;
 
-hookshotSuccess = false;
-
-grappleClickX = 0;
-grappleClickY = 0;
+playerState = playerFSM.NORMAL;
 </string>
           </argument>
         </arguments>
@@ -66,106 +82,62 @@ grappleClickY = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Player movement and collisions
+            <string>/// Player FSM and upkeep
 
-//Get key input
-// _Key -&gt; down; _KeyH -&gt; held; _KeyR -&gt; released
+// Get player inputs
 leftKey = keyboard_check(vk_left);
 aKey = keyboard_check(ord('A'));
 rightKey = keyboard_check(vk_right);
 dKey = keyboard_check(ord('D'));
 upKey = keyboard_check(vk_up);
 wKey = keyboard_check(ord('W'));
+grappleKey = mouse_check_button(mb_left);
 
-show_debug_message('hookshotSuccess: ' + string(hookshotSuccess));
-show_debug_message('grappleTo: ' + string(grappleTo));
+moveDirection = max(dKey,rightKey) - max(aKey,leftKey);
+jumpKey = max(wKey, upKey);
 
-// Attempt grapple
-if (mouse_check_button(mb_left)){ 
-    if(!hookshotSuccess &amp;&amp; !place_meeting(mouse_x, mouse_y, obj_player)) {
-        theta = arctan2(mouse_y - y, mouse_x - x);
-        grappleReachX = x + grappleReach * cos(theta);
-        grappleReachY = y + grappleReach * sin(theta);
-        grappleTo = Raycast(x, y, grappleReachX, grappleReachY, obj_anchor, false, true);
-        
-        // If grappleTo exists, player can grapple to it
-        if(grappleTo != noone)
-            hookshotSuccess = true;
-            grappleClickX = mouse_x;
-            grappleClickY = mouse_y;
-    }  
-    
-    // Move player toward the grapple point
-    if(hookshotSuccess){
-        vx = (grappleClickX - x);
-        vy = (grappleClickY - y);
-            
-        lengthOfVector = sqrt(vx*vx + vy*vy);
-            
-        xVelocity = grappleSpeed * (vx/lengthOfVector);
-        yVelocity = grappleSpeed * (vy/lengthOfVector);
+// Upkeep
+if (isInvincible) {
+    iCounter++;
+    if (iCounter &gt;= iFrames) {
+        iCounter = 0;
+        isInvincible = 0;
     }
 }
-else {
-    hookshotSuccess = false;
-    grappleTo = noone;
+if (stunFrames &gt; 0) {
+    playerState = playerFSM.STUN;
 }
 
-show_debug_message('xVelocity: ' + string(xVelocity));
-show_debug_message('yVelocity: ' + string(yVelocity));
-
-//Interpret key input
-if (!hookshotSuccess) {
-    moveDirection = max(dKey,rightKey) - max(aKey,leftKey);
-    jumpKey = max(wKey, upKey);
-    xVelocity = moveDirection * moveSpeed;
-    if (yVelocity &lt; yVelocityMax)
-        yVelocity = min(yVelocity + grav, yVelocityMax);
-    if (place_meeting(x, y+1, obj_player_collide)) //Jump
-        yVelocity = -jumpKey * jumpSpeed;
-    if (yVelocity &lt; 0 &amp;&amp; (!jumpKey))
-        yVelocity = max(yVelocity, -jumpSpeed/4);
-}
-   
-//Collision handling
-if (place_meeting(x+xVelocity, y, obj_player_collide)) {
-   while (!place_meeting(x+sign(xVelocity), y, obj_player_collide))
-         x += sign(xVelocity);
-   xVelocity = 0;
-}
-if (place_meeting(x, y+yVelocity, obj_player_collide)) {
-   while (!place_meeting(x, y+sign(yVelocity), obj_player_collide))
-         y += sign(yVelocity);
-   yVelocity = 0;
+if (hp &lt;= 0) {
+   playerState = playerFSM.DEAD;
 }
 
-//Move player
-if (yVelocity &gt; yVelocityMax)
-   yVelocity = yVelocityMax;
-x += xVelocity;
-y += yVelocity;
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///Sprite handling
-image_xscale = sign(obj_player_arm.image_xscale) * abs(image_xscale);
+// State machine
+switch (playerState)
+{
+    case playerFSM.STUN:
+        PlayerStun();
+        break;
+    case playerFSM.NORMAL:
+        PlayerNormal();
+        break;
+    case playerFSM.PULL:
+        PlayerPull();
+        break;
+    case playerFSM.HANG:
+        PlayerHang();
+        break;
+    case playerFSM.DEAD:
+        PlayerDead();
+        break;
+};
+show_debug_message("state: " + string(playerState));
+
+// Movement and collision with walls
+HandleCollision(id, obj_env_collide);
+
+if (place_meeting(x,y,obj_env_collide)) // used to happen on corners
+    show_debug_message("oops"); // left for now in case something awful happens
 </string>
           </argument>
         </arguments>
@@ -191,28 +163,26 @@ image_xscale = sign(obj_player_arm.image_xscale) * abs(image_xscale);
             <string>/// Draw player and hookshot guide
 
 grappleReach = obj_player.grappleReach;
-hookshotSuccess = obj_player.hookshotSuccess;
 grappleTo = obj_player.grappleTo;
-
-grappleClickX = obj_player.grappleClickX;
-grappleClickY = obj_player.grappleClickY;
+playerState = obj_player.playerState;
 
 // Draw the player
 draw_self();
 
 if(mouse_check_button(mb_left)) {
-    // Draw a circleto indicate grapple range if click is out of range
-    if (!point_in_circle(mouse_x, mouse_y, x, y, grappleReach) || !hookshotSuccess) {
+    // Draw a circle to indicate grapple range if click is out of range
+    if (//!point_in_circle(mouse_x, mouse_y, x, y, grappleReach) ||
+        playerState == playerFSM.NORMAL) {
         draw_set_colour(c_red);
+        draw_set_circle_precision(48);
         draw_circle(x, y, grappleReach, true);
     }
-    // If grapple was successful, draw the grapple line
-    if (hookshotSuccess) {
-        draw_set_color(c_lime);
-        draw_line(x, y, grappleClickX, grappleClickY);
-        // does not accurately reflect the location being pulled to;
-        // a slightly more advanced calculation is required
-    }
+}
+
+// If grapple was successful, draw the grapple line
+if (playerState == playerFSM.PULL) {
+    draw_set_color(c_lime);
+    draw_line(x, y, grappleTo[0], grappleTo[1]);
 }
 </string>
           </argument>

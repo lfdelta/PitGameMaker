@@ -11,6 +11,7 @@
     <sprite>sprites\spr_player_arm</sprite>
     <sprite>sprites\spr_ball</sprite>
     <sprite>sprites\spr_16x_orange</sprite>
+    <sprite>sprites\spr_cleaner</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -18,14 +19,27 @@
     <script>scripts\GenerateGrappleAnchors_Simple.gml</script>
     <script>scripts\PointArmTo.gml</script>
     <script>scripts\Raycast.gml</script>
+    <script>scripts\RaycastToPoint.gml</script>
+    <script>scripts\IF.gml</script>
+    <script>scripts\Knockback.gml</script>
+    <scripts name="PlayerFSM">
+      <script>scripts\PlayerNormal.gml</script>
+      <script>scripts\PlayerPull.gml</script>
+      <script>scripts\PlayerHang.gml</script>
+      <script>scripts\PlayerDead.gml</script>
+      <script>scripts\PlayerStun.gml</script>
+    </scripts>
+    <script>scripts\HandleCollision.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\obj_player</object>
     <object>objects\obj_player_arm</object>
-    <object>objects\obj_player_collide</object>
+    <object>objects\obj_env_collide</object>
     <object>objects\obj_wall</object>
-    <object>objects\obj_sinusoid</object>
     <object>objects\obj_anchor</object>
+    <object>objects\obj_cleaner</object>
+    <object>objects\obj_enemy</object>
+    <object>objects\obj_env_and_enemies</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\Demo_Room</room>
