@@ -12,15 +12,28 @@ if (yVelocity < 0 && !jumpKey)
     yVelocity = max(yVelocity, -jumpSpeed/4);
 
 // Attempt grapple -> transition into PULL state
+// Give enemy attacks precedence over grappling because attacking when one intends
+// to grapple is less costly than the other way around, since grappling takes away
+// player control for some time.
 if (grappleKey) {
     theta = arctan2(mouse_y - y, mouse_x - x);
     grappleReachX = x + grappleReach * cos(theta);
     grappleReachY = y + grappleReach * sin(theta);
+
+    if (grappleKey_P) {
+        grappleAtkID = Raycast(x, y, grappleReachX, grappleReachY, obj_enemy, false, true);
+        if(grappleAtkID != noone) {
+            grappleAtkID.hp -= grappleDmg;
+            show_debug_message("hit "+string(grappleAtkID)+": "+string(grappleAtkID.hp));
+        }
+    }    
+        
     grappleToID = Raycast(x, y, grappleReachX, grappleReachY, obj_env_collide, false, true);
     grappleTo = RaycastToPoint(x, y, grappleReachX, grappleReachY, obj_anchor, false, true);
         
-    // If grappleTo exists, player can grapple to it
-    if(!is_undefined(grappleTo[0])) {
+    // If no enemy is in the way and grappleTo exists, player can grapple to it
+    if(grappleAtkID == noone && !is_undefined(grappleTo[0])) {
+        show_debug_message(grappleAtkID);
         // Move player toward the grapple point
         vx = grappleTo[0] - x;
         vy = grappleTo[1] - y;

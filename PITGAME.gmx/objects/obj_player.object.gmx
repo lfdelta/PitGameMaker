@@ -55,6 +55,10 @@ jumpSpeed = 7;
 grav = 0.2;
 
 grappleReach = 300;
+
+grappleDmg = 1;
+grappleAtkID = noone;
+
 grappleSpeed = 10;
 grappleToID = noone;
 grappleTo = undefined;
@@ -92,6 +96,7 @@ dKey = keyboard_check(ord('D'));
 upKey = keyboard_check(vk_up);
 wKey = keyboard_check(ord('W'));
 grappleKey = mouse_check_button(mb_left);
+grappleKey_P = mouse_check_button_pressed(mb_left);
 
 moveDirection = max(dKey,rightKey) - max(aKey,leftKey);
 jumpKey = max(wKey, upKey);
@@ -131,7 +136,7 @@ switch (playerState)
         PlayerDead();
         break;
 };
-show_debug_message("state: " + string(playerState));
+//show_debug_message("state: " + string(playerState));
 
 // Movement and collision with walls
 HandleCollision(id, obj_env_collide);
