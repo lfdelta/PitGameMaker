@@ -13,6 +13,7 @@
     <sprite>sprites\spr_ball</sprite>
     <sprite>sprites\spr_16x_orange</sprite>
     <sprite>sprites\spr_cleaner</sprite>
+    <sprite>sprites\spr_follower</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -44,6 +45,7 @@
     <object>objects\obj_wall</object>
     <object>objects\obj_anchor</object>
     <object>objects\obj_cleaner</object>
+    <object>objects\obj_follower</object>
     <object>objects\obj_enemy</object>
     <object>objects\obj_env_and_enemies</object>
   </objects>
