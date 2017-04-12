@@ -5,6 +5,11 @@ Name
 1. Enumerated list of edits made
 2. Place most recent logs above older ones
 
+### 04/12/2017 ###
+James Zhou
+1. Added basic follower enemy (minRange starts following, maxRange stops following, when not following has set movement pattern).
+
+Still figuring out how Git works so bear with this.
 
 
 ### 3/30/2017 ###
