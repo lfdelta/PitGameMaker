@@ -11,7 +11,6 @@ if (grounded)
 if (yVelocity < 0 && !jumpKey)
     yVelocity = max(yVelocity, -jumpSpeed/4);
 
-// Attempt grapple -> transition into PULL state
 // Give enemy attacks precedence over grappling because attacking when one intends
 // to grapple is less costly than the other way around, since grappling takes away
 // player control for some time.
@@ -19,21 +18,26 @@ if (grappleKey) {
     theta = arctan2(mouse_y - y, mouse_x - x);
     grappleReachX = x + grappleReach * cos(theta);
     grappleReachY = y + grappleReach * sin(theta);
-
-    if (grappleKey_P) {
-        grappleAtkID = Raycast(x, y, grappleReachX, grappleReachY, obj_enemy, false, true);
-        if(grappleAtkID != noone) {
-            grappleAtkID.hp -= grappleDmg;
-            show_debug_message("hit "+string(grappleAtkID)+": "+string(grappleAtkID.hp));
-        }
-    }    
-        
+    grappleAtkID = Raycast(x, y, grappleReachX, grappleReachY, obj_enemy, false, true);
     grappleToID = Raycast(x, y, grappleReachX, grappleReachY, obj_env_collide, false, true);
     grappleTo = RaycastToPoint(x, y, grappleReachX, grappleReachY, obj_anchor, false, true);
-        
-    // If no enemy is in the way and grappleTo exists, player can grapple to it
-    if(grappleAtkID == noone && !is_undefined(grappleTo[0])) {
-        show_debug_message(grappleAtkID);
+    
+    // Damage enemy within reach, but only if there is no environment in the way
+    if (grappleKey_P) {
+        didHit = 0;
+        if (grappleAtkID != noone &&
+            grappleAtkID == Raycast(x, y, grappleReachX, grappleReachY,
+                                    obj_env_and_enemies, false, true)) {
+            grappleAtkID.hp -= grappleDmg;
+            didHit = 1;
+            show_debug_message("hit "+string(grappleAtkID)+": "+string(grappleAtkID.hp));
+        }
+    }
+    show_debug_message(didHit);
+    
+    // If no enemy was hit and grappleTo exists, player can grapple to it
+    if(!didHit && !is_undefined(grappleTo[0])) {
+        //show_debug_message(grappleAtkID);
         // Move player toward the grapple point
         vx = grappleTo[0] - x;
         vy = grappleTo[1] - y;
