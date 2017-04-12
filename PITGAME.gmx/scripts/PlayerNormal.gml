@@ -15,32 +15,33 @@ if (yVelocity < 0 && !jumpKey)
 // to grapple is less costly than the other way around, since grappling takes away
 // player control for some time.
 if (grappleKey) {
-    theta = arctan2(mouse_y - y, mouse_x - x);
+    theta = arctan2(mouse_y - (y+ySprOffset), mouse_x - x);
     grappleReachX = x + grappleReach * cos(theta);
     grappleReachY = y + grappleReach * sin(theta);
-    grappleAtkID = Raycast(x, y, grappleReachX, grappleReachY, obj_enemy, false, true);
-    grappleToID = Raycast(x, y, grappleReachX, grappleReachY, obj_env_collide, false, true);
-    grappleTo = RaycastToPoint(x, y, grappleReachX, grappleReachY, obj_anchor, false, true);
+    grappleAtkID = Raycast(x, y+ySprOffset, grappleReachX, grappleReachY, obj_enemy, false, true);
+    grappleToID = Raycast(x, y+ySprOffset, grappleReachX, grappleReachY, obj_env_collide, false, true);
+    grappleTo = RaycastToPoint(x, y+ySprOffset, grappleReachX, grappleReachY, obj_anchor, false, true);
     
     // Damage enemy within reach, but only if there is no environment in the way
     if (grappleKey_P) {
+        // didHit exists because grappleAtkID has shenanigans when enemies are killed
         didHit = 0;
         if (grappleAtkID != noone &&
-            grappleAtkID == Raycast(x, y, grappleReachX, grappleReachY,
+            grappleAtkID == Raycast(x, y+ySprOffset, grappleReachX, grappleReachY,
                                     obj_env_and_enemies, false, true)) {
-            grappleAtkID.hp -= grappleDmg;
             didHit = 1;
+            grappleAtkX = grappleAtkID.x;
+            grappleAtkY = grappleAtkID.y;
+            grappleAtkID.hp -= grappleDmg;
             show_debug_message("hit "+string(grappleAtkID)+": "+string(grappleAtkID.hp));
         }
     }
-    show_debug_message(didHit);
     
     // If no enemy was hit and grappleTo exists, player can grapple to it
     if(!didHit && !is_undefined(grappleTo[0])) {
-        //show_debug_message(grappleAtkID);
         // Move player toward the grapple point
         vx = grappleTo[0] - x;
-        vy = grappleTo[1] - y;
+        vy = grappleTo[1] - (y+ySprOffset);
 
         lengthOfVector = sqrt(vx*vx + vy*vy);
     

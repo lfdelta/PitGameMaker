@@ -7,6 +7,14 @@ Name
 
 
 
+### 4/11/2017 ###
+1. updated sprites branch to include story_log content previously merged into master
+2. shifted player sprite origins to the bottom of each sprite
+3. replaced basically every "y" with a "y+ySprOffset" so that raycast and draw calls are calculated from the player's shoulder height rather than from their feet
+4. changed room view size too 800x600; window is no longer stretched disproportionately
+5. added basic player attack (whip/laser) by using grapple button on enemies. this was not implemented very efficiently (~4 raycasts per click, lots of branching) BUT player cannot attack through walls and will either attack or grapple, never both
+
+
 ### 4/1/2017 ###
 Luca Frez-Albrecht
 1. created branch "sprites"; all changes denoted here exist on this branch

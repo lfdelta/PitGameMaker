@@ -45,6 +45,8 @@ isInvincible = 0; // boolean
 stunFrames = 0;
 stunCounter = 0;
 
+ySprOffset = -23; // distance from origin to shoulder
+
 xVelocity = 0;
 xVelocityMax = 5;
 xAcceleration = 1;
@@ -55,10 +57,8 @@ jumpSpeed = 7;
 grav = 0.2;
 
 grappleReach = 300;
-
 grappleDmg = 1;
 grappleAtkID = noone;
-
 grappleSpeed = 10;
 grappleToID = noone;
 grappleTo = undefined;
@@ -174,20 +174,24 @@ playerState = obj_player.playerState;
 // Draw the player
 draw_self();
 
-if(mouse_check_button(mb_left)) {
-    // Draw a circle to indicate grapple range if click is out of range
-    if (//!point_in_circle(mouse_x, mouse_y, x, y, grappleReach) ||
-        playerState == playerFSM.NORMAL) {
+if (grappleKey &amp;&amp; playerState == playerFSM.NORMAL) {
+    if (grappleKey_P &amp;&amp; didHit) {
+        // draw a line to enemy if attacked
+        draw_set_colour(c_aqua);
+        draw_line(x, y+ySprOffset, grappleAtkX, grappleAtkY);
+    } else {
+        // Draw a circle to indicate grapple range
         draw_set_colour(c_red);
         draw_set_circle_precision(48);
-        draw_circle(x, y, grappleReach, true);
+        draw_circle(x, y+ySprOffset, grappleReach, true);
     }
 }
 
 // If grapple was successful, draw the grapple line
 if (playerState == playerFSM.PULL) {
     draw_set_color(c_lime);
-    draw_line(x, y, grappleTo[0], grappleTo[1]);
+    // y-20 to approximate player sprite center (origin is at bottom)
+    draw_line(x, y+ySprOffset, grappleTo[0], grappleTo[1]);
 }
 </string>
           </argument>
