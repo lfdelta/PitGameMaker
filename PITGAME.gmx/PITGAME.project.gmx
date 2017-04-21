@@ -60,6 +60,7 @@
     <object>objects\obj_enemy</object>
     <object>objects\obj_env_and_enemies</object>
     <object>objects\obj_dirt</object>
+    <object>objects\obj_acid</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\Demo2</room>
