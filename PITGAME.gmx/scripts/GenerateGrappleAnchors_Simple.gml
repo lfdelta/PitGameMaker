@@ -6,7 +6,7 @@ with (obj_env_collide) {
      up = place_meeting(x, y-1, obj_env_collide);
      down = place_meeting(x, y+1, obj_env_collide);
      if (!(left && right && up && down))
-         instance_create(x-8, y-8, obj_anchor);
+         instance_create(x, y, obj_anchor);
 }
 
 show_debug_message(string(instance_number(obj_anchor)) + " anchors generated.");

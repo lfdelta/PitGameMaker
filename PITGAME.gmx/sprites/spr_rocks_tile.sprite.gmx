@@ -20,6 +20,14 @@
   <width>16</width>
   <height>16</height>
   <frames>
-    <frame index="0">images\spr_16x_orange_0.png</frame>
+    <frame index="0">images\spr_rocks_tile_0.png</frame>
+    <frame index="1">images\spr_rocks_tile_1.png</frame>
+    <frame index="2">images\spr_rocks_tile_2.png</frame>
+    <frame index="3">images\spr_rocks_tile_3.png</frame>
+    <frame index="4">images\spr_rocks_tile_4.png</frame>
+    <frame index="5">images\spr_rocks_tile_5.png</frame>
+    <frame index="6">images\spr_rocks_tile_6.png</frame>
+    <frame index="7">images\spr_rocks_tile_7.png</frame>
+    <frame index="8">images\spr_rocks_tile_8.png</frame>
   </frames>
 </sprite>

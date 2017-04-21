@@ -20,6 +20,8 @@
   <width>16</width>
   <height>16</height>
   <frames>
-    <frame index="0">images\spr_16x_orange_0.png</frame>
+    <frame index="0">images\spr_grass_tile_0.png</frame>
+    <frame index="1">images\spr_grass_tile_1.png</frame>
+    <frame index="2">images\spr_grass_tile_2.png</frame>
   </frames>
 </sprite>
