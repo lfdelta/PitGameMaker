@@ -44,6 +44,7 @@
     </scripts>
     <script>scripts\HandleCollision.gml</script>
     <script>scripts\draw_text_with_outline.gml</script>
+    <script>scripts\GenerateDirtSprites.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fnt_story_log</font>
@@ -58,8 +59,10 @@
     <object>objects\obj_cleaner</object>
     <object>objects\obj_enemy</object>
     <object>objects\obj_env_and_enemies</object>
+    <object>objects\obj_dirt</object>
   </objects>
   <rooms name="rooms">
+    <room>rooms\Demo2</room>
     <room>rooms\Demo_Room</room>
   </rooms>
   <help>
