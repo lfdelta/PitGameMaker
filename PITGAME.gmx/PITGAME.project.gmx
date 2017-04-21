@@ -29,7 +29,12 @@
   <backgrounds name="background"/>
   <paths name="paths"/>
   <scripts name="scripts">
-    <script>scripts\GenerateGrappleAnchors_Simple.gml</script>
+    <scripts name="Room Prep">
+      <script>scripts\GenerateGrappleAnchors_Simple.gml</script>
+      <script>scripts\GenerateDirtSprites.gml</script>
+      <script>scripts\GenerateAcidFill.gml</script>
+      <script>scripts\GenerateAll.gml</script>
+    </scripts>
     <script>scripts\PointArmTo.gml</script>
     <script>scripts\Raycast.gml</script>
     <script>scripts\RaycastToPoint.gml</script>
@@ -44,7 +49,6 @@
     </scripts>
     <script>scripts\HandleCollision.gml</script>
     <script>scripts\draw_text_with_outline.gml</script>
-    <script>scripts\GenerateDirtSprites.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fnt_story_log</font>

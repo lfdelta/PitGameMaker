@@ -7,7 +7,19 @@ Name
 
 
 
+### 4/21/2017 ###
+Luca Frez-Albrecht
+1. added sprites for environment tiles, including acid
+2. created obj_dirt, a new environment object
+3. new script to randomly assign rock sprites and to generate grass on topside dirt tiles
+4. created obj_acid which damages player upon contact
+5. new script to auto-generate pools of acid (the developers must define the top line and the pool will fill in below it)
+6. created Demo2 room to test above functionality and to offer another space to play around in
+
+
+
 ### 4/11/2017 ###
+(Allison Kramer)
 1. updated sprites branch to include story_log content previously merged into master
 2. shifted player sprite origins to the bottom of each sprite
 3. replaced basically every "y" with a "y+ySprOffset" so that raycast and draw calls are calculated from the player's shoulder height rather than from their feet
