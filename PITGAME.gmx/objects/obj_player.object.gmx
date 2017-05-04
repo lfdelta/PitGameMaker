@@ -45,7 +45,7 @@ isInvincible = 0; // boolean
 stunFrames = 0;
 stunCounter = 0;
 
-ySprOffset = -23; // distance from origin to shoulder
+ySprOffset = -22; // distance from origin to shoulder
 
 xVelocity = 0;
 xVelocityMax = 5;
