@@ -25,6 +25,7 @@
     <sprite>sprites\spr_acid_stripes_b</sprite>
     <sprite>sprites\spr_acid_diag</sprite>
     <sprite>sprites\spr_acid_diag_b</sprite>
+    <sprite>sprites\spr_cross</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -49,6 +50,8 @@
     </scripts>
     <script>scripts\HandleCollision.gml</script>
     <script>scripts\draw_text_with_outline.gml</script>
+    <script>scripts\DrawButton.gml</script>
+    <script>scripts\ButtonTest.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fnt_story_log</font>
@@ -56,6 +59,7 @@
   <objects name="objects">
     <object>objects\obj_player</object>
     <object>objects\obj_story_log</object>
+    <object>objects\obj_button</object>
     <object>objects\obj_player_arm</object>
     <object>objects\obj_env_collide</object>
     <object>objects\obj_wall</object>
@@ -67,6 +71,7 @@
     <object>objects\obj_acid</object>
   </objects>
   <rooms name="rooms">
+    <room>rooms\Menu</room>
     <room>rooms\Demo2</room>
     <room>rooms\Demo_Room</room>
   </rooms>
