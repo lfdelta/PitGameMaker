@@ -26,6 +26,7 @@
     <sprite>sprites\spr_acid_diag</sprite>
     <sprite>sprites\spr_acid_diag_b</sprite>
     <sprite>sprites\spr_cross</sprite>
+    <sprite>sprites\spr_room_trigger</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -36,11 +37,12 @@
       <script>scripts\GenerateAcidFill.gml</script>
       <script>scripts\GenerateAll.gml</script>
     </scripts>
-    <script>scripts\PointArmTo.gml</script>
-    <script>scripts\Raycast.gml</script>
-    <script>scripts\RaycastToPoint.gml</script>
-    <script>scripts\IF.gml</script>
-    <script>scripts\Knockback.gml</script>
+    <scripts name="Buttons">
+      <script>scripts\DrawButton.gml</script>
+      <script>scripts\ButtonTest.gml</script>
+      <script>scripts\ExitGame.gml</script>
+      <script>scripts\FirstRoom.gml</script>
+    </scripts>
     <scripts name="PlayerFSM">
       <script>scripts\PlayerNormal.gml</script>
       <script>scripts\PlayerPull.gml</script>
@@ -48,10 +50,13 @@
       <script>scripts\PlayerDead.gml</script>
       <script>scripts\PlayerStun.gml</script>
     </scripts>
+    <script>scripts\PointArmTo.gml</script>
+    <script>scripts\Raycast.gml</script>
+    <script>scripts\RaycastToPoint.gml</script>
+    <script>scripts\IF.gml</script>
+    <script>scripts\Knockback.gml</script>
     <script>scripts\HandleCollision.gml</script>
     <script>scripts\draw_text_with_outline.gml</script>
-    <script>scripts\DrawButton.gml</script>
-    <script>scripts\ButtonTest.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fnt_story_log</font>
@@ -69,11 +74,12 @@
     <object>objects\obj_env_and_enemies</object>
     <object>objects\obj_dirt</object>
     <object>objects\obj_acid</object>
+    <object>objects\obj_room_trigger</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\Menu</room>
-    <room>rooms\Demo2</room>
     <room>rooms\Demo_Room</room>
+    <room>rooms\Demo2</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>

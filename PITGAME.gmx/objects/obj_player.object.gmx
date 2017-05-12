@@ -55,13 +55,13 @@ yVelocity = 0;
 yVelocityMax = 10;
 jumpSpeed = 7;
 grav = 0.2;
-
 grappleReach = 300;
 grappleDmg = 1;
 grappleAtkID = noone;
 grappleSpeed = 10;
 grappleToID = noone;
 grappleTo = undefined;
+didHit = 0;
 
 playerState = playerFSM.NORMAL;
 </string>

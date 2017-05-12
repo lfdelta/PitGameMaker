@@ -16,9 +16,9 @@
   <clearDisplayBuffer>-1</clearDisplayBuffer>
   <makerSettings>
     <isSet>-1</isSet>
-    <w>1008</w>
+    <w>968</w>
     <h>600</h>
-    <showGrid>0</showGrid>
+    <showGrid>-1</showGrid>
     <showObjects>-1</showObjects>
     <showTiles>-1</showTiles>
     <showBackgrounds>-1</showBackgrounds>
@@ -26,9 +26,9 @@
     <showViews>0</showViews>
     <deleteUnderlyingObj>0</deleteUnderlyingObj>
     <deleteUnderlyingTiles>-1</deleteUnderlyingTiles>
-    <page>1</page>
-    <xoffset>-50</xoffset>
-    <yoffset>-13</yoffset>
+    <page>0</page>
+    <xoffset>-5</xoffset>
+    <yoffset>-30</yoffset>
   </makerSettings>
   <backgrounds>
     <background visible="0" foreground="0" name="" x="0" y="0" htiled="-1" vtiled="-1" hspeed="0" vspeed="0" stretch="0"/>
@@ -52,6 +52,8 @@
   </views>
   <instances>
     <instance objName="obj_button" x="400" y="80" name="inst_3CA508B2" locked="0" code="width = 200;&#xA;height = 20;&#xA;str = &quot;THIS IS A TEST&quot;;&#xA;script = &quot;ButtonTest&quot;;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_button" x="400" y="400" name="inst_DDEA19F9" locked="0" code="width = 200;&#xA;height = 80;&#xA;str = &quot;Exit&quot;;&#xA;script = &quot;ExitGame&quot;;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_button" x="400" y="208" name="inst_E225AB34" locked="0" code="width = 200;&#xA;height = 80;&#xA;str = &quot;Start&quot;;&#xA;script = &quot;FirstRoom&quot;;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>
