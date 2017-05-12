@@ -7,6 +7,15 @@ Name
 
 
 
+### 5/11/2017 ###
+Luca Frez-Albrecht
+1. some small progress toward making the grapple end appropriately instead of as soon as any collision occurs. there are some bugs associated with this, ie flying infinitely sometimes
+2. created a "Menu" room, furnished with multiple pretty-ish buttons
+3. obj_button will execute a named script (requires a wrapper for built-in functions) when clicked upon
+4. obj_room_trigger will transition to a named room upon player collision
+
+
+
 ### 4/21/2017 ###
 Luca Frez-Albrecht
 1. added sprites for environment tiles, including acid
