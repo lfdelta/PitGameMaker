@@ -13,11 +13,28 @@
     <sprite>sprites\spr_ball</sprite>
     <sprite>sprites\spr_16x_orange</sprite>
     <sprite>sprites\spr_cleaner</sprite>
+    <sprite>sprites\spr_player_idle</sprite>
+    <sprite>sprites\spr_player_jump</sprite>
+    <sprite>sprites\spr_player_fall</sprite>
+    <sprite>sprites\spr_player_stun</sprite>
+    <sprite>sprites\spr_player_run</sprite>
+    <sprite>sprites\spr_dirt_tile</sprite>
+    <sprite>sprites\spr_grass_tile</sprite>
+    <sprite>sprites\spr_rocks_tile</sprite>
+    <sprite>sprites\spr_acid_stripes</sprite>
+    <sprite>sprites\spr_acid_stripes_b</sprite>
+    <sprite>sprites\spr_acid_diag</sprite>
+    <sprite>sprites\spr_acid_diag_b</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
   <scripts name="scripts">
-    <script>scripts\GenerateGrappleAnchors_Simple.gml</script>
+    <scripts name="Room Prep">
+      <script>scripts\GenerateGrappleAnchors_Simple.gml</script>
+      <script>scripts\GenerateDirtSprites.gml</script>
+      <script>scripts\GenerateAcidFill.gml</script>
+      <script>scripts\GenerateAll.gml</script>
+    </scripts>
     <script>scripts\PointArmTo.gml</script>
     <script>scripts\Raycast.gml</script>
     <script>scripts\RaycastToPoint.gml</script>
@@ -46,8 +63,11 @@
     <object>objects\obj_cleaner</object>
     <object>objects\obj_enemy</object>
     <object>objects\obj_env_and_enemies</object>
+    <object>objects\obj_dirt</object>
+    <object>objects\obj_acid</object>
   </objects>
   <rooms name="rooms">
+    <room>rooms\Demo2</room>
     <room>rooms\Demo_Room</room>
   </rooms>
   <help>
