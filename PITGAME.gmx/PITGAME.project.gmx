@@ -52,9 +52,7 @@
     </scripts>
     <scripts name="Buttons">
       <script>scripts\DrawButton.gml</script>
-      <script>scripts\ButtonTest.gml</script>
       <script>scripts\ExitGame.gml</script>
-      <script>scripts\FirstRoom.gml</script>
     </scripts>
     <scripts name="PlayerFSM">
       <script>scripts\PlayerNormal.gml</script>
@@ -78,6 +76,7 @@
     <object>objects\obj_player</object>
     <object>objects\obj_story_log</object>
     <object>objects\obj_button</object>
+    <object>objects\obj_nav_button</object>
     <object>objects\obj_player_arm</object>
     <object>objects\obj_env_collide</object>
     <object>objects\obj_wall</object>
@@ -93,6 +92,7 @@
     <room>rooms\Menu</room>
     <room>rooms\Demo_Room</room>
     <room>rooms\Demo2</room>
+    <room>rooms\About</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>
