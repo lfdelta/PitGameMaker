@@ -27,7 +27,9 @@
             <kind>1</kind>
             <string>/// Initialize shader
 
-uni_resolution_hoz = shader_get_uniform(shd_gaussian_horizontal,"resolution");
+global.paused = false;
+
+/*uni_resolution_hoz = shader_get_uniform(shd_gaussian_horizontal,"resolution");
 uni_resolution_vert = shader_get_uniform(shd_gaussian_vertical,"resolution");
 var_resolution_x = display_get_gui_width();
 var_resolution_y = display_get_gui_height();
@@ -41,7 +43,7 @@ final_surface = surface_create(var_resolution_x,var_resolution_y);
 
 surf = surface_create(var_resolution_x, var_resolution_y);
 
-//view_surface_id[0] = surf;
+view_surface_id[0] = surf;*/
 </string>
           </argument>
         </arguments>
