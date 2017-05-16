@@ -25,9 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Initialize shader
+            <string>/// Initialize pause
 
-global.paused = false;
+paused = false;
 
 /*uni_resolution_hoz = shader_get_uniform(shd_gaussian_horizontal,"resolution");
 uni_resolution_vert = shader_get_uniform(shd_gaussian_vertical,"resolution");
@@ -70,8 +70,9 @@ view_surface_id[0] = surf;*/
 
 pauseButton = keyboard_check_pressed(vk_enter);
 
-if(pauseButton &amp;&amp; !global.paused) {
-    global.paused = true;
+if(pauseButton &amp;&amp; !paused) {
+    paused = true;
+    instance_deactivate_all(true);
     
     /*shader_enabled = true;
     
@@ -91,10 +92,10 @@ if(pauseButton &amp;&amp; !global.paused) {
     show_debug_message("Drawing!");
     */
 }
-else if(pauseButton &amp;&amp; global.paused){
-    show_debug_message("Unpaused!");
+else if(pauseButton &amp;&amp; paused){
+    paused = false;
+    instance_activate_all();
     
-    global.paused = false;
     /*shader_enabled = false;
     
     room_goto(global.RoomBeforePause);
@@ -126,7 +127,7 @@ else if(pauseButton &amp;&amp; global.paused){
             <kind>1</kind>
             <string>/// Draw menu
 
-if(global.paused) {
+if(paused) {
     show_debug_message(view_current);
     
     draw_set_font(fnt_story_log);

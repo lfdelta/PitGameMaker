@@ -68,8 +68,8 @@
     <object>objects\obj_pause</object>
   </objects>
   <rooms name="rooms">
-    <room>rooms\Demo2</room>
     <room>rooms\Demo_Room</room>
+    <room>rooms\Demo2</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>
