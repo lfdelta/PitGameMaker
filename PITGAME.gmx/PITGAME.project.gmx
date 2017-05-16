@@ -75,6 +75,7 @@
   <objects name="objects">
     <object>objects\obj_player</object>
     <object>objects\obj_story_log</object>
+    <object>objects\obj_text</object>
     <object>objects\obj_button</object>
     <object>objects\obj_nav_button</object>
     <object>objects\obj_player_arm</object>
