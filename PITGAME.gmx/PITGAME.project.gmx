@@ -8,15 +8,15 @@
     <sound>sound\bgm</sound>
   </sounds>
   <sprites name="sprites">
-    <sprites name="Player">
-      <sprite>sprites\spr_player_idle</sprite>
-      <sprite>sprites\spr_player_jump</sprite>
-      <sprite>sprites\spr_player_fall</sprite>
-      <sprite>sprites\spr_player_stun</sprite>
-      <sprite>sprites\spr_player_run</sprite>
-      <sprite>sprites\spr_player_hang</sprite>
-      <sprite>sprites\spr_player_hangwall</sprite>
-      <sprite>sprites\spr_player_pull</sprite>
+    <sprites name="PlayerOld">
+      <sprite>sprites\_spr_player_idle</sprite>
+      <sprite>sprites\_spr_player_jump</sprite>
+      <sprite>sprites\_spr_player_fall</sprite>
+      <sprite>sprites\_spr_player_stun</sprite>
+      <sprite>sprites\_spr_player_run</sprite>
+      <sprite>sprites\_spr_player_hang</sprite>
+      <sprite>sprites\_spr_player_hangwall</sprite>
+      <sprite>sprites\_spr_player_pull</sprite>
     </sprites>
     <sprites name="Environment">
       <sprite>sprites\spr_dirt_tile</sprite>
@@ -40,6 +40,17 @@
       <sprite>sprites\spr_player_arm</sprite>
       <sprite>sprites\spr_ball</sprite>
     </sprites>
+    <sprite>sprites\spr_player_fall</sprite>
+    <sprite>sprites\spr_player_hang</sprite>
+    <sprite>sprites\spr_player_hangwall</sprite>
+    <sprite>sprites\spr_player_idle</sprite>
+    <sprite>sprites\spr_player_jump</sprite>
+    <sprite>sprites\spr_player_pull</sprite>
+    <sprite>sprites\spr_player_run</sprite>
+    <sprite>sprites\spr_player_stun</sprite>
+    <sprite>sprites\spr_player_hitbox</sprite>
+    <sprite>sprites\spr_hangwall_hitbox</sprite>
+    <sprite>sprites\spr_pull_hitbox</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
