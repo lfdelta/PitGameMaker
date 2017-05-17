@@ -51,6 +51,7 @@
     <sprite>sprites\spr_player_hitbox</sprite>
     <sprite>sprites\spr_hangwall_hitbox</sprite>
     <sprite>sprites\spr_pull_hitbox</sprite>
+    <sprite>sprites\spr_heart</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>

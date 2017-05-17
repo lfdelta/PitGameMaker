@@ -45,7 +45,7 @@ isInvincible = 0; // boolean
 stunFrames = 0;
 stunCounter = 0;
 
-ySprOffset = -22; // distance from origin to shoulder
+ySprOffset = -5; // distance from origin to shoulder
 
 xVelocity = 0;
 xVelocityMax = 5;
@@ -143,6 +143,36 @@ HandleCollision(id, obj_env_collide);
 
 if (place_meeting(x,y,obj_env_collide)) // used to happen on corners
     show_debug_message("oops"); // left for now in case something awful happens
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="64">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Draw health
+
+hpind = IF(isInvincible, 2, 0);
+
+for (i = 0; i &lt; hp; i++)
+    draw_sprite(spr_heart, hpind,
+                view_xport[0] + i * (sprite_get_width(spr_heart) + 5) + 5,
+                view_yport[0] + 5);
 </string>
           </argument>
         </arguments>
