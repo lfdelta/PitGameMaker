@@ -7,6 +7,25 @@ Name
 
 
 
+### 5/12 - 5/17 ###
+Luca Frez-Albrecht
+1. "about" page added in the form of a room
+2. obj_nav_button takes a room name as a variable and enters that room when clicked
+3. added some new player sprites for hanging and pull states
+4. replaced all player sprites with newly-aligned versions, including a single custom hitbox which works reasonably well for every sprite
+5. added spr_heart and implemented a visualization for player health using the GUI
+
+
+
+### 5/11/2017 ###
+Luca Frez-Albrecht
+1. some small progress toward making the grapple end appropriately instead of as soon as any collision occurs. there are some bugs associated with this, ie flying infinitely sometimes
+2. created a "Menu" room, furnished with multiple pretty-ish buttons
+3. obj_button will execute a named script (requires a wrapper for built-in functions) when clicked upon
+4. obj_room_trigger will transition to a named room upon player collision
+
+
+
 ### 4/21/2017 ###
 Luca Frez-Albrecht
 1. added sprites for environment tiles, including acid

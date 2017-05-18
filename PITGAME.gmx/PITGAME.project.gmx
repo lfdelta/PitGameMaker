@@ -4,27 +4,56 @@
     <Config>Configs\Default</Config>
   </Configs>
   <NewExtensions/>
-  <sounds name="sound"/>
+  <sounds name="sound">
+    <sound>sound\bgm</sound>
+  </sounds>
   <sprites name="sprites">
-    <sprite>sprites\spr_player</sprite>
-    <sprite>sprites\spr_16x_black</sprite>
-    <sprite>sprites\spr_player_arm</sprite>
-    <sprite>sprites\spr_story_log</sprite>
-    <sprite>sprites\spr_ball</sprite>
-    <sprite>sprites\spr_16x_orange</sprite>
-    <sprite>sprites\spr_cleaner</sprite>
-    <sprite>sprites\spr_player_idle</sprite>
-    <sprite>sprites\spr_player_jump</sprite>
-    <sprite>sprites\spr_player_fall</sprite>
-    <sprite>sprites\spr_player_stun</sprite>
-    <sprite>sprites\spr_player_run</sprite>
-    <sprite>sprites\spr_dirt_tile</sprite>
-    <sprite>sprites\spr_grass_tile</sprite>
-    <sprite>sprites\spr_rocks_tile</sprite>
-    <sprite>sprites\spr_acid_stripes</sprite>
-    <sprite>sprites\spr_acid_stripes_b</sprite>
-    <sprite>sprites\spr_acid_diag</sprite>
-    <sprite>sprites\spr_acid_diag_b</sprite>
+    <sprites name="PlayerOld">
+      <sprite>sprites\_spr_player_idle</sprite>
+      <sprite>sprites\_spr_player_jump</sprite>
+      <sprite>sprites\_spr_player_fall</sprite>
+      <sprite>sprites\_spr_player_stun</sprite>
+      <sprite>sprites\_spr_player_run</sprite>
+      <sprite>sprites\_spr_player_hang</sprite>
+      <sprite>sprites\_spr_player_hangwall</sprite>
+      <sprite>sprites\_spr_player_pull</sprite>
+    </sprites>
+    <sprites name="Environment">
+      <sprite>sprites\spr_dirt_tile</sprite>
+      <sprite>sprites\spr_grass_tile</sprite>
+      <sprite>sprites\spr_rocks_tile</sprite>
+      <sprite>sprites\spr_acid_stripes</sprite>
+      <sprite>sprites\spr_acid_stripes_b</sprite>
+      <sprite>sprites\spr_acid_diag</sprite>
+      <sprite>sprites\spr_acid_diag_b</sprite>
+    </sprites>
+    <sprites name="Misc">
+      <sprite>sprites\spr_16x_black</sprite>
+      <sprite>sprites\spr_16x_orange</sprite>
+      <sprite>sprites\spr_cleaner</sprite>
+      <sprite>sprites\spr_story_log</sprite>
+      <sprite>sprites\spr_cross</sprite>
+      <sprite>sprites\spr_room_trigger</sprite>
+    </sprites>
+    <sprites name="Junk">
+      <sprite>sprites\spr_player</sprite>
+      <sprite>sprites\spr_player_arm</sprite>
+      <sprite>sprites\spr_ball</sprite>
+    </sprites>
+    <sprites name="Player">
+      <sprite>sprites\spr_player_fall</sprite>
+      <sprite>sprites\spr_player_hang</sprite>
+      <sprite>sprites\spr_player_hangwall</sprite>
+      <sprite>sprites\spr_player_idle</sprite>
+      <sprite>sprites\spr_player_jump</sprite>
+      <sprite>sprites\spr_player_pull</sprite>
+      <sprite>sprites\spr_player_run</sprite>
+      <sprite>sprites\spr_player_stun</sprite>
+      <sprite>sprites\spr_player_hitbox</sprite>
+      <sprite>sprites\spr_hangwall_hitbox</sprite>
+      <sprite>sprites\spr_pull_hitbox</sprite>
+      <sprite>sprites\spr_heart</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -35,11 +64,10 @@
       <script>scripts\GenerateAcidFill.gml</script>
       <script>scripts\GenerateAll.gml</script>
     </scripts>
-    <script>scripts\PointArmTo.gml</script>
-    <script>scripts\Raycast.gml</script>
-    <script>scripts\RaycastToPoint.gml</script>
-    <script>scripts\IF.gml</script>
-    <script>scripts\Knockback.gml</script>
+    <scripts name="Buttons">
+      <script>scripts\DrawButton.gml</script>
+      <script>scripts\ExitGame.gml</script>
+    </scripts>
     <scripts name="PlayerFSM">
       <script>scripts\PlayerNormal.gml</script>
       <script>scripts\PlayerPull.gml</script>
@@ -47,6 +75,11 @@
       <script>scripts\PlayerDead.gml</script>
       <script>scripts\PlayerStun.gml</script>
     </scripts>
+    <script>scripts\PointArmTo.gml</script>
+    <script>scripts\Raycast.gml</script>
+    <script>scripts\RaycastToPoint.gml</script>
+    <script>scripts\IF.gml</script>
+    <script>scripts\Knockback.gml</script>
     <script>scripts\HandleCollision.gml</script>
     <script>scripts\draw_text_with_outline.gml</script>
   </scripts>
@@ -56,6 +89,9 @@
   <objects name="objects">
     <object>objects\obj_player</object>
     <object>objects\obj_story_log</object>
+    <object>objects\obj_text</object>
+    <object>objects\obj_button</object>
+    <object>objects\obj_nav_button</object>
     <object>objects\obj_player_arm</object>
     <object>objects\obj_env_collide</object>
     <object>objects\obj_wall</object>
@@ -65,11 +101,14 @@
     <object>objects\obj_env_and_enemies</object>
     <object>objects\obj_dirt</object>
     <object>objects\obj_acid</object>
+    <object>objects\obj_room_trigger</object>
     <object>objects\obj_pause</object>
   </objects>
   <rooms name="rooms">
+    <room>rooms\Menu</room>
     <room>rooms\Demo_Room</room>
     <room>rooms\Demo2</room>
+    <room>rooms\About</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>
