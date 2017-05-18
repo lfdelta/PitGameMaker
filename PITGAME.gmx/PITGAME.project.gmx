@@ -100,6 +100,7 @@
     <object>objects\obj_dirt</object>
     <object>objects\obj_acid</object>
     <object>objects\obj_room_trigger</object>
+    <object>objects\obj_pause</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\Menu</room>
