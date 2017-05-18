@@ -67,7 +67,10 @@ textClr = text_nomouse;
             <kind>1</kind>
             <string>///Check for mouse; call script if clicked
 
-mouse_over = point_in_rectangle(mouse_x, mouse_y, x-width/2, y-height/2,
+mx = device_mouse_x_to_gui(0);
+my = device_mouse_y_to_gui(0);
+
+mouse_over = point_in_rectangle(mx, my, x-width/2, y-height/2,
                                 x+width/2, y+height/2);
 
 outlineClr = IF(mouse_over, out_mouse, out_nomouse);
@@ -80,7 +83,7 @@ if (mouse_over &amp;&amp; mouse_check_button_pressed(mb_left))
         </arguments>
       </action>
     </event>
-    <event eventtype="8" enumb="0">
+    <event eventtype="8" enumb="75">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -97,7 +100,17 @@ if (mouse_over &amp;&amp; mouse_check_button_pressed(mb_left))
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>DrawButton(x, y, width, height, fillClr, outlineClr, textClr, goto);
+            <string>draw_set_colour(fillClr);
+draw_rectangle(x - width/2, y - height/2, x + width/2, y + height/2, false);
+
+draw_set_colour(outlineClr);
+draw_rectangle(x - width/2, y - height/2, x + width/2, y + height/2, true);
+
+draw_set_halign(fa_center);
+draw_set_valign(fa_middle);
+draw_set_colour(textClr);
+draw_set_font(-1);
+draw_text(x, y, goto);
 </string>
           </argument>
         </arguments>

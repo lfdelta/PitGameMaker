@@ -90,7 +90,7 @@ if(draw) {
     draw_set_halign(fa_center);
     draw_set_valign(fa_center);
     
-    text_xpos = display_get_gui_width() * 0.5
+    text_xpos = display_get_gui_width() * 0.5;
     text_ypos = display_get_gui_height() * 0.5;
     text_width = display_get_gui_width() * 0.75;
     

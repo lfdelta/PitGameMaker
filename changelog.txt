@@ -8,12 +8,14 @@ Name
 
 
 ### 5/12 - 5/17 ###
-Luca Frez-Albrecht
+Luca Frez-Albrecht & Allison Kramer
 1. "about" page added in the form of a room
 2. obj_nav_button takes a room name as a variable and enters that room when clicked
 3. added some new player sprites for hanging and pull states
 4. replaced all player sprites with newly-aligned versions, including a single custom hitbox which works reasonably well for every sprite
 5. added spr_heart and implemented a visualization for player health using the GUI
+6. implemented final pause menu with buttons
+7. prettied up the title screen
 
 
 

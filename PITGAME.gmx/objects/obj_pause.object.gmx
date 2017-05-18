@@ -28,6 +28,10 @@
             <string>/// Initialize pause
 
 paused = false;
+noButtons = 1;
+
+guiW = display_get_gui_width();
+guiH = display_get_gui_height();
 
 /*uni_resolution_hoz = shader_get_uniform(shd_gaussian_horizontal,"resolution");
 uni_resolution_vert = shader_get_uniform(shd_gaussian_vertical,"resolution");
@@ -107,6 +111,59 @@ else if(pauseButton &amp;&amp; paused){
           </argument>
         </arguments>
       </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Create and remove menu buttons
+
+if (paused &amp;&amp; noButtons) {
+    noButtons = 0;
+    
+    with(instance_create(0.35 * guiW, 0.5 * guiH, obj_button)) {
+        width = 40;
+        height = 40;
+        str = "-";
+        script = "VolDown";
+    }
+    
+    with(instance_create(0.65 * guiW, 0.5 * guiH, obj_button)) {
+        width = 40;
+        height = 40;
+        str = "+";
+        script = "VolUp";
+    }
+    
+    with(instance_create(0.5 * guiW, 0.8 * guiH, obj_nav_button)) {
+        width = 200;
+        height = 80;
+        goto = "Menu";
+    }
+}
+
+if (!paused) {
+    noButtons = 1;    
+    with (obj_button)
+        instance_destroy();
+    with (obj_nav_button)
+        instance_destroy();
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
     </event>
     <event eventtype="8" enumb="64">
       <action>
@@ -128,14 +185,11 @@ else if(pauseButton &amp;&amp; paused){
             <string>/// Draw menu
 
 if(paused) {
-    show_debug_message(view_current);
+    //show_debug_message(view_current);
     
     draw_set_font(fnt_story_log);
     draw_set_halign(fa_center);
     draw_set_valign(fa_center);
-    
-    xpos = display_get_gui_width() * 0.5
-    ypos = display_get_gui_height() * 0.5;
     
     /*//Do horizontal blur first
     surface_set_target(final_surface);
@@ -157,7 +211,8 @@ if(paused) {
     draw_rectangle(0, 0, display_get_gui_width(), display_get_gui_height(), false);
     
     draw_set_color(c_white);
-    draw_text(xpos, ypos, "PAUSED");
+    draw_text(guiW * 0.5, guiH * 0.25, "PAUSED");
+    draw_text(guiW * 0.5, guiH * 0.5, "VOL");
     
     //draw_sprite(global.pauseBg, 0, 0, 0);
 }

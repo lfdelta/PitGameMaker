@@ -16,7 +16,7 @@
   <clearDisplayBuffer>-1</clearDisplayBuffer>
   <makerSettings>
     <isSet>-1</isSet>
-    <w>968</w>
+    <w>904</w>
     <h>600</h>
     <showGrid>0</showGrid>
     <showObjects>-1</showObjects>
@@ -27,8 +27,8 @@
     <deleteUnderlyingObj>0</deleteUnderlyingObj>
     <deleteUnderlyingTiles>-1</deleteUnderlyingTiles>
     <page>0</page>
-    <xoffset>-28</xoffset>
-    <yoffset>127</yoffset>
+    <xoffset>-58</xoffset>
+    <yoffset>-97</yoffset>
   </makerSettings>
   <backgrounds>
     <background visible="0" foreground="0" name="" x="0" y="0" htiled="-1" vtiled="-1" hspeed="0" vspeed="0" stretch="0"/>
@@ -54,6 +54,7 @@
     <instance objName="obj_button" x="400" y="528" name="inst_DDEA19F9" locked="0" code="width = 200;&#xA;height = 40;&#xA;str = &quot;Exit&quot;;&#xA;script = &quot;ExitGame&quot;;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_nav_button" x="400" y="304" name="inst_11E02C08" locked="0" code="width = 200;&#xA;height = 80;&#xA;goto = &quot;Demo_Room&quot;;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_nav_button" x="400" y="464" name="inst_13B7C6F2" locked="0" code="width = 200;&#xA;height = 40;&#xA;goto = &quot;About&quot;;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_text" x="400" y="96" name="inst_A83144D8" locked="0" code="width = 800;&#xA;str = &quot;&lt;PITGAME&gt;&quot;;&#xA;font = fnt_title;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

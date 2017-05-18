@@ -16,9 +16,9 @@
   <clearDisplayBuffer>-1</clearDisplayBuffer>
   <makerSettings>
     <isSet>-1</isSet>
-    <w>1000</w>
+    <w>968</w>
     <h>600</h>
-    <showGrid>-1</showGrid>
+    <showGrid>0</showGrid>
     <showObjects>-1</showObjects>
     <showTiles>-1</showTiles>
     <showBackgrounds>-1</showBackgrounds>
@@ -27,8 +27,8 @@
     <deleteUnderlyingObj>0</deleteUnderlyingObj>
     <deleteUnderlyingTiles>-1</deleteUnderlyingTiles>
     <page>0</page>
-    <xoffset>19</xoffset>
-    <yoffset>146</yoffset>
+    <xoffset>60</xoffset>
+    <yoffset>66</yoffset>
   </makerSettings>
   <backgrounds>
     <background visible="0" foreground="0" name="" x="0" y="0" htiled="-1" vtiled="-1" hspeed="0" vspeed="0" stretch="0"/>
@@ -52,7 +52,7 @@
   </views>
   <instances>
     <instance objName="obj_nav_button" x="400" y="496" name="inst_76B30AA7" locked="0" code="width = 100;&#xA;height = 40;&#xA;goto = &quot;Menu&quot;;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_text" x="400" y="256" name="inst_F99A3148" locked="0" code="width = 600;&#xA;str = &quot;&lt;PITGAME&gt; is a project developed by members of UChicago Game Design  from &quot;&#xA;    + &quot;December 2016 - May 2017 for educational purposes. Art, lead design, and lead &quot;&#xA;    + &quot;programming by Luca Frez-Albrecht. Design and programming by Allison Kramer, &quot;&#xA;    + &quot;James Zhou, and Michael Hanna. Music composed and produced by Rich Kaplan. &quot;&#xA;    + &quot;Additional design concepts by Bria Moore, Briana Moore, and Liam Hermann.&quot;;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_text" x="400" y="256" name="inst_F99A3148" locked="0" code="width = 600;&#xA;str = &quot;&lt;PITGAME&gt; is a project developed by members of UChicago Game Design  from &quot;&#xA;    + &quot;December 2016 - May 2017 for educational purposes. Art, lead design, and lead &quot;&#xA;    + &quot;programming by Luca Frez-Albrecht. Design and programming by Allison Kramer, &quot;&#xA;    + &quot;James Zhou, and Michael Hanna. Music composed and produced by Rich Kaplan. &quot;&#xA;    + &quot;Additional design concepts by Bria Moore, Briana Moore, and Liam Hermann.&quot;;&#xA;    &#xA;font = fnt_story_log;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

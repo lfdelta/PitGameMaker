@@ -8,16 +8,6 @@
     <sound>sound\bgm</sound>
   </sounds>
   <sprites name="sprites">
-    <sprites name="PlayerOld">
-      <sprite>sprites\_spr_player_idle</sprite>
-      <sprite>sprites\_spr_player_jump</sprite>
-      <sprite>sprites\_spr_player_fall</sprite>
-      <sprite>sprites\_spr_player_stun</sprite>
-      <sprite>sprites\_spr_player_run</sprite>
-      <sprite>sprites\_spr_player_hang</sprite>
-      <sprite>sprites\_spr_player_hangwall</sprite>
-      <sprite>sprites\_spr_player_pull</sprite>
-    </sprites>
     <sprites name="Environment">
       <sprite>sprites\spr_dirt_tile</sprite>
       <sprite>sprites\spr_grass_tile</sprite>
@@ -65,8 +55,9 @@
       <script>scripts\GenerateAll.gml</script>
     </scripts>
     <scripts name="Buttons">
-      <script>scripts\DrawButton.gml</script>
       <script>scripts\ExitGame.gml</script>
+      <script>scripts\VolDown.gml</script>
+      <script>scripts\VolUp.gml</script>
     </scripts>
     <scripts name="PlayerFSM">
       <script>scripts\PlayerNormal.gml</script>
@@ -85,6 +76,7 @@
   </scripts>
   <fonts name="fonts">
     <font>fonts\fnt_story_log</font>
+    <font>fonts\fnt_title</font>
   </fonts>
   <objects name="objects">
     <object>objects\obj_player</object>
@@ -92,6 +84,7 @@
     <object>objects\obj_text</object>
     <object>objects\obj_button</object>
     <object>objects\obj_nav_button</object>
+    <object>objects\obj_pause</object>
     <object>objects\obj_player_arm</object>
     <object>objects\obj_env_collide</object>
     <object>objects\obj_wall</object>
@@ -102,7 +95,6 @@
     <object>objects\obj_dirt</object>
     <object>objects\obj_acid</object>
     <object>objects\obj_room_trigger</object>
-    <object>objects\obj_pause</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\Menu</room>
