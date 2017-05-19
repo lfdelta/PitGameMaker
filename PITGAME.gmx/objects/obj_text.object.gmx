@@ -28,7 +28,7 @@
             <string>///Initialize
 
 textClr = c_white;
-lineSep = 20; // pixels between lines of text
+lineSep = 30; // pixels between lines of text
 
 // User must define "width" and "str" contents in object creation code
 // Also "font" and "size"

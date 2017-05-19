@@ -7,6 +7,13 @@ Name
 
 
 
+### 5/19/17 ###
+Luca Frez-Albrecht
+1. finished implementing player grapple algorithm. hopefully it should never bug out and send the player flying infinitely any more
+2. refined player death to make things more clear and user-friendly
+
+
+
 ### 5/12 - 5/17 ###
 Luca Frez-Albrecht & Allison Kramer
 1. "about" page added in the form of a room

@@ -25,7 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Initialize properties
+            <string>/// Initialize properties
 
 enum playerFSM { // finite state machine
     STUN = 0,
@@ -38,7 +38,7 @@ enum playerFSM { // finite state machine
 
 depth = 0;
 
-hp = 10;
+hp = 3;
 iFrames = 60;
 iCounter = 0;
 isInvincible = 0; // boolean
@@ -64,6 +64,7 @@ grappleTo = undefined;
 didHit = 0;
 
 playerState = playerFSM.NORMAL;
+pauseKey = 0;
 </string>
           </argument>
         </arguments>
@@ -136,7 +137,6 @@ switch (playerState)
         PlayerDead();
         break;
 };
-//show_debug_message("state: " + string(playerState));
 
 // Movement and collision with walls
 HandleCollision(id, obj_env_collide);
@@ -165,14 +165,30 @@ if (place_meeting(x,y,obj_env_collide)) // used to happen on corners
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Draw health
+            <string>/// Draw health and death text
 
 hpind = IF(isInvincible, 2, 0);
-
 for (i = 0; i &lt; hp; i++)
     draw_sprite(spr_heart, hpind,
                 view_xport[0] + i * (sprite_get_width(spr_heart) + 5) + 5,
                 view_yport[0] + 5);
+                
+if (hp &lt;= 0) {
+    guiW = display_get_gui_width();
+    guiH = display_get_gui_height();
+
+    draw_set_alpha(0.7);
+    draw_set_colour(c_black);
+    draw_rectangle(0, 0.35 * guiH, guiW, 0.65 * guiH, false);
+    draw_set_alpha(1);
+        
+    draw_set_colour(c_red);
+    draw_set_font(fnt_title);
+    draw_text(0.5 * guiW, 0.5 * guiH, "YOU DIED.");
+    
+    draw_set_font(-1);
+    draw_text(0.5 * guiW, 0.6 * guiH, "Press [ENTER] to return.");
+}
 </string>
           </argument>
         </arguments>
@@ -202,7 +218,7 @@ grappleTo = obj_player.grappleTo;
 playerState = obj_player.playerState;
 
 // Draw the player
-draw_self();
+if (hp &gt; 0) draw_self();
 
 if (grappleKey &amp;&amp; playerState == playerFSM.NORMAL) {
     if (grappleKey_P &amp;&amp; didHit) {

@@ -84,6 +84,7 @@
     <object>objects\obj_text</object>
     <object>objects\obj_button</object>
     <object>objects\obj_nav_button</object>
+    <object>objects\obj_room_trigger</object>
     <object>objects\obj_pause</object>
     <object>objects\obj_player_arm</object>
     <object>objects\obj_env_collide</object>
@@ -94,7 +95,6 @@
     <object>objects\obj_env_and_enemies</object>
     <object>objects\obj_dirt</object>
     <object>objects\obj_acid</object>
-    <object>objects\obj_room_trigger</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\Menu</room>

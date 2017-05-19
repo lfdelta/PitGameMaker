@@ -72,7 +72,8 @@ view_surface_id[0] = surf;*/
             <kind>1</kind>
             <string>/// Pause or unpause the game
 
-pauseButton = keyboard_check_pressed(vk_enter);
+pauseButton = max(keyboard_check_pressed(vk_enter),
+                  keyboard_check_pressed(vk_escape));
 
 if(pauseButton &amp;&amp; !paused) {
     paused = true;
@@ -127,7 +128,7 @@ else if(pauseButton &amp;&amp; paused){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Create and remove menu buttons
+            <string>/// Create and remove menu buttons
 
 if (paused &amp;&amp; noButtons) {
     noButtons = 0;
