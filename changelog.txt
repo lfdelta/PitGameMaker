@@ -11,6 +11,11 @@ Name
 Luca Frez-Albrecht
 1. finished implementing player grapple algorithm. hopefully it should never bug out and send the player flying infinitely any more
 2. refined player death to make things more clear and user-friendly
+3. manually added in james's enemy from origin/follower branch (see changelog copied below). performed some minor refactoring to increase code efficiency.
+
+### 4/12/2017 ###
+James Zhou
+1. Added basic follower enemy (minRange starts following, maxRange stops following, when not following has set movement pattern).
 
 
 

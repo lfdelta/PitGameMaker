@@ -16,12 +16,11 @@
       <sprite>sprites\spr_acid_stripes_b</sprite>
       <sprite>sprites\spr_acid_diag</sprite>
       <sprite>sprites\spr_acid_diag_b</sprite>
+      <sprite>sprites\spr_story_log</sprite>
     </sprites>
     <sprites name="Misc">
       <sprite>sprites\spr_16x_black</sprite>
       <sprite>sprites\spr_16x_orange</sprite>
-      <sprite>sprites\spr_cleaner</sprite>
-      <sprite>sprites\spr_story_log</sprite>
       <sprite>sprites\spr_cross</sprite>
       <sprite>sprites\spr_room_trigger</sprite>
     </sprites>
@@ -43,6 +42,10 @@
       <sprite>sprites\spr_hangwall_hitbox</sprite>
       <sprite>sprites\spr_pull_hitbox</sprite>
       <sprite>sprites\spr_heart</sprite>
+    </sprites>
+    <sprites name="Enemies">
+      <sprite>sprites\spr_cleaner</sprite>
+      <sprite>sprites\spr_follower</sprite>
     </sprites>
   </sprites>
   <backgrounds name="background"/>
@@ -95,6 +98,7 @@
     <object>objects\obj_env_and_enemies</object>
     <object>objects\obj_dirt</object>
     <object>objects\obj_acid</object>
+    <object>objects\obj_follower</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\Menu</room>
