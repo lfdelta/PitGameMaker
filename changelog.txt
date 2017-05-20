@@ -11,7 +11,10 @@ Name
 Luca Frez-Albrecht
 1. finished implementing player grapple algorithm. hopefully it should never bug out and send the player flying infinitely any more
 2. refined player death to make things more clear and user-friendly
-3. manually added in james's enemy from origin/follower branch (see changelog copied below). performed some minor refactoring to increase code efficiency.
+3. manually added in james's enemy from origin/follower branch (see changelog copied below). performed some minor refactoring to increase code efficiency
+4. refactored obj_cleaner as a finite state machine
+5. created scripts to initialize and update stun, adding this functionality to both enemies
+6. tried adding acid interaction with enemies, but as of yet unsuccessful
 
 ### 4/12/2017 ###
 James Zhou

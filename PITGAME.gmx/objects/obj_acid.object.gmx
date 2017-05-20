@@ -51,8 +51,12 @@ image_speed = 0.3;
           <argument>
             <kind>1</kind>
             <string>// Collision with player
-if (place_meeting(x, y, obj_player) &amp;&amp; !obj_player.isInvincible)
+if (place_meeting(x, y, obj_player))
     Knockback(obj_player.id, dmg, obj_player.xVelocity, -3, 10);
+
+hitID = instance_place(x, y, obj_enemy)
+if (hitID)
+    Knockback(hitID, dmg, hitID.xVelocity, -3, 10);
 </string>
           </argument>
         </arguments>

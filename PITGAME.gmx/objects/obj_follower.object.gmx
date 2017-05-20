@@ -28,10 +28,12 @@
             <string>///Initialize variables
 
 hp = 3;
+SetStun(id, 0);
+
 moveDir = 1;
 moveSpeed = 1;
 chaseSpeed = 3;
-xVelocity = irandom_range(-1, 1);
+xVelocity = 0;
 yVelocity = 0;
 
 minRange = 250;
@@ -62,9 +64,9 @@ freq = 6;
           <argument>
             <kind>1</kind>
             <string>// Upkeep
-if (hp &lt;= 0) {
+HandleStun();
+if (hp &lt;= 0)
     instance_destroy();
-}
 
 // Collisions with walls and other enemies
 HandleCollision(id, obj_env_and_enemies);
@@ -73,26 +75,22 @@ if (place_meeting(x+xVelocity, y, obj_env_and_enemies))
 
 /// Movement
 playerDist = point_distance(x,y,obj_player.x,obj_player.y);
-if (playerDist &lt; minRange) {
-    chase = 1;
-} else if (playerDist &gt; maxRange) {
-    chase = 0;
-}
 
 if (chase) {
     pointDir = point_direction(x,y,obj_player.x,obj_player.y);
     xVelocity = chaseSpeed * dcos(pointDir);
     yVelocity = chaseSpeed * -dsin(pointDir);
+    chase = (playerDist &lt; maxRange); // continue to chase if dist &lt; max
 } else {
     xVelocity = 1.5 * moveSpeed * -dsin(timer * freq);
     yVelocity = moveSpeed * dcos(timer * 2*freq);
     timer++;
+    chase = (playerDist &lt; minRange); // start chasing if dist &lt; min
 }
 
 // Collision with player
-if (place_meeting(x+xVelocity, y+yVelocity, obj_player) &amp;&amp; !obj_player.isInvincible) {
+if (place_meeting(x+xVelocity, y+yVelocity, obj_player))
     Knockback(obj_player.id, 1, 5*sign(obj_player.x - x), -3, 30);
-}
 </string>
           </argument>
         </arguments>

@@ -12,6 +12,8 @@
     yvel = argument3;
     stun = argument4;
     
+    if (objID.isInvincible) exit;
+    
     objID.hp -= dmg;
     objID.isInvincible = 1;
     objID.stunFrames = stun;

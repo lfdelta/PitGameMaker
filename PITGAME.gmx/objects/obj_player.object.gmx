@@ -37,15 +37,12 @@ enum playerFSM { // finite state machine
 }
 
 depth = 0;
-
-hp = 3;
-iFrames = 60;
-iCounter = 0;
-isInvincible = 0; // boolean
-stunFrames = 0;
-stunCounter = 0;
-
 ySprOffset = -5; // distance from origin to shoulder
+pauseKey = 0;
+
+hp = 5;
+SetStun(id, 60);
+FSMstate = playerFSM.NORMAL;
 
 xVelocity = 0;
 xVelocityMax = 5;
@@ -62,9 +59,6 @@ grappleSpeed = 10;
 grappleToID = noone;
 grappleTo = undefined;
 didHit = 0;
-
-playerState = playerFSM.NORMAL;
-pauseKey = 0;
 </string>
           </argument>
         </arguments>
@@ -103,23 +97,14 @@ moveDirection = max(dKey,rightKey) - max(aKey,leftKey);
 jumpKey = max(wKey, upKey);
 
 // Upkeep
-if (isInvincible) {
-    iCounter++;
-    if (iCounter &gt;= iFrames) {
-        iCounter = 0;
-        isInvincible = 0;
-    }
-}
-if (stunFrames &gt; 0) {
-    playerState = playerFSM.STUN;
-}
+HandleStun();
 
 if (hp &lt;= 0) {
-   playerState = playerFSM.DEAD;
+    FSMstate = playerFSM.DEAD;
 }
 
 // State machine
-switch (playerState)
+switch (FSMstate)
 {
     case playerFSM.STUN:
         PlayerStun();
@@ -140,9 +125,6 @@ switch (playerState)
 
 // Movement and collision with walls
 HandleCollision(id, obj_env_collide);
-
-if (place_meeting(x,y,obj_env_collide)) // used to happen on corners
-    show_debug_message("oops"); // left for now in case something awful happens
 </string>
           </argument>
         </arguments>
@@ -215,12 +197,12 @@ if (hp &lt;= 0) {
 
 grappleReach = obj_player.grappleReach;
 grappleTo = obj_player.grappleTo;
-playerState = obj_player.playerState;
+FSMstate = obj_player.FSMstate;
 
 // Draw the player
 if (hp &gt; 0) draw_self();
 
-if (grappleKey &amp;&amp; playerState == playerFSM.NORMAL) {
+if (grappleKey &amp;&amp; FSMstate == playerFSM.NORMAL) {
     if (grappleKey_P &amp;&amp; didHit) {
         // draw a line to enemy if attacked
         draw_set_colour(c_aqua);
@@ -234,7 +216,7 @@ if (grappleKey &amp;&amp; playerState == playerFSM.NORMAL) {
 }
 
 // If grapple was successful, draw the grapple line
-if (playerState == playerFSM.PULL) {
+if (FSMstate == playerFSM.PULL) {
     draw_set_color(c_lime);
     // y-20 to approximate player sprite center (origin is at bottom)
     draw_line(x, y+ySprOffset, grappleTo[0], grappleTo[1]);

@@ -47,11 +47,11 @@ if (grappleKey) {
         xVelocity = grappleSpeed * (vx/lengthOfVector);
         yVelocity = grappleSpeed * (vy/lengthOfVector);
         if (place_meeting(x+xVelocity, y+yVelocity, obj_env_collide)) {
-            playerState = playerFSM.HANG;
+            FSMstate = playerFSM.HANG;
         } else {
             grappleXVel = xVelocity;
             grappleYVel = yVelocity;
-            playerState = playerFSM.PULL;
+            FSMstate = playerFSM.PULL;
         }
     }
 }

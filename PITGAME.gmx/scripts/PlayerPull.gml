@@ -17,9 +17,9 @@ xVelocity = grappleXVel;
 yVelocity = grappleYVel;
 if (doStop || place_meeting(x+xVelocity, y+yVelocity, grappleToID)) {
     if (grappleKey)
-        playerState = playerFSM.HANG;
+        FSMstate = playerFSM.HANG;
     else
-        playerState = playerFSM.NORMAL;
+        FSMstate = playerFSM.NORMAL;
 }
 
 if (yVelocity > 0)
