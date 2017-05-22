@@ -23,6 +23,7 @@
       <sprite>sprites\spr_16x_orange</sprite>
       <sprite>sprites\spr_cross</sprite>
       <sprite>sprites\spr_room_trigger</sprite>
+      <sprite>sprites\spr_shiny</sprite>
     </sprites>
     <sprites name="Junk">
       <sprite>sprites\spr_player</sprite>
@@ -53,6 +54,7 @@
   <paths name="paths"/>
   <scripts name="scripts">
     <scripts name="Room Prep">
+      <script>scripts\ClearOverlap.gml</script>
       <script>scripts\GenerateGrappleAnchors_Simple.gml</script>
       <script>scripts\GenerateDirtSprites.gml</script>
       <script>scripts\GenerateAcidFill.gml</script>
@@ -91,6 +93,7 @@
   <objects name="objects">
     <object>objects\obj_player</object>
     <objects name="Parents">
+      <object>objects\obj_grappleable</object>
       <object>objects\obj_env_collide</object>
       <object>objects\obj_enemy</object>
       <object>objects\obj_env_and_enemies</object>
@@ -98,6 +101,7 @@
     <objects name="Environment">
       <object>objects\obj_wall</object>
       <object>objects\obj_dirt</object>
+      <object>objects\obj_slippery</object>
       <object>objects\obj_acid</object>
       <object>objects\obj_story_log</object>
       <object>objects\obj_anchor</object>
@@ -119,6 +123,7 @@
     <room>rooms\Demo_Room</room>
     <room>rooms\Demo2</room>
     <room>rooms\About</room>
+    <room>rooms\Demo3</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>

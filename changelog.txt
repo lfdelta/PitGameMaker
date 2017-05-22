@@ -7,6 +7,16 @@ Name
 
 
 
+### 5/22/17 ###
+Luca Frez-Albrecht
+1. new ClearOverlap script to automatically remove duplicate tiles upon loading a room
+2. player can change directions while hanging from a ceiling
+3. obj_env_collide > obj_grappleable for the purpose of obj_slippery, a tile while can be collided with but not grappled
+4. some changes to player FSM for grapple checking to allow for ungrappleable environment tiles
+5. Demo3 with sparse platforms and ungrappleable sections
+
+
+
 ### 5/21/17 ###
 Luca Frez-Albrecht
 1. new sprites for cleaner, follower, and story logs, plus a palette swap for the player. in the process of tweaking level and menu background colors
