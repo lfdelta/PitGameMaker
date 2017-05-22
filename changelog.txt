@@ -18,6 +18,7 @@ Luca Frez-Albrecht
 7. resume button in pause menu
 8. so many other things.
 9. many new rooms
+10. added more story logs to demo rooms
 
 
 
