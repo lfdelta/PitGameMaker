@@ -54,8 +54,6 @@ if (grappleKey) {
         } else {
             grappleXVel = xVelocity;
             grappleYVel = yVelocity;
-            //thisXDist = abs(x - grappleToID.x);
-            //thisYDist = abs(y - grappleToID.y);
             thisDist = point_distance(x, y, grappleToID.x, grappleToID.y);
             FSMstate = playerFSM.PULL;
         }

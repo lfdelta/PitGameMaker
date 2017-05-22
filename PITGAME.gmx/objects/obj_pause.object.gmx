@@ -74,39 +74,14 @@ view_surface_id[0] = surf;*/
 
 pauseButton = max(keyboard_check_pressed(vk_enter),
                   keyboard_check_pressed(vk_escape));
-
+                  
 if(pauseButton &amp;&amp; !paused) {
     paused = true;
     instance_deactivate_all(true);
-    
-    /*shader_enabled = true;
-    
-    var width = surface_get_width(application_surface),
-    var height = surface_get_height(application_surface);
-    
-    // This will create a sprite from the application surface, which will be the screenshot of the game.
-    global.pauseBg = sprite_create_from_surface(application_surface, 0, 0, width, height, false, false, 0, 0);
-    
-    show_debug_message("Paused!");
-    
-    global.RoomBeforePause = room;
-    room_persistent = true;
-    
-    room_goto(room_pause);
-
-    show_debug_message("Drawing!");
-    */
 }
 else if(pauseButton &amp;&amp; paused){
     paused = false;
     instance_activate_all();
-    
-    /*shader_enabled = false;
-    
-    room_goto(global.RoomBeforePause);
-    room_persistent = false;
-    
-    sprite_delete(global.pauseBg);*/
 }
 </string>
           </argument>
@@ -133,23 +108,30 @@ else if(pauseButton &amp;&amp; paused){
 if (paused &amp;&amp; noButtons) {
     noButtons = 0;
     
-    with(instance_create(0.35 * guiW, 0.5 * guiH, obj_button)) {
+    with(instance_create(0.35 * guiW, 0.4 * guiH, obj_button)) {
         width = 40;
         height = 40;
         str = "-";
         script = "VolDown";
     }
     
-    with(instance_create(0.65 * guiW, 0.5 * guiH, obj_button)) {
+    with(instance_create(0.65 * guiW, 0.4 * guiH, obj_button)) {
         width = 40;
         height = 40;
         str = "+";
         script = "VolUp";
     }
     
-    with(instance_create(0.5 * guiW, 0.8 * guiH, obj_nav_button)) {
+    with(instance_create(0.5 * guiW, 0.65 * guiH, obj_button)) {
         width = 200;
         height = 80;
+        str = "Resume";
+        script = "Resume";
+    }
+    
+    with(instance_create(0.5 * guiW, 0.8 * guiH, obj_nav_button)) {
+        width = 200;
+        height = 40;
         goto = "Menu";
     }
 }
@@ -213,12 +195,9 @@ if(paused) {
     
     draw_set_color(c_white);
     draw_text(guiW * 0.5, guiH * 0.25, "PAUSED");
-    draw_text(guiW * 0.5, guiH * 0.5, "VOL");
+    draw_text(guiW * 0.5, guiH * 0.4, "VOL");
     
     //draw_sprite(global.pauseBg, 0, 0, 0);
-}
-else {
-    //draw_surface(surf,0,0);
 }
 </string>
           </argument>
