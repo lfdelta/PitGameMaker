@@ -45,8 +45,7 @@ xVelocity = 0;
 yVelocity = 0;
 grav = 0.2;
 
-x0 = x;
-xRange = 50;
+image_speed = 1;
 </string>
           </argument>
         </arguments>

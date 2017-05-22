@@ -45,7 +45,8 @@
     </sprites>
     <sprites name="Enemies">
       <sprite>sprites\spr_cleaner</sprite>
-      <sprite>sprites\spr_follower</sprite>
+      <sprite>sprites\spr_follower_idle</sprite>
+      <sprite>sprites\spr_follower_chase</sprite>
     </sprites>
   </sprites>
   <backgrounds name="background"/>
