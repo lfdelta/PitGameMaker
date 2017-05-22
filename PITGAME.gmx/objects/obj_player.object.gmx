@@ -152,7 +152,7 @@ HandleCollision(id, obj_env_collide);
 if (grappleKey &amp;&amp; FSMstate == playerFSM.NORMAL) {
     if (grappleKey_P &amp;&amp; didHit) {
         // Draw a line to enemy if player attacked successfully
-        draw_set_colour(c_aqua);
+        draw_set_colour(IF(grappleAtkInv, c_red, c_aqua));
         draw_line(x, y+ySprOffset, grappleAtkX, grappleAtkY);
     } else {
         // Draw a circle to indicate grapple range

@@ -72,6 +72,7 @@ image_speed = 1;
 
 // Upkeep
 onScreen = (y - obj_player.y) &lt; 450;
+HandleStun();
 if (hp &lt;= 0)
     instance_destroy();
 

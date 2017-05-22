@@ -8,7 +8,7 @@
   <isometric>0</isometric>
   <speed>60</speed>
   <persistent>0</persistent>
-  <colour>1184532</colour>
+  <colour>3225928</colour>
   <showcolour>-1</showcolour>
   <code>audio_play_sound(bgm, 1, true);</code>
   <enableViews>0</enableViews>
@@ -16,7 +16,7 @@
   <clearDisplayBuffer>-1</clearDisplayBuffer>
   <makerSettings>
     <isSet>-1</isSet>
-    <w>1016</w>
+    <w>1008</w>
     <h>600</h>
     <showGrid>0</showGrid>
     <showObjects>-1</showObjects>

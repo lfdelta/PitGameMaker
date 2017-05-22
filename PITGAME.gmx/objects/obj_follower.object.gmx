@@ -28,7 +28,7 @@
             <string>///Initialize variables
 
 hp = 3;
-SetStun(id, 0);
+SetStun(id, 30);
 
 moveDir = 1;
 moveSpeed = 1;

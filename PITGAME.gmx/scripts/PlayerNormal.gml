@@ -32,7 +32,9 @@ if (grappleKey) {
             didHit = 1;
             grappleAtkX = grappleAtkID.x;
             grappleAtkY = grappleAtkID.y;
-            grappleAtkID.hp -= grappleDmg;
+            grappleAtkInv = grappleAtkID.isInvincible;
+            Knockback(grappleAtkID, grappleDmg, grappleAtkID.xVelocity,
+                                                grappleAtkID.yVelocity, 0);
         }
     }
     
