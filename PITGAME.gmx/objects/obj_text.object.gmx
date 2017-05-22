@@ -31,7 +31,7 @@ textClr = c_white;
 lineSep = 30; // pixels between lines of text
 
 // User must define "width" and "str" contents in object creation code
-// Also "font" and "size"
+// Also "font"
 </string>
           </argument>
         </arguments>

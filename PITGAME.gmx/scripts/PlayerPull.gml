@@ -6,13 +6,10 @@
 // fast but may break because of other bugs involving grappleTo:
 //  check for adjacency with grappleTo OR stop if moving away from grappleTo
 zeroVelocity = (xVelocity == 0) && (yVelocity == 0);
-xPerpendicular = (xVelocity == 0) &&
-                 (place_meeting(x+1, y+yVelocity, grappleToID) ||
-                  place_meeting(x-1, y+yVelocity, grappleToID));
-yPerpendicular = (yVelocity == 0) &&
-                 (place_meeting(x+xVelocity, y+1, grappleToID) ||
-                  place_meeting(x+xVelocity, y-1, grappleToID));
-doStop = zeroVelocity || xPerpendicular || yPerpendicular;
+oldDist = thisDist;
+thisDist = point_distance(x, y, grappleToID.x, grappleToID.y);
+doStop = zeroVelocity || (thisDist > oldDist);
+
 xVelocity = grappleXVel;
 yVelocity = grappleYVel;
 if (doStop || place_meeting(x+xVelocity, y+yVelocity, grappleToID)) {

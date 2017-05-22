@@ -33,8 +33,10 @@ if (grappleKey) {
             grappleAtkX = grappleAtkID.x; // Defined here for use in the Draw event
             grappleAtkY = grappleAtkID.y;
             grappleAtkInv = grappleAtkID.isInvincible;
-            Knockback(grappleAtkID, grappleDmg, grappleAtkID.xVelocity,
-                                                grappleAtkID.yVelocity, 0);
+            Knockback(grappleAtkID, grappleDmg, /*3*sign(grappleAtkID.x - x),
+                                                3*sign(grappleAtkID.y - yv),*/
+                                                grapplePushV * cos(theta),
+                                                grapplePushV * sin(theta), 15);
         }
     }
     
@@ -54,6 +56,7 @@ if (grappleKey) {
         } else {
             grappleXVel = xVelocity;
             grappleYVel = yVelocity;
+            thisDist = point_distance(x, y, grappleToID.x, grappleToID.y);
             FSMstate = playerFSM.PULL;
         }
     }

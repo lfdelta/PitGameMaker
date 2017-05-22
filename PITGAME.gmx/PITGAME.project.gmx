@@ -64,6 +64,7 @@
       <script>scripts\ExitGame.gml</script>
       <script>scripts\VolDown.gml</script>
       <script>scripts\VolUp.gml</script>
+      <script>scripts\Resume.gml</script>
     </scripts>
     <scripts name="PlayerFSM">
       <script>scripts\PlayerNormal.gml</script>
@@ -120,10 +121,13 @@
   </objects>
   <rooms name="rooms">
     <room>rooms\Menu</room>
-    <room>rooms\Demo_Room</room>
-    <room>rooms\Demo2</room>
     <room>rooms\About</room>
+    <room>rooms\Demo_Room</room>
+    <room>rooms\Play</room>
     <room>rooms\Demo3</room>
+    <room>rooms\Demo4</room>
+    <room>rooms\Demo5</room>
+    <room>rooms\Win</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>

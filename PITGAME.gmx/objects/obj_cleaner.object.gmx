@@ -34,8 +34,8 @@ enum cleanerFSM {
 }
 
 hp = 5;
-SetStun(id, 30);
-onScreen = (y - obj_player.y) &lt; 450;
+SetStun(id, 45);
+onScreen = (y - obj_player.y) &lt; 600;
 FSMstate = IF(onScreen, cleanerFSM.NORMAL, cleanerFSM.IDLE);
 
 moveDir = 1;
@@ -71,7 +71,7 @@ image_speed = 1;
             <string>///Cleaner FSM and upkeep
 
 // Upkeep
-onScreen = (y - obj_player.y) &lt; 450;
+onScreen = (y - obj_player.y) &lt; 600;
 HandleStun();
 if (hp &lt;= 0)
     instance_destroy();
@@ -80,7 +80,20 @@ if (hp &lt;= 0)
 switch (FSMstate)
 {
     case cleanerFSM.STUN:
-        HandleStun();
+        if (stunCounter == 0) {
+            //oldmoveDir = moveDir;
+            //moveDir = 0;
+            //pushDir = sign(x - obj_player.x);
+            //moveDir = IF(pushDir, pushDir, 1);
+            yVelocity = -obj_player.grapplePushV;//-abs(yVelocity);
+        }
+        stunCounter++;
+        if (stunCounter &gt;= stunFrames) {
+            stunCounter = 0;
+            stunFrames = 0;
+            //moveDir = oldmoveDir;
+            FSMstate = cleanerFSM.NORMAL;
+        }
         break;
     case cleanerFSM.IDLE:
         if (onScreen) {
@@ -99,7 +112,7 @@ switch (FSMstate)
 
 // Physics
 xVelocity = moveDir * moveSpeed;
-yVelocity = IF(place_meeting(x, y+1, obj_env_collide), 0, yVelocity + grav);
+yVelocity += grav;
 
 // Collisions with walls and other enemies
 HandleCollision(id, obj_env_and_enemies);
