@@ -20,7 +20,7 @@ if (grappleKey) {
     grappleReachY = y + ySprOffset + grappleReach * sin(theta);
     grappleAtkID = Raycast(x, y+ySprOffset, grappleReachX, grappleReachY, obj_enemy, false, true);
     grappleToID = Raycast(x, y+ySprOffset, grappleReachX, grappleReachY, obj_env_collide, false, true);
-    grappleTo = RaycastToPoint(x, y+ySprOffset, grappleReachX, grappleReachY, obj_anchor, false, true);
+    grappleTo = RaycastToPoint(x, y+ySprOffset, grappleReachX, grappleReachY, grappleToID, false, true);
     
     // Damage enemy within reach, but only if there is no environment in the way
     if (grappleKey_P) {
@@ -30,7 +30,7 @@ if (grappleKey) {
             grappleAtkID == Raycast(x, y+ySprOffset, grappleReachX, grappleReachY,
                                     obj_env_and_enemies, false, true)) {
             didHit = 1;
-            grappleAtkX = grappleAtkID.x;
+            grappleAtkX = grappleAtkID.x; // Defined here for use in the Draw event
             grappleAtkY = grappleAtkID.y;
             grappleAtkInv = grappleAtkID.isInvincible;
             Knockback(grappleAtkID, grappleDmg, grappleAtkID.xVelocity,
@@ -39,7 +39,8 @@ if (grappleKey) {
     }
     
     // If no enemy was hit and grappleTo exists, player can grapple to it
-    if(!didHit && !is_undefined(grappleTo[0])) {
+    if(!didHit && !is_undefined(grappleTo[0]) &&
+       object_is_ancestor(grappleToID.object_index, obj_grappleable)) {
         // Move player toward the grapple point
         vx = grappleTo[0] - x;
         vy = grappleTo[1] - (y+ySprOffset);
@@ -48,7 +49,7 @@ if (grappleKey) {
     
         xVelocity = grappleSpeed * (vx/lengthOfVector);
         yVelocity = grappleSpeed * (vy/lengthOfVector);
-        if (place_meeting(x+xVelocity, y+yVelocity, obj_env_collide)) {
+        if (place_meeting(x+xVelocity, y+yVelocity, grappleToID)) {
             FSMstate = playerFSM.HANG;
         } else {
             grappleXVel = xVelocity;

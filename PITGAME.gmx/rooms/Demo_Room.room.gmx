@@ -27,8 +27,8 @@
     <deleteUnderlyingObj>0</deleteUnderlyingObj>
     <deleteUnderlyingTiles>-1</deleteUnderlyingTiles>
     <page>0</page>
-    <xoffset>107</xoffset>
-    <yoffset>125</yoffset>
+    <xoffset>10</xoffset>
+    <yoffset>-136</yoffset>
   </makerSettings>
   <backgrounds>
     <background visible="0" foreground="0" name="" x="0" y="0" htiled="-1" vtiled="-1" hspeed="0" vspeed="0" stretch="0"/>
@@ -337,7 +337,7 @@
     <instance objName="obj_cleaner" x="416" y="352" name="inst_E50515AE" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_story_log" x="224" y="336" name="inst_24C98A66" locked="0" code="text = &quot;I like shorts. They're comfy and easy to wear.&quot;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_story_log" x="656" y="464" name="inst_C7D69DD4" locked="0" code="text = &quot;It's like my Rattata is in the top percentage of Rattatas.&quot;;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_room_trigger" x="0" y="-64" name="inst_F96C5074" locked="0" code="nextRoom = &quot;Demo2&quot;;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_room_trigger" x="0" y="-64" name="inst_F96C5074" locked="0" code="nextRoom = Demo2;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_follower" x="544" y="208" name="inst_5E4E3679" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_follower" x="368" y="48" name="inst_08948CD7" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>

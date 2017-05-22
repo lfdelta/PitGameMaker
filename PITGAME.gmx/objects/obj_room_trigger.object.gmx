@@ -51,7 +51,7 @@
             <string>///Enter next room if player collides
 
 if (place_meeting(x, y, obj_player))
-    room_goto(asset_get_index(nextRoom));
+    room_goto(nextRoom);
 </string>
           </argument>
         </arguments>
