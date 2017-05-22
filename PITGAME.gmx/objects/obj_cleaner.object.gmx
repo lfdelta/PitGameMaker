@@ -27,15 +27,25 @@
             <kind>1</kind>
             <string>///Initialize variables
 
+enum cleanerFSM {
+    STUN = 0,
+    NORMAL,
+    IDLE
+}
+
 hp = 5;
+SetStun(id, 30);
+onScreen = (y - obj_player.y) &lt; 450;
+FSMstate = IF(onScreen, cleanerFSM.NORMAL, cleanerFSM.IDLE);
+
 moveDir = 1;
+oldmoveDir = 1;
 moveSpeed = 3;
 xVelocity = 0;
 yVelocity = 0;
 grav = 0.2;
 
-x0 = x;
-xRange = 50;
+image_speed = 1;
 </string>
           </argument>
         </arguments>
@@ -58,25 +68,47 @@ xRange = 50;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// Upkeep
-if (hp &lt;= 0) {
+            <string>///Cleaner FSM and upkeep
+
+// Upkeep
+onScreen = (y - obj_player.y) &lt; 450;
+HandleStun();
+if (hp &lt;= 0)
     instance_destroy();
+
+// State machine
+switch (FSMstate)
+{
+    case cleanerFSM.STUN:
+        HandleStun();
+        break;
+    case cleanerFSM.IDLE:
+        if (onScreen) {
+            moveDir = oldmoveDir;
+            FSMstate = cleanerFSM.NORMAL;
+        }
+        break;
+    case cleanerFSM.NORMAL:
+        if (!onScreen) {
+            oldmoveDir = moveDir;
+            moveDir = 0;
+            FSMstate = cleanerFSM.IDLE;
+        }
+        break;
 }
 
-// Collisions with walls and other enemies
-HandleCollision(id, obj_env_and_enemies);
-if (place_meeting(x+xVelocity, y, obj_enemy) ||
-    place_meeting(x+xVelocity, y, obj_env_collide))
-    moveDir *= -1;
-
-/// Movement
+// Physics
 xVelocity = moveDir * moveSpeed;
 yVelocity = IF(place_meeting(x, y+1, obj_env_collide), 0, yVelocity + grav);
 
+// Collisions with walls and other enemies
+HandleCollision(id, obj_env_and_enemies);
+if (place_meeting(x+xVelocity, y, obj_env_and_enemies))
+    moveDir *= -1;
+
 // Collision with player
-if (place_meeting(x+xVelocity, y+yVelocity, obj_player) &amp;&amp; !obj_player.isInvincible) {
+if (place_meeting(x+xVelocity, y+yVelocity, obj_player))
     Knockback(obj_player.id, 1, 5*sign(obj_player.x - x), -3, 30);
-}
 </string>
           </argument>
         </arguments>

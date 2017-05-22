@@ -7,6 +7,50 @@ Name
 
 
 
+### 5/21/17 ###
+Luca Frez-Albrecht
+1. new sprites for cleaner, follower, and story logs, plus a palette swap for the player. in the process of tweaking level and menu background colors
+2. new DrawAlias() script which improves appearance by temporarily rounding objects to nearest pixel before drawing
+3. enemies now have invincibility frames and are affected by acid
+
+
+
+### 5/19/17 ###
+Luca Frez-Albrecht
+1. finished implementing player grapple algorithm. hopefully it should never bug out and send the player flying infinitely any more
+2. refined player death to make things more clear and user-friendly
+3. manually added in james's enemy from origin/follower branch (see changelog copied below). performed some minor refactoring to increase code efficiency
+4. refactored obj_cleaner as a finite state machine
+5. created scripts to initialize and update stun, adding this functionality to both enemies
+6. tried adding acid interaction with enemies, but as of yet unsuccessful
+
+### 4/12/2017 ###
+James Zhou
+1. Added basic follower enemy (minRange starts following, maxRange stops following, when not following has set movement pattern).
+
+
+
+### 5/12 - 5/17 ###
+Luca Frez-Albrecht & Allison Kramer
+1. "about" page added in the form of a room
+2. obj_nav_button takes a room name as a variable and enters that room when clicked
+3. added some new player sprites for hanging and pull states
+4. replaced all player sprites with newly-aligned versions, including a single custom hitbox which works reasonably well for every sprite
+5. added spr_heart and implemented a visualization for player health using the GUI
+6. implemented final pause menu with buttons
+7. prettied up the title screen
+
+
+
+### 5/11/2017 ###
+Luca Frez-Albrecht
+1. some small progress toward making the grapple end appropriately instead of as soon as any collision occurs. there are some bugs associated with this, ie flying infinitely sometimes
+2. created a "Menu" room, furnished with multiple pretty-ish buttons
+3. obj_button will execute a named script (requires a wrapper for built-in functions) when clicked upon
+4. obj_room_trigger will transition to a named room upon player collision
+
+
+
 ### 4/21/2017 ###
 Luca Frez-Albrecht
 1. added sprites for environment tiles, including acid

@@ -6,7 +6,7 @@
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
-  <maskName>spr_player_idle</maskName>
+  <maskName>spr_player_hitbox</maskName>
   <events>
     <event eventtype="0" enumb="0">
       <action>
@@ -25,7 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Initialize properties
+            <string>/// Initialize properties
 
 enum playerFSM { // finite state machine
     STUN = 0,
@@ -37,15 +37,12 @@ enum playerFSM { // finite state machine
 }
 
 depth = 0;
+ySprOffset = -5; // distance from origin to shoulder
+pauseKey = 0;
 
-hp = 10;
-iFrames = 60;
-iCounter = 0;
-isInvincible = 0; // boolean
-stunFrames = 0;
-stunCounter = 0;
-
-ySprOffset = -23; // distance from origin to shoulder
+hp = 5;
+SetStun(id, 60);
+FSMstate = playerFSM.NORMAL;
 
 xVelocity = 0;
 xVelocityMax = 5;
@@ -55,15 +52,13 @@ yVelocity = 0;
 yVelocityMax = 10;
 jumpSpeed = 7;
 grav = 0.2;
-
 grappleReach = 300;
 grappleDmg = 1;
 grappleAtkID = noone;
 grappleSpeed = 10;
 grappleToID = noone;
 grappleTo = undefined;
-
-playerState = playerFSM.NORMAL;
+didHit = 0;
 </string>
           </argument>
         </arguments>
@@ -102,23 +97,14 @@ moveDirection = max(dKey,rightKey) - max(aKey,leftKey);
 jumpKey = max(wKey, upKey);
 
 // Upkeep
-if (isInvincible) {
-    iCounter++;
-    if (iCounter &gt;= iFrames) {
-        iCounter = 0;
-        isInvincible = 0;
-    }
-}
-if (stunFrames &gt; 0) {
-    playerState = playerFSM.STUN;
-}
+HandleStun();
 
 if (hp &lt;= 0) {
-   playerState = playerFSM.DEAD;
+    FSMstate = playerFSM.DEAD;
 }
 
 // State machine
-switch (playerState)
+switch (FSMstate)
 {
     case playerFSM.STUN:
         PlayerStun();
@@ -136,19 +122,15 @@ switch (playerState)
         PlayerDead();
         break;
 };
-//show_debug_message("state: " + string(playerState));
 
 // Movement and collision with walls
 HandleCollision(id, obj_env_collide);
-
-if (place_meeting(x,y,obj_env_collide)) // used to happen on corners
-    show_debug_message("oops"); // left for now in case something awful happens
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="8" enumb="0">
+    <event eventtype="8" enumb="73">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -165,19 +147,12 @@ if (place_meeting(x,y,obj_env_collide)) // used to happen on corners
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Draw player and hookshot guide
+            <string>/// Draw hookshot guide
 
-grappleReach = obj_player.grappleReach;
-grappleTo = obj_player.grappleTo;
-playerState = obj_player.playerState;
-
-// Draw the player
-draw_self();
-
-if (grappleKey &amp;&amp; playerState == playerFSM.NORMAL) {
+if (grappleKey &amp;&amp; FSMstate == playerFSM.NORMAL) {
     if (grappleKey_P &amp;&amp; didHit) {
-        // draw a line to enemy if attacked
-        draw_set_colour(c_aqua);
+        // Draw a line to enemy if player attacked successfully
+        draw_set_colour(IF(grappleAtkInv, c_red, c_aqua));
         draw_line(x, y+ySprOffset, grappleAtkX, grappleAtkY);
     } else {
         // Draw a circle to indicate grapple range
@@ -188,11 +163,81 @@ if (grappleKey &amp;&amp; playerState == playerFSM.NORMAL) {
 }
 
 // If grapple was successful, draw the grapple line
-if (playerState == playerFSM.PULL) {
+if (FSMstate == playerFSM.PULL) {
     draw_set_color(c_lime);
-    // y-20 to approximate player sprite center (origin is at bottom)
     draw_line(x, y+ySprOffset, grappleTo[0], grappleTo[1]);
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="64">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Draw health and death text
+
+hpind = IF(isInvincible, 2, 0);
+for (i = 0; i &lt; hp; i++)
+    draw_sprite(spr_heart, hpind,
+                view_xport[0] + i * (sprite_get_width(spr_heart) + 5) + 5,
+                view_yport[0] + 5);
+                
+if (hp &lt;= 0) {
+    guiW = display_get_gui_width();
+    guiH = display_get_gui_height();
+
+    draw_set_alpha(0.7);
+    draw_set_colour(c_black);
+    draw_rectangle(0, 0.35 * guiH, guiW, 0.65 * guiH, false);
+    draw_set_alpha(1);
+        
+    draw_set_colour(c_red);
+    draw_set_font(fnt_title);
+    draw_text(0.5 * guiW, 0.5 * guiH, "YOU DIED.");
+    
+    draw_set_font(-1);
+    draw_text(0.5 * guiW, 0.6 * guiH, "Press [ENTER] to return.");
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///DrawAlias if player is alive
+
+if (hp &gt; 0) DrawAlias();
 </string>
           </argument>
         </arguments>

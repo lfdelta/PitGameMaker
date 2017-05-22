@@ -17,7 +17,7 @@ if (yVelocity < 0 && !jumpKey)
 if (grappleKey) {
     theta = arctan2(mouse_y - (y+ySprOffset), mouse_x - x);
     grappleReachX = x + grappleReach * cos(theta);
-    grappleReachY = y + grappleReach * sin(theta);
+    grappleReachY = y + ySprOffset + grappleReach * sin(theta);
     grappleAtkID = Raycast(x, y+ySprOffset, grappleReachX, grappleReachY, obj_enemy, false, true);
     grappleToID = Raycast(x, y+ySprOffset, grappleReachX, grappleReachY, obj_env_collide, false, true);
     grappleTo = RaycastToPoint(x, y+ySprOffset, grappleReachX, grappleReachY, obj_anchor, false, true);
@@ -32,8 +32,9 @@ if (grappleKey) {
             didHit = 1;
             grappleAtkX = grappleAtkID.x;
             grappleAtkY = grappleAtkID.y;
-            grappleAtkID.hp -= grappleDmg;
-            show_debug_message("hit "+string(grappleAtkID)+": "+string(grappleAtkID.hp));
+            grappleAtkInv = grappleAtkID.isInvincible;
+            Knockback(grappleAtkID, grappleDmg, grappleAtkID.xVelocity,
+                                                grappleAtkID.yVelocity, 0);
         }
     }
     
@@ -48,9 +49,11 @@ if (grappleKey) {
         xVelocity = grappleSpeed * (vx/lengthOfVector);
         yVelocity = grappleSpeed * (vy/lengthOfVector);
         if (place_meeting(x+xVelocity, y+yVelocity, obj_env_collide)) {
-            playerState = playerFSM.HANG;
+            FSMstate = playerFSM.HANG;
         } else {
-            playerState = playerFSM.PULL;
+            grappleXVel = xVelocity;
+            grappleYVel = yVelocity;
+            FSMstate = playerFSM.PULL;
         }
     }
 }
