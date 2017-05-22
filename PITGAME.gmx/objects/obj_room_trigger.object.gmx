@@ -25,7 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Must initialize nextRoom in creation code
+            <string>///Must initialize "nextRoom" in creation code
 </string>
           </argument>
         </arguments>

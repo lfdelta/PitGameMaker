@@ -147,18 +147,11 @@ HandleCollision(id, obj_env_collide);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Draw player and hookshot guide
-
-grappleReach = obj_player.grappleReach;
-grappleTo = obj_player.grappleTo;
-FSMstate = obj_player.FSMstate;
-
-// Draw the player
-if (hp &gt; 0) draw_self();
+            <string>/// Draw hookshot guide
 
 if (grappleKey &amp;&amp; FSMstate == playerFSM.NORMAL) {
     if (grappleKey_P &amp;&amp; didHit) {
-        // draw a line to enemy if attacked
+        // Draw a line to enemy if player attacked successfully
         draw_set_colour(c_aqua);
         draw_line(x, y+ySprOffset, grappleAtkX, grappleAtkY);
     } else {
@@ -172,7 +165,6 @@ if (grappleKey &amp;&amp; FSMstate == playerFSM.NORMAL) {
 // If grapple was successful, draw the grapple line
 if (FSMstate == playerFSM.PULL) {
     draw_set_color(c_lime);
-    // y-20 to approximate player sprite center (origin is at bottom)
     draw_line(x, y+ySprOffset, grappleTo[0], grappleTo[1]);
 }
 </string>
@@ -221,6 +213,31 @@ if (hp &lt;= 0) {
     draw_set_font(-1);
     draw_text(0.5 * guiW, 0.6 * guiH, "Press [ENTER] to return.");
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///DrawAlias if player is alive
+
+if (hp &gt; 0) DrawAlias();
 </string>
           </argument>
         </arguments>

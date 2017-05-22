@@ -10,6 +10,7 @@ Name
 ### 5/21/17 ###
 Luca Frez-Albrecht
 1. new sprites for cleaner, follower, and story logs, plus a palette swap for the player. in the process of tweaking level and menu background colors
+2. new DrawAlias() script which improves appearance by temporarily rounding objects to nearest pixel before drawing
 
 
 

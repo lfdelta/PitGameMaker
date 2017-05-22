@@ -81,6 +81,7 @@
       <script>scripts\Raycast.gml</script>
       <script>scripts\RaycastToPoint.gml</script>
       <script>scripts\draw_text_with_outline.gml</script>
+      <script>scripts\DrawAlias.gml</script>
     </scripts>
   </scripts>
   <fonts name="fonts">
