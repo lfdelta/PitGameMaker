@@ -16,6 +16,8 @@ Luca Frez-Albrecht
 5. Demo3 with sparse platforms and ungrappleable sections
 6. altered code for checking grapple endpoint again, in order to fix a case where the player is pulled diagonally toward a block but gets caught on the wrong side of a corner and pushed away from the grapple block. HOPEFULLY this is now solved more or less in generality. eesh.
 7. resume button in pause menu
+8. so many other things.
+9. many new rooms
 
 
 

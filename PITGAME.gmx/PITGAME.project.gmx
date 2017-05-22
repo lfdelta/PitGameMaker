@@ -123,8 +123,11 @@
     <room>rooms\Menu</room>
     <room>rooms\About</room>
     <room>rooms\Demo_Room</room>
-    <room>rooms\Demo2</room>
+    <room>rooms\Play</room>
     <room>rooms\Demo3</room>
+    <room>rooms\Demo4</room>
+    <room>rooms\Demo5</room>
+    <room>rooms\Win</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>

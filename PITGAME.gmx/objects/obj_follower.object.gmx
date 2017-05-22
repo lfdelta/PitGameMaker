@@ -27,8 +27,15 @@
             <kind>1</kind>
             <string>///Initialize variables
 
+enum followerFSM {
+    STUN = 0,
+    IDLE,
+    CHASE
+}
+
 hp = 3;
-SetStun(id, 30);
+SetStun(id, 45);
+FSMstate = followerFSM.IDLE;
 
 moveDir = 1;
 moveSpeed = 1;
@@ -67,16 +74,43 @@ freq = 6;
 HandleStun();
 if (hp &lt;= 0)
     instance_destroy();
-
-// Collisions with walls and other enemies
-HandleCollision(id, obj_env_and_enemies);
-if (place_meeting(x+xVelocity, y, obj_env_and_enemies))
-    moveDir *= -1;
-
-/// Movement
 playerDist = point_distance(x,y,obj_player.x,obj_player.y);
 
-if (chase) {
+// State machine
+switch (FSMstate)
+{
+    case followerFSM.STUN:
+        xVelocity = 0;
+        yVelocity = 0;
+        stunCounter++;
+        if (stunCounter &gt;= stunFrames) {
+            stunCounter = 0;
+            stunFrames = 0;
+            FSMstate = followerFSM.IDLE;
+        }
+        break;
+    case followerFSM.IDLE:
+        sprite_index = spr_follower_idle;
+        xVelocity = 1.5 * moveSpeed * -dsin(timer * freq);
+        yVelocity = moveSpeed * dcos(timer * 2*freq);
+        timer++;
+        if (playerDist &lt; minRange)
+            FSMstate = followerFSM.CHASE; // start chasing if dist &lt; min
+        break;
+    case followerFSM.CHASE:
+        sprite_index = spr_follower_chase;
+        pointDir = point_direction(x,y,obj_player.x,obj_player.y);
+        xVelocity = chaseSpeed * dcos(pointDir);
+        yVelocity = chaseSpeed * -dsin(pointDir);
+        if (playerDist &gt; maxRange)
+            FSMstate = followerFSM.IDLE; // continue to chase if dist &lt; max
+        break;
+}
+    
+// Collisions with walls and other enemies
+HandleCollision(id, obj_env_and_enemies);
+
+/*if (chase) {
     sprite_index = spr_follower_chase;
     pointDir = point_direction(x,y,obj_player.x,obj_player.y);
     xVelocity = chaseSpeed * dcos(pointDir);
@@ -88,7 +122,7 @@ if (chase) {
     yVelocity = moveSpeed * dcos(timer * 2*freq);
     timer++;
     chase = (playerDist &lt; minRange); // start chasing if dist &lt; min
-}
+}*/
 
 // Collision with player
 if (place_meeting(x+xVelocity, y+yVelocity, obj_player))
