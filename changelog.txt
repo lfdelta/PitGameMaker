@@ -8,7 +8,7 @@ Name
 
 
 ### 5/22/17 ###
-Luca Frez-Albrecht
+Luca Frez-Albrecht & Allison Kramer & James Zhou
 1. new ClearOverlap script to automatically remove duplicate tiles upon loading a room
 2. player can change directions while hanging from a ceiling
 3. obj_env_collide > obj_grappleable for the purpose of obj_slippery, a tile while can be collided with but not grappled
@@ -19,6 +19,7 @@ Luca Frez-Albrecht
 8. so many other things.
 9. many new rooms
 10. added more story logs to demo rooms
+11. fixed bug where re-entering the menu would overlay the bgm multiple times
 
 
 
