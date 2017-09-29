@@ -7,6 +7,15 @@ Name
 
 
 
+### 9/28/17 ###
+Luca Frez-Albrecht
+1. added Level_Select to the main menu
+2. made Menu room persistent so that the music (in room creation code) doesn't restart every time one returns to the menu
+3. added tutorial-style story logs to Play room (first level) and Demo3
+4. finished Play room (first level) so that people will hopefully continue instinctively
+
+
+
 ### 5/22/17 ###
 Luca Frez-Albrecht & Allison Kramer & James Zhou
 1. new ClearOverlap script to automatically remove duplicate tiles upon loading a room
